@@ -1,29 +1,45 @@
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
+import { AboutPage } from '../pages/about/about';
+import { ContactPage } from '../pages/contact/contact';
+
+import { TabsPage } from '../pages/tabs/tabs';
+
+import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
+import { AddShoppingPage } from '../pages/add-shopping/add-shopping';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
+import {AngularFireModule} from 'angularfire2';
+import {FIREBASE_CREDENTIALS} from './firebase.credentials';
+
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    ListPage
+    AboutPage,
+    ContactPage,
+   ShoppingListPage,
+   AddShoppingPage,
+    TabsPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    //inicialize  angular fire 
+    AngularFireModule.initializeApp(FIREBASE_CREDENTIALS)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    ListPage
+    AboutPage,
+    ContactPage,
+    ShoppingListPage,
+    AddShoppingPage,
+    TabsPage
   ],
   providers: [
     StatusBar,

@@ -44,21 +44,6 @@
 
   <!-- The main bundle js is generated during the build process -->
   <script src="build/main.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyAiWj2rpXvgF21m8Tg59rPJN1ZromP0oao",
-      authDomain: "app-controle-financeiro-14533.firebaseapp.com",
-      databaseURL: "https://app-controle-financeiro-14533.firebaseio.com",
-      projectId: "app-controle-financeiro-14533",
-      storageBucket: "app-controle-financeiro-14533.appspot.com",
-      messagingSenderId: "55375268344"
-    };
-    firebase.initializeApp(config);
-    var bigOne = document.getElementById("bigOne");
-          var dbRef = firebase.database().ref().child('despesas/maicon');
-          dbRef.on('value', snap => bigOne.innerText = snap.val());
-  </script>
+
 </body>
 </html>
