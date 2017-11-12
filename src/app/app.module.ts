@@ -14,6 +14,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import {AngularFireModule} from 'angularfire2';
+import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {FIREBASE_CREDENTIALS} from './firebase.credentials';
 
 
@@ -30,7 +31,8 @@ import {FIREBASE_CREDENTIALS} from './firebase.credentials';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     //inicialize  angular fire 
-    AngularFireModule.initializeApp(FIREBASE_CREDENTIALS)
+    AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),
+    AngularFireDatabaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
