@@ -16,11 +16,11 @@
 <ion-content padding>
 <ion-item>
 <ion-label floating>Item name</ion-label>
-<ion-input type="text" [(ngModel)]="shoppingItem.itemName"></ion-input>
+<ion-input type="text" [(ngModel)]="nome"></ion-input>
 </ion-item>
 <ion-item>
 <ion-label floating>Number</ion-label>
-<ion-input type="number" [(ngModel)]="shoppingItem.itemNumber"></ion-input>
+<ion-input type="number" [(ngModel)]="numero"></ion-input>
 </ion-item>
-<button ion-button block (click)="addShoppingItem(shoppingItem)">Add item</button>
+<button ion-button block (click)="addShoppingItem(nome,numero)">Add item</button>
 </ion-content>

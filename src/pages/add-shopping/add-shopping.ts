@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-
-import { ShoppingItem } from '../../models/shopping-item/shopping-item-interface';
+import { AngularFireDatabase } from 'angularfire2/database';
+/**
+ * Generated class for the AgendamentoPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 
 @IonicPage()
 @Component({
@@ -10,27 +14,26 @@ import { ShoppingItem } from '../../models/shopping-item/shopping-item-interface
   templateUrl: 'add-shopping.html',
 })
 export class AddShoppingPage {
+  nome;
 
-  shoppingItem = {} as ShoppingItem;
+  constructor(public navCtrl: NavController, public NavParams: NavParams, private fdb: AngularFireDatabase) {
 
-  shoppingItemRef$: FirebaseListObservable<ShoppingItem[]>
-
-  constructor(public navCtrl: NavController, 
-    public navParams: NavParams,
-     private database: AngularFireDatabase) {
-       
-    this.shoppingItemRef$ = this.database.list('shopping-list');
 
   }
-  addShoppingItem(shoppingItem: ShoppingItem) {
-    this.shoppingItemRef$.push({
-      itemName: this.shoppingItem.itemName,
-      itemNumber: Number(this.shoppingItem.itemNumber),
-    })
 
-    this.shoppingItem = {} as ShoppingItem;
 
-    this.navCtrl.pop();
+  addShoppingItem(nome,numero) {
+
+
+    this.fdb.list("/shopping-list").push({
+      itemName: nome,
+      itemNumber: numero,
+
+    });
+
+
+    this.navCtrl.popToRoot();
   }
+
 
 }
