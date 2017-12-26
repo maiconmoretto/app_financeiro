@@ -22,12 +22,13 @@ export class AddShoppingPage {
   }
 
 
-  addShoppingItem(nome,numero) {
+  addShoppingItem(descricao,valor,data) {
+ 
 
-
-    this.fdb.list("/shopping-list").push({
-      itemName: nome,
-      itemNumber: numero,
+    this.fdb.list("/gastos").push({
+      descricao: descricao,
+      valor: valor,
+      data: data,
 
     });
 
