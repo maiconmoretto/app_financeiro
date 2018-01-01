@@ -9,6 +9,7 @@ import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
   templateUrl: 'app.html'
 })
 export class MyApp {
+  //rootPage:any = ShoppingListPage;
   rootPage:any = ShoppingListPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
