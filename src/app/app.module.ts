@@ -16,7 +16,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {FIREBASE_CREDENTIALS} from './firebase.credentials';
-
+import {HomePage} from '../pages/home/home';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import {FIREBASE_CREDENTIALS} from './firebase.credentials';
     ContactPage,
    ShoppingListPage,
    AddShoppingPage,
-    TabsPage
+    TabsPage,
+    HomePage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +42,9 @@ import {FIREBASE_CREDENTIALS} from './firebase.credentials';
     ContactPage,
     ShoppingListPage,
     AddShoppingPage,
-    TabsPage
+    TabsPage,
+    HomePage,
+    ShoppingListPage
   ],
   providers: [
     StatusBar,

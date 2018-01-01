@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ShoppingListPage } from '../shopping-list/shopping-list';
 
 /**
  * Generated class for the HomePage page.
@@ -18,6 +19,22 @@ export class HomePage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
+  navigateToaList(data) {
+    console.log(data);
+
+    if (data == undefined) {
+      var d = new Date();
+      data = "";
+
+      var mes = d.getMonth() + 1;
+      mes = mes < 10 ? "0" + mes : mes;
+
+      data = d.getFullYear() + '-' + mes;
+
+    }
+
+    this.navCtrl.push(ShoppingListPage, { obj: data });
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
   }

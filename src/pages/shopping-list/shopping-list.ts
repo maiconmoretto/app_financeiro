@@ -16,7 +16,7 @@ export class ShoppingListPage {
   // shoppingListRef$: FirebaseListObservable<ShoppingItem[]>
   //shoppingListRef$: Observable<ShoppingItem[]>;
   shoppingListRef$: FirebaseListObservable<ShoppingItem[]>
-  
+  data;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
@@ -24,9 +24,12 @@ export class ShoppingListPage {
     //database.list<ShoppingItem>('shopping-list').valueChanges().subscribe(console.log);
     //this.shoppingListRef$ = this.database.list('gastos').valueChanges();
     // this.shoppingListRef$ = this.database.list('shopping-list');
-    this.shoppingListRef$ = this.database.list('gastos');
+   
     //deleta toda colecao
     // this.database.list('gastos').remove();
+    this.data = this.navParams.data.obj;
+    this.shoppingListRef$ = this.database.list('gastos/'+this.data.substr(0,4)+'/'+this.data.substr(5,2) );
+ 
   }
   
   selectShoppingItem(shoppingItem: ShoppingItem) {

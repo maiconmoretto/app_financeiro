@@ -15,4 +15,13 @@
 
 <ion-content padding>
 
+
+  <ion-item>
+    <ion-label>SELECIONE O MES E ANO</ion-label>
+    <ion-datetime displayFormat="MM/YYYY" [(ngModel)]="data"></ion-datetime>
+  </ion-item>
+  <button ion-button block (click)="navigateToaList(data)">BUSCAR</button>
+  
+  <button ion-button block (click)="navigateToaList(data)">ATUAL</button>
+  
 </ion-content>

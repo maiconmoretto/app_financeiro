@@ -23,9 +23,8 @@ export class AddShoppingPage {
 
 
   addShoppingItem(descricao,valor,data,gasto_por) {
- 
 
-    this.fdb.list("/gastos").push({
+    this.fdb.list("/gastos/"+data.substr(0,4)+'/'+data.substr(5,2)+'/').push({
       descricao: descricao,
       valor: valor,
       data: data,
