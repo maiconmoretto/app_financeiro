@@ -14,19 +14,31 @@
 
 
 <ion-content padding>
-<ion-item>
-<ion-label floating>Descricao</ion-label>
-<ion-input type="text" [(ngModel)]="descricao"></ion-input>
-</ion-item>
-<ion-item>
-<ion-label floating>Valor</ion-label>
-<ion-input type="number" [(ngModel)]="valor"></ion-input>
-</ion-item  >
+  <ion-item>
+    <ion-label floating>Descricao</ion-label>
+    <ion-input type="text" [(ngModel)]="descricao"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Valor</ion-label>
+    <ion-input type="number" [(ngModel)]="valor"></ion-input>
+  </ion-item>
 
-<ion-item>
-  <ion-label>Data</ion-label>
-  <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="data"></ion-datetime>
-</ion-item>
-<br>
-<button ion-button block (click)="addShoppingItem(descricao,valor,data)">Adicionar</button>
+  <ion-item>
+    <ion-label>Data</ion-label>
+    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="data"></ion-datetime>
+  </ion-item>
+  <!-- <ion-item>
+    <ion-label floating>Gasto por</ion-label>
+    <ion-input type="text" [(ngModel)]="gasto_por"></ion-input>
+  </ion-item> -->
+
+  <ion-item>
+    <ion-label>Gasto por</ion-label>
+    <ion-select [(ngModel)]="gasto_por">
+      <ion-option value="Bruna">Bruna</ion-option>
+      <ion-option value="Maicon">Maicon</ion-option>
+    </ion-select>
+  </ion-item>
+  <br>
+  <button ion-button block (click)="addShoppingItem(descricao,valor,data,gasto_por)">Adicionar</button>
 </ion-content>

@@ -22,13 +22,14 @@ export class AddShoppingPage {
   }
 
 
-  addShoppingItem(descricao,valor,data) {
+  addShoppingItem(descricao,valor,data,gasto_por) {
  
 
     this.fdb.list("/gastos").push({
       descricao: descricao,
       valor: valor,
       data: data,
+      gasto_por:gasto_por
 
     });
 
