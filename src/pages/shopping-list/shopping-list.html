@@ -19,13 +19,23 @@
 
 
 <ion-content padding>
+  <ion-item>
+    <h1> saldo do mês: {{saldoMes}} </h1>
+    <!-- <h1> gasto do mês: {{gastoMes}} </h1> -->
+    <!-- <ion-icon ios="ios-cash" md="md-cash"></ion-icon> {{saldoMes.saldo}} </h1> -->
+  </ion-item>
 
   <ion-list>
     <ion-item *ngFor="let item of shoppingListRef$ | async" (click)="selectShoppingItem(item)">
-      <h2>Descrição:  {{item.descricao}} </h2>
-      <h2>Valor:  {{item.valor}} </h2>
-      <h2>data:  {{item.data}} </h2>
-      <h2>Gasto por:  {{item.gasto_por}} </h2>
+    
+      <h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+      <h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon>R$ {{item.valor}} </h2>
+      <h2>
+        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.data}} </h2>
+      <h2>
+        <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
 
 
     </ion-item>

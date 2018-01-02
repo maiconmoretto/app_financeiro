@@ -16,7 +16,10 @@ export class ShoppingListPage {
   // shoppingListRef$: FirebaseListObservable<ShoppingItem[]>
   //shoppingListRef$: Observable<ShoppingItem[]>;
   shoppingListRef$: FirebaseListObservable<ShoppingItem[]>
+  saldoMes = "4000";
   data;
+  gastoMes;
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
@@ -24,22 +27,36 @@ export class ShoppingListPage {
     //database.list<ShoppingItem>('shopping-list').valueChanges().subscribe(console.log);
     //this.shoppingListRef$ = this.database.list('gastos').valueChanges();
     // this.shoppingListRef$ = this.database.list('shopping-list');
-   
+
     //deleta toda colecao
     // this.database.list('gastos').remove();
     this.data = this.navParams.data.obj;
-    this.shoppingListRef$ = this.database.list('gastos/'+this.data.substr(0,4)+'/'+this.data.substr(5,2) );
- 
-  }
-  
-  selectShoppingItem(shoppingItem: ShoppingItem) {
+    this.shoppingListRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
+    // this.saldoMes = this.database.list('saldos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2)+'/');
 
+  
+
+    // this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
+    //   .subscribe(snapshots => {
+     
+    //     snapshots.forEach(snapshot => {
+    //       console.log(snapshot.key, snapshot.val().valor);
+    //       var gastoMes2 = this.gastoMes;
+    //       gastoMes2=10;
+    //     });
+    //   })
+
+
+  }
+
+  selectShoppingItem(shoppingItem: ShoppingItem) {
+    console.log(shoppingItem);
     //display a actionsheet
     //1 - edit 
     //2 - remove item
     //3 - cancel selection
     this.actionSheetCtrl.create({
-      title: '${ShoppingItem.itemName}',
+      title: '',
       buttons: [
         {
           text: 'Edit',
@@ -53,10 +70,6 @@ export class ShoppingListPage {
           role: 'destructive',
           handler: () => {
             //delete the current item
-            console.log(this);
-            console.log('aqui ref  ' + this.shoppingListRef$);
-            // this.database.object('/shopping-list/' + shoppingItem.$key).remove();
-            //  this.shoppingListRef$.remove(shoppingItem.$key);
             this.shoppingListRef$.remove(shoppingItem.$key);
           }
         },

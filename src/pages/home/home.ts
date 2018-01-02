@@ -25,8 +25,8 @@ export class HomePage {
     if (data == undefined) {
       var d = new Date();
       data = "";
-
-      var mes = d.getMonth() < 10 ? "0" + d.getMonth() : d.getMonth();
+  
+      var mes = (d.getMonth() + 1) < 10 ? "0" +  (d.getMonth() + 1):  (d.getMonth() + 1);
       data = d.getFullYear() + '-' + mes;
 
     }
