@@ -33,7 +33,7 @@ export class AddShoppingPage {
     });
 
 
-    this.navCtrl.popToRoot();
+    this.navCtrl.pop();
   }
 
 
