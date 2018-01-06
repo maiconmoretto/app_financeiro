@@ -19,7 +19,7 @@ export class ShoppingListPage {
   saldoMes = "4000";
   data;
   gastoMes;
-
+  gastosFixos;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
@@ -32,6 +32,7 @@ export class ShoppingListPage {
     // this.database.list('gastos').remove();
     this.data = this.navParams.data.obj;
     this.shoppingListRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
+    this.gastosFixos = this.database.list('gastosFixos/');
     // this.saldoMes = this.database.list('saldos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2)+'/');
 
   

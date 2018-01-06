@@ -17,6 +17,7 @@ import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {FIREBASE_CREDENTIALS} from './firebase.credentials';
 import {HomePage} from '../pages/home/home';
+import {CadastroGastoFixoPage} from '../pages/cadastro-gasto-fixo/cadastro-gasto-fixo'; 
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {HomePage} from '../pages/home/home';
    ShoppingListPage,
    AddShoppingPage,
     TabsPage,
-    HomePage
+    HomePage,
+    CadastroGastoFixoPage 
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,8 @@ import {HomePage} from '../pages/home/home';
     AddShoppingPage,
     TabsPage,
     HomePage,
-    ShoppingListPage
+    ShoppingListPage,
+    CadastroGastoFixoPage 
   ],
   providers: [
     StatusBar,
