@@ -39,7 +39,19 @@
  
   <hr>
   <br>
-  <h1> gastos diversos </h1>
+  <h1> gastos  fixos</h1>
+  <ion-list>
+    <ion-item *ngFor="let item of gastosFixosRef$ | async" >
+
+      <h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+      <h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+
+    </ion-item>
+  </ion-list>
+
+  <h1> gastos  diversos</h1>
   <ion-list>
     <ion-item *ngFor="let item of shoppingListRef$ | async" (click)="selectShoppingItem(item)">
 
@@ -51,9 +63,6 @@
         <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.data}} </h2>
       <h2>
         <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
-      <h2>
-       <b> {{item.gastoFixo == true ? '*gasto fixo' : ''}}</b> </h2>
-
 
     </ion-item>
 

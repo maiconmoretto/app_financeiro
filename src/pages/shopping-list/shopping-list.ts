@@ -5,7 +5,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
-
+import { AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'page-shopping-list',
@@ -16,6 +16,7 @@ export class ShoppingListPage {
   // shoppingListRef$: FirebaseListObservable<ShoppingItem[]>
   //shoppingListRef$: Observable<ShoppingItem[]>;
   shoppingListRef$: FirebaseListObservable<ShoppingItem[]>
+  gastosFixosRef$: FirebaseListObservable<ShoppingItem[]>
 
   saldoMes = 4000;
   data;
@@ -25,7 +26,8 @@ export class ShoppingListPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
-    private actionSheetCtrl: ActionSheetController) {
+    private actionSheetCtrl: ActionSheetController,
+    private alertCtrl: AlertController) {
     //deleta toda colecao
     // this.database.list('gastos').remove();
     this.data = this.navParams.data.obj;
@@ -36,6 +38,7 @@ export class ShoppingListPage {
 
   buscaGastos() {
     this.shoppingListRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
+    this.gastosFixosRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/');
   }
 
   somaTotalGastos() {
@@ -50,11 +53,11 @@ export class ShoppingListPage {
           total += Number(snapshot.val().valor);
         });
         this.gastoMes = total;
-  
-        this.restante = Number(this.saldoMes)  - Number(this.gastoMes);
+
+        this.restante = Number(this.saldoMes) - Number(this.gastoMes);
 
       })
-   
+
     // var sum = this.gastoMes.reduce(add, 0);
 
     // function add(a, b) {
@@ -105,27 +108,60 @@ export class ShoppingListPage {
   }
 
   importarGastosFixos() {
-    console.log('aqui');
+    console.log(this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/'));
+    if (this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/') != null) {
 
-    this.database.list("/gastos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/').push({
-      gastosFixos: 1232132
-    });
+      let alert = this.alertCtrl.create({
+        title: 'Importar gasos fixos',
+        message: 'Já foi realizada uma importação, deseja imortar novamente?<br>Isso irá apagar a importação existente!',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            handler: () => {
 
-    this.database.list('gastosFixos/', { preserveSnapshot: true })
-      .subscribe(snapshots => {
-        var total = 0;
-        snapshots.forEach(snapshot => {
+            }
+          },
+          {
+            text: 'Importar',
+            handler: () => {
+              this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/').remove().then(_ => console.log('deleted!'));
+              this.database.list('gastosFixos/', { preserveSnapshot: true })
+                .subscribe(snapshots => {
+                  var total = 0;
+                  snapshots.forEach(snapshot => {
+                    this.database.list("/gastos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/').push({
+                      valor: snapshot.val().valor,
+                      descricao: snapshot.val().descricao,
+                      gastoFixo: true
+                    });
+                  });
 
-          console.log(snapshot.key, snapshot.val().valor, snapshot.val().descricao);
-          this.database.list("/gastos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/').push({
-            valor: snapshot.val().valor,
-            descricao: snapshot.val().descricao,
-            gastoFixo: true
+                })
+            }
+          }
+        ]
+      });
+      alert.present();
+    } else {
+      this.database.list('gastosFixos/', { preserveSnapshot: true })
+        .subscribe(snapshots => {
+          var total = 0;
+          snapshots.forEach(snapshot => {
+            this.database.list("/gastos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/').push({
+              valor: snapshot.val().valor,
+              descricao: snapshot.val().descricao,
+              gastoFixo: true
+            });
           });
-        });
 
-      })
+        })
+    }
 
+
+    function insere() {
+
+    }
   }
 
   navigateToaddShoppingPage() {
