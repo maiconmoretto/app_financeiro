@@ -16,37 +16,52 @@ export class ShoppingListPage {
   // shoppingListRef$: FirebaseListObservable<ShoppingItem[]>
   //shoppingListRef$: Observable<ShoppingItem[]>;
   shoppingListRef$: FirebaseListObservable<ShoppingItem[]>
-  saldoMes = "4000";
+
+  saldoMes = 4000;
   data;
   gastoMes;
   gastosFixos;
+  restante;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
     private actionSheetCtrl: ActionSheetController) {
-    //database.list<ShoppingItem>('shopping-list').valueChanges().subscribe(console.log);
-    //this.shoppingListRef$ = this.database.list('gastos').valueChanges();
-    // this.shoppingListRef$ = this.database.list('shopping-list');
-
     //deleta toda colecao
     // this.database.list('gastos').remove();
     this.data = this.navParams.data.obj;
+    this.somaTotalGastos();
+    this.buscaGastos();
+
+  }
+
+  buscaGastos() {
     this.shoppingListRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
-    this.gastosFixos = this.database.list('gastosFixos/');
-    // this.saldoMes = this.database.list('saldos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2)+'/');
+  }
 
+  somaTotalGastos() {
+    this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
+      .subscribe(snapshots => {
+        var total = 0;
+        snapshots.forEach(snapshot => {
+          // var gastoMes2 = this.gastoMes;
+          // console.log(snapshot.key, snapshot.val().valor);
+          // gastoMes2.push(snapshot.val().valor);
+          // console.log( this.gastoMes);
+          total += Number(snapshot.val().valor);
+        });
+        this.gastoMes = total;
   
+        this.restante = Number(this.saldoMes)  - Number(this.gastoMes);
 
-    // this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
-    //   .subscribe(snapshots => {
-     
-    //     snapshots.forEach(snapshot => {
-    //       console.log(snapshot.key, snapshot.val().valor);
-    //       var gastoMes2 = this.gastoMes;
-    //       gastoMes2=10;
-    //     });
-    //   })
+      })
+   
+    // var sum = this.gastoMes.reduce(add, 0);
 
+    // function add(a, b) {
+    //   return a + b;
+    // }
+
+    // console.log('soma '+sum); // 6
 
   }
 
@@ -86,6 +101,30 @@ export class ShoppingListPage {
 
 
     }).present();
+
+  }
+
+  importarGastosFixos() {
+    console.log('aqui');
+
+    this.database.list("/gastos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/').push({
+      gastosFixos: 1232132
+    });
+
+    this.database.list('gastosFixos/', { preserveSnapshot: true })
+      .subscribe(snapshots => {
+        var total = 0;
+        snapshots.forEach(snapshot => {
+
+          console.log(snapshot.key, snapshot.val().valor, snapshot.val().descricao);
+          this.database.list("/gastos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/').push({
+            valor: snapshot.val().valor,
+            descricao: snapshot.val().descricao,
+            gastoFixo: true
+          });
+        });
+
+      })
 
   }
 

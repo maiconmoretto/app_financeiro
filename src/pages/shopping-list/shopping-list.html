@@ -19,43 +19,44 @@
 
 
 <ion-content padding>
-  <ion-item>
-    <h1> saldo do mês: {{saldoMes}} </h1>
+
+  
+  <div text-left>
+    <h1>  gastos do mês: {{gastoMes}} </h1>
+  </div>
+  <div text-right>
+    <h1> restante do mês: {{restante}} </h1>
+  </div>
     <!-- <h1> gasto do mês: {{gastoMes}} </h1> -->
     <!-- <ion-icon ios="ios-cash" md="md-cash"></ion-icon> {{saldoMes.saldo}} </h1> -->
-  </ion-item>
 
 
-  <h1> gastos fixos </h1>
-    <ion-list>
-      <ion-item *ngFor="let i of gastosFixos | async" >
+
+
+
+  <button ion-button (click)="importarGastosFixos()">Importar gastos fixos</button>
+
  
-        <h2>
-          <ion-icon ios="ios-create" md="md-create"></ion-icon> {{i.descricao}} </h2>
-        <h2>
-          <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{i.valor}} </h2>
-   
+  <hr>
+  <br>
+  <h1> gastos diversos </h1>
+  <ion-list>
+    <ion-item *ngFor="let item of shoppingListRef$ | async" (click)="selectShoppingItem(item)">
 
-      </ion-item>
-
-    </ion-list>
-    <hr>
-    <br>
-    <ion-list>
-      <ion-item *ngFor="let item of shoppingListRef$ | async" (click)="selectShoppingItem(item)">
-
-        <h2>
-          <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
-        <h2>
-          <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
-        <h2>
-          <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.data}} </h2>
-        <h2>
-          <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
+      <h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+      <h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+      <h2>
+        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.data}} </h2>
+      <h2>
+        <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
+      <h2>
+       <b> {{item.gastoFixo == true ? '*gasto fixo' : ''}}</b> </h2>
 
 
-      </ion-item>
+    </ion-item>
 
-    </ion-list>
-
+  </ion-list> 
+  <h2>total {{gastoMes}}</h2>
 </ion-content>
