@@ -17,6 +17,7 @@ export class ShoppingListPage {
   //shoppingListRef$: Observable<ShoppingItem[]>;
   shoppingListRef$: FirebaseListObservable<ShoppingItem[]>
   gastosFixosRef$: FirebaseListObservable<ShoppingItem[]>
+  gastosCreditoRef$: FirebaseListObservable<ShoppingItem[]>
 
   saldoMes = 4000;
   data;
@@ -39,6 +40,8 @@ export class ShoppingListPage {
   buscaGastos() {
     this.shoppingListRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
     this.gastosFixosRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/');
+    this.gastosCreditoRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosCredito/');
+    
   }
 
   somaTotalGastos() {
@@ -108,7 +111,7 @@ export class ShoppingListPage {
   }
 
   importarGastosFixos() {
-    console.log(this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/'));
+  
     if (this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/') != null) {
 
       let alert = this.alertCtrl.create({

@@ -1,0 +1,57 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>gestão de gastos fixos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+
+  <ion-item>
+    <ion-label floating>Descricao</ion-label>
+    <ion-input type="text" [(ngModel)]="descricao"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Valor da parcela</ion-label>
+    <ion-input type="number" [(ngModel)]="valor"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Numeros de prestações</ion-label>
+    <ion-input type="number" [(ngModel)]="prestacoes"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Inicio prestação</ion-label>
+    <ion-datetime displayFormat="MM/YYYY" [(ngModel)]="data"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label>Gasto por</ion-label>
+    <ion-select [(ngModel)]="gasto_por">
+      <ion-option value="Bruna">Bruna</ion-option>
+      <ion-option value="Maicon">Maicon</ion-option>
+    </ion-select>
+  </ion-item>
+  <br>
+  <button ion-button block (click)="adicionarGasto(descricao,valor,prestacoes,data,gasto_por)">Adicionar</button>
+
+  <ion-list>
+    <ion-item *ngFor="let item of gastosCredito$ | async" >
+
+      <h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+      <h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+      <h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.prestacoes}} </h2>
+
+    </ion-item>
+
+  </ion-list>
+
+
+
+</ion-content>

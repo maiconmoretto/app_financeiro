@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-//import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
@@ -23,8 +22,6 @@ export class CadastroGastoFixoPage {
 
 
   adicionarGasto(descricao,valor){
-
-    
     this.database.list("/gastosFixos/").push({
       descricao: descricao,
       valor: valor

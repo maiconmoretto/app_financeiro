@@ -20,15 +20,15 @@
 
 <ion-content padding>
 
-  
+
   <div text-left>
-    <h1>  gastos do mês: {{gastoMes}} </h1>
+    <h1> gastos do mês: {{gastoMes}} </h1>
   </div>
   <div text-right>
     <h1> restante do mês: {{restante}} </h1>
   </div>
-    <!-- <h1> gasto do mês: {{gastoMes}} </h1> -->
-    <!-- <ion-icon ios="ios-cash" md="md-cash"></ion-icon> {{saldoMes.saldo}} </h1> -->
+  <!-- <h1> gasto do mês: {{gastoMes}} </h1> -->
+  <!-- <ion-icon ios="ios-cash" md="md-cash"></ion-icon> {{saldoMes.saldo}} </h1> -->
 
 
 
@@ -36,12 +36,12 @@
 
   <button ion-button (click)="importarGastosFixos()">Importar gastos fixos</button>
 
- 
+
   <hr>
   <br>
-  <h1> gastos  fixos</h1>
+  <h1> gastos fixos</h1>
   <ion-list>
-    <ion-item *ngFor="let item of gastosFixosRef$ | async" >
+    <ion-item *ngFor="let item of gastosFixosRef$ | async">
 
       <h2>
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
@@ -50,8 +50,24 @@
 
     </ion-item>
   </ion-list>
+  <h1> gastos crédito</h1>
+  <ion-list>
+    <ion-item *ngFor="let item of gastosCreditoRef$ | async">
 
-  <h1> gastos  diversos</h1>
+      <h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+      <h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+
+      <h2>
+        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.parcela}} </h2>
+      <h2>
+        <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
+
+    </ion-item>
+  </ion-list>
+
+  <h1> gastos diversos</h1>
   <ion-list>
     <ion-item *ngFor="let item of shoppingListRef$ | async" (click)="selectShoppingItem(item)">
 
@@ -66,6 +82,6 @@
 
     </ion-item>
 
-  </ion-list> 
+  </ion-list>
   <h2>total {{gastoMes}}</h2>
 </ion-content>
