@@ -17,30 +17,21 @@
 
 </ion-header>
 
-
 <ion-content padding>
 
-
-  <div text-left>
-    <h1> gastos do mês: {{gastoMes}} </h1>
+  <div id="left">
+    gastos: {{gastoMes}} 
   </div>
-  <div text-right>
-    <h1> restante do mês: {{restante}} </h1>
-  </div>
-  <!-- <h1> gasto do mês: {{gastoMes}} </h1> -->
-  <!-- <ion-icon ios="ios-cash" md="md-cash"></ion-icon> {{saldoMes.saldo}} </h1> -->
+ 
+  <div id="right">
+   restante: {{restante}} 
+  </div >
 
-
-
-
-
-  <button ion-button (click)="importarGastosFixos()">Importar gastos fixos</button>
-
-
-  <hr>
   <br>
-  <h1> gastos fixos</h1>
+  <br>
+  <hr>
   <ion-list>
+      <h1> gastos fixos</h1>
     <ion-item *ngFor="let item of gastosFixosRef$ | async">
 
       <h2>
@@ -50,8 +41,14 @@
 
     </ion-item>
   </ion-list>
-  <h1> gastos crédito</h1>
+  <button ion-button (click)="importarGastosFixos()">Importar gastos fixos</button>
+
+  <br>
+  <br>
+  <br>
+  <hr>
   <ion-list>
+      <h1> gastos crédito</h1>
     <ion-item *ngFor="let item of gastosCreditoRef$ | async">
 
       <h2>
@@ -66,9 +63,14 @@
 
     </ion-item>
   </ion-list>
-
-  <h1> gastos diversos</h1>
+  
+   <hr>
+  <br>
+  <br>
+  <br>
+  <hr>
   <ion-list>
+      <h1> gastos diversos</h1>
     <ion-item *ngFor="let item of shoppingListRef$ | async" (click)="selectShoppingItem(item)">
 
       <h2>
@@ -83,5 +85,5 @@
     </ion-item>
 
   </ion-list>
-  <h2>total {{gastoMes}}</h2>
+
 </ion-content>

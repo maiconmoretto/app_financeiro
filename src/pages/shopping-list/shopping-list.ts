@@ -15,9 +15,9 @@ export class ShoppingListPage {
 
   // shoppingListRef$: FirebaseListObservable<ShoppingItem[]>
   //shoppingListRef$: Observable<ShoppingItem[]>;
-  shoppingListRef$: FirebaseListObservable<ShoppingItem[]>
-  gastosFixosRef$: FirebaseListObservable<ShoppingItem[]>
-  gastosCreditoRef$: FirebaseListObservable<ShoppingItem[]>
+  shoppingListRef$: FirebaseListObservable<ShoppingItem[]>;
+  gastosFixosRef$: FirebaseListObservable<ShoppingItem[]>;
+  gastosCreditoRef$: FirebaseListObservable<ShoppingItem[]>;
 
   saldoMes = 4000;
   data;
@@ -41,6 +41,7 @@ export class ShoppingListPage {
     this.shoppingListRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
     this.gastosFixosRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/');
     this.gastosCreditoRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosCredito/');
+
     
   }
 
@@ -49,10 +50,6 @@ export class ShoppingListPage {
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
-          // var gastoMes2 = this.gastoMes;
-          // console.log(snapshot.key, snapshot.val().valor);
-          // gastoMes2.push(snapshot.val().valor);
-          // console.log( this.gastoMes);
           total += Number(snapshot.val().valor);
         });
         this.gastoMes = total;
@@ -60,14 +57,6 @@ export class ShoppingListPage {
         this.restante = Number(this.saldoMes) - Number(this.gastoMes);
 
       })
-
-    // var sum = this.gastoMes.reduce(add, 0);
-
-    // function add(a, b) {
-    //   return a + b;
-    // }
-
-    // console.log('soma '+sum); // 6
 
   }
 

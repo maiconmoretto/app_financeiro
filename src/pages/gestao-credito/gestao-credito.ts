@@ -19,9 +19,7 @@ export class GestaoCreditoPage {
   }
 
 
-
   adicionarGasto(descricao, valor, prestacoes, data, gasto_por) {
-
     var mes = data.substr(5, 2);
     var ano = data.substr(0, 4);
     // console.log('mes '+mes);
@@ -36,27 +34,28 @@ export class GestaoCreditoPage {
     });
 
 
-
     for (var i = 0; i < prestacoes; i++) {
 
-      if (mes == 12) {
+      if (mes == 13) {
         mes = "01";
-        ano = ano + "1";
+        ano = Number(ano) + Number(1);
+      } else {
+        if (mes < 10) {
+          mes = "0" + mes;
+        }
       }
+      console.log('aqui ano ' + ano);
+      console.log('aqui mes ' + mes);
+
       this.database.list("/gastos/" + ano + '/' + mes + '/gastosCredito/').push({
         descricao: descricao,
         valor: valor,
         data: data,
-        parcela: i + "/" + prestacoes,
+        parcela: (i + 1) + "/" + prestacoes,
         gasto_por: gasto_por
-
       });
-
       mes++;
-
-
     }
-
   }
 
 

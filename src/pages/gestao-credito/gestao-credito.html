@@ -44,9 +44,12 @@
       <h2>
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
       <h2>
-        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon>R$ {{item.valor}} </h2>
       <h2>
-        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.prestacoes}} </h2>
+      X Parcelas {{item.prestacoes}} </h2>
+   
+      <h2>
+        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{ item.data.substr(5, 2) + '/' +  item.data.substr(0, 4)}} </h2>
 
     </ion-item>
 
