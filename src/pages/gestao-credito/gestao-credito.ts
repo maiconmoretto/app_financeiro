@@ -47,7 +47,7 @@ export class GestaoCreditoPage {
       console.log('aqui ano ' + ano);
       console.log('aqui mes ' + mes);
 
-      this.database.list("/gastos/" + ano + '/' + mes + '/gastosCredito/').push({
+      this.database.list("/gastos/credito/" + ano + '/' + mes ).push({
         descricao: descricao,
         valor: valor,
         data: data,

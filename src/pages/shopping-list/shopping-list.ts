@@ -21,7 +21,10 @@ export class ShoppingListPage {
 
   saldoMes = 4000;
   data;
-  gastoMes;
+  gastoMes = 0;
+  gastoFixo;
+  gastosCredito;
+  gastosDiversos;
   gastosFixos;
   restante;
   constructor(public navCtrl: NavController,
@@ -38,26 +41,46 @@ export class ShoppingListPage {
   }
 
   buscaGastos() {
-    this.shoppingListRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
-    this.gastosFixosRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/');
-    this.gastosCreditoRef$ = this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosCredito/');
+    this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
+    this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
+    this.gastosCreditoRef$ = this.database.list('gastos/credito/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
 
-    
+
   }
 
   somaTotalGastos() {
-    this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
+
+    this.database.list('gastos/diversos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
           total += Number(snapshot.val().valor);
         });
-        this.gastoMes = total;
+           this.gastoMes = Number( this.gastoMes) + Number(total);
+        this.restante = Number(this.saldoMes) - Number(total);
+   
+      })
+    this.database.list('gastos/fixos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
+      .subscribe(snapshots => {
+        var total = 0;
+        snapshots.forEach(snapshot => {
 
-        this.restante = Number(this.saldoMes) - Number(this.gastoMes);
+          total += Number(snapshot.val().valor);
+        });
+        this.gastoMes = Number( this.gastoMes) + Number(total);
+        this.restante = Number(this.restante) - Number(total);
 
       })
+    this.database.list('gastos/credito/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
+      .subscribe(snapshots => {
+        var total = 0;
+        snapshots.forEach(snapshot => {
+          total += Number(snapshot.val().valor);
+        });
+        this.gastoMes = Number( this.gastoMes) + Number(total);
+        this.restante = Number(this.restante) - Number(total);
 
+      })
   }
 
   selectShoppingItem(shoppingItem: ShoppingItem) {
@@ -100,7 +123,7 @@ export class ShoppingListPage {
   }
 
   importarGastosFixos() {
-  
+
     if (this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/') != null) {
 
       let alert = this.alertCtrl.create({
@@ -117,12 +140,12 @@ export class ShoppingListPage {
           {
             text: 'Importar',
             handler: () => {
-              this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/').remove().then(_ => console.log('deleted!'));
+              this.database.list('gastos/fixos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2)).remove().then(_ => console.log('deleted!'));
               this.database.list('gastosFixos/', { preserveSnapshot: true })
                 .subscribe(snapshots => {
                   var total = 0;
                   snapshots.forEach(snapshot => {
-                    this.database.list("/gastos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/').push({
+                    this.database.list("/gastos/fixos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2)).push({
                       valor: snapshot.val().valor,
                       descricao: snapshot.val().descricao,
                       gastoFixo: true
@@ -140,7 +163,7 @@ export class ShoppingListPage {
         .subscribe(snapshots => {
           var total = 0;
           snapshots.forEach(snapshot => {
-            this.database.list("/gastos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/').push({
+            this.database.list("/gastos/fixos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2)).push({
               valor: snapshot.val().valor,
               descricao: snapshot.val().descricao,
               gastoFixo: true
