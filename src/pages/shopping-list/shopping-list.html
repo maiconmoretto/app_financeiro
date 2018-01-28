@@ -20,7 +20,7 @@
 <ion-content padding>
 
   <div id="left">
-   <h2> gastos: {{gastoMes}} </h2>
+  <h2> gasto: {{gastoMes}} </h2>
   </div>
  
   <div id="right">
@@ -29,9 +29,11 @@
 
   <br>
   <br>
+  <br>
+  <br>
   <hr>
   <ion-list>
-    <h3>  gastos fixos</h3>
+    <h3>   fixos</h3>
     <ion-item *ngFor="let item of gastosFixosRef$ | async">
 
       <h2>
@@ -48,7 +50,7 @@
   <br>
   <hr>
   <ion-list>
-    <h3>      gastos crédito </h3>
+    <h3>       crédito </h3>
     <ion-item *ngFor="let item of gastosCreditoRef$ | async">
 
       <h2>
@@ -70,7 +72,7 @@
   <br>
   <hr>
   <ion-list>
-    <h3>    gastos diversos</h3>
+    <h3>       diversos</h3>
     <ion-item *ngFor="let item of shoppingListRef$ | async" (click)="selectShoppingItem(item)">
 
       <h2>

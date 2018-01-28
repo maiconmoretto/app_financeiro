@@ -41,13 +41,14 @@ export class GestaoCreditoPage {
         ano = Number(ano) + Number(1);
       } else {
         if (mes < 10) {
-          mes = "0" + mes;
+          if (mes != "01") {
+            mes = "0" + mes;
+          }
         }
       }
-      console.log('aqui ano ' + ano);
-      console.log('aqui mes ' + mes);
 
-      this.database.list("/gastos/credito/" + ano + '/' + mes ).push({
+
+      this.database.list("/gastos/credito/" + ano + '/' + mes).push({
         descricao: descricao,
         valor: valor,
         data: data,
