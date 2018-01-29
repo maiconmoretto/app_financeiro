@@ -20,12 +20,12 @@
 <ion-content padding>
 
   <div id="left">
-  <h2> gasto: {{gastoMes}} </h2>
+    <h2> gasto: {{gastoMes}} </h2>
   </div>
- 
+
   <div id="right">
     <h2>restante: {{restante}} </h2>
-  </div >
+  </div>
 
   <br>
   <br>
@@ -33,14 +33,15 @@
   <br>
   <hr>
   <ion-list>
-    <h3>   fixos</h3>
+    <h3> fixos</h3>
     <ion-item *ngFor="let item of gastosFixosRef$ | async">
 
       <h2>
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
       <h2>
         <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
-
+        <h2>
+            <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
     </ion-item>
   </ion-list>
   <button ion-button (click)="importarGastosFixos()">Importar gastos fixos</button>
@@ -50,7 +51,7 @@
   <br>
   <hr>
   <ion-list>
-    <h3>       crédito </h3>
+    <h3> crédito </h3>
     <ion-item *ngFor="let item of gastosCreditoRef$ | async">
 
       <h2>
@@ -60,19 +61,22 @@
 
       <h2>
         <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.parcela}} </h2>
+
+        <h2>
+            <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
       <h2>
         <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
 
     </ion-item>
   </ion-list>
-  
-   <hr>
+
+  <hr>
   <br>
   <br>
   <br>
   <hr>
   <ion-list>
-    <h3>       diversos</h3>
+    <h3> diversos</h3>
     <ion-item *ngFor="let item of shoppingListRef$ | async" (click)="selectShoppingItem(item)">
 
       <h2>
@@ -81,6 +85,9 @@
         <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
       <h2>
         <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.data}} </h2>
+      <h2>
+        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
+
       <h2>
         <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
 

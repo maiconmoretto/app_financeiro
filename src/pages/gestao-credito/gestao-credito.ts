@@ -19,18 +19,17 @@ export class GestaoCreditoPage {
   }
 
 
-  adicionarGasto(descricao, valor, prestacoes, data, gasto_por) {
+  adicionarGasto(descricao, valor, prestacoes, data, gasto_por,categoria) {
     var mes = data.substr(5, 2);
     var ano = data.substr(0, 4);
-    // console.log('mes '+mes);
-    // console.log('ano '+ano);
-    // return;
+
     //cadastro no node gastosCredito
     this.database.list("/gastosCredito/").push({
       descricao: descricao,
       valor: valor,
       prestacoes: prestacoes,
-      data: data
+      data: data,
+      categoria:categoria
     });
 
 
@@ -53,15 +52,12 @@ export class GestaoCreditoPage {
         valor: valor,
         data: data,
         parcela: (i + 1) + "/" + prestacoes,
-        gasto_por: gasto_por
+        gasto_por: gasto_por,
+        categoria:categoria
       });
       mes++;
     }
   }
 
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad GestaoCreditoPage');
-  }
 
 }

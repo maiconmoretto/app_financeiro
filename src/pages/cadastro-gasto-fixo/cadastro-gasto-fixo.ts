@@ -19,13 +19,13 @@ export class CadastroGastoFixoPage {
     this.gastosFixos$ = this.database.list('gastosFixos/');
   } 
 
+  
 
-
-  adicionarGasto(descricao,valor){
+  adicionarGasto(descricao,valor,categoria){
     this.database.list("/gastosFixos/").push({
       descricao: descricao,
-      valor: valor
-
+      valor: valor,
+      categoria: categoria
     });
   }
 

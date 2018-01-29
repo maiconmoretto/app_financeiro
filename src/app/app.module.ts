@@ -19,6 +19,7 @@ import {FIREBASE_CREDENTIALS} from './firebase.credentials';
 import {HomePage} from '../pages/home/home';
 import {CadastroGastoFixoPage} from '../pages/cadastro-gasto-fixo/cadastro-gasto-fixo'; 
 import {GestaoCreditoPage} from '../pages/gestao-credito/gestao-credito'; 
+import {EditShoppingItemPage} from '../pages/edit-shopping-item/edit-shopping-item'; 
  
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {GestaoCreditoPage} from '../pages/gestao-credito/gestao-credito';
     TabsPage,
     HomePage,
     CadastroGastoFixoPage,
-    GestaoCreditoPage 
+    GestaoCreditoPage,
+    EditShoppingItemPage
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,8 @@ import {GestaoCreditoPage} from '../pages/gestao-credito/gestao-credito';
     HomePage,
     ShoppingListPage,
     CadastroGastoFixoPage,
-    GestaoCreditoPage
+    GestaoCreditoPage,
+    EditShoppingItemPage
   ],
   providers: [
     StatusBar,

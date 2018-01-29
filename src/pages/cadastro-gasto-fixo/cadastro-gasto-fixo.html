@@ -23,23 +23,42 @@
     <ion-label floating>Valor</ion-label>
     <ion-input type="number" [(ngModel)]="valor"></ion-input>
   </ion-item>
+  <ion-item>
+    <ion-label>Categoria</ion-label>
 
-  <br>
-  <button ion-button block (click)="adicionarGasto(descricao,valor)">Adicionar</button>
+    <ion-select [(ngModel)]="categoria">
+      <ion-option value="super" [selected]="shoppingItem.categoria == 'super' ">super</ion-option>
+      <ion-option value="lazer" [selected]="shoppingItem.categoria == 'lazer' ">lazer</ion-option>
+      <ion-option value="conexão" [selected]="shoppingItem.categoria == 'conexão' ">conexão</ion-option>
+      <ion-option value="transporte" [selected]="shoppingItem.categoria == 'transporte' ">transporte</ion-option>
+      <ion-option value="farmácia" [selected]="shoppingItem.categoria == 'farmácia' ">farmácia</ion-option>
+      <ion-option value="casa" [selected]="shoppingItem.categoria == 'casa' ">casa</ion-option>
+      <ion-option value="educação" [selected]="shoppingItem.categoria == 'educação' ">educação</ion-option>
+      <ion-option value="poupança" [selected]="shoppingItem.categoria == 'poupança' ">poupança</ion-option>
+      <ion-option value="bem estar" [selected]="shoppingItem.categoria == 'bem estar' ">bem estar</ion-option>
+      <ion-option value="outros" [selected]="shoppingItem.categoria == 'outros' ">outros</ion-option>
+    </ion-select>
+  </ion-item>
 
-  <ion-list>
-    <ion-item *ngFor="let item of gastosFixos$ | async" (click)="selectShoppingItem(item)">
 
-      <h2>
-        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
-      <h2>
-        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+    <br>
+    <button ion-button block (click)="adicionarGasto(descricao,valor,categoria)">Adicionar</button>
+
+    <ion-list>
+      <ion-item *ngFor="let item of gastosFixos$ | async" (click)="selectShoppingItem(item)">
+
+        <h2>
+          <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+        <h2>
+          <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+        <h2>
+          <ion-icon ios="ios-help" md="md-help"></ion-icon>{{item.categoria}} </h2>
 
 
 
-    </ion-item>
+      </ion-item>
 
-  </ion-list>
+    </ion-list>
 
 
 

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { AlertController } from 'ionic-angular';
+import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
 
 @Component({
   selector: 'page-shopping-list',
@@ -19,6 +20,17 @@ export class ShoppingListPage {
   gastosFixosRef$: FirebaseListObservable<ShoppingItem[]>;
   gastosCreditoRef$: FirebaseListObservable<ShoppingItem[]>;
 
+  categorias = ["super",
+    "lazer",
+    "conexão",
+    "transporte",
+    "farmácia",
+    "casa",
+    "educação",
+    "poupança",
+    "bem estar",
+    "outros"
+  ];
   saldoMes = 4000;
   data;
   gastoMes = 0;
@@ -56,9 +68,9 @@ export class ShoppingListPage {
         snapshots.forEach(snapshot => {
           total += Number(snapshot.val().valor);
         });
-           this.gastoMes = Number( this.gastoMes) + Number(total);
+        this.gastoMes = Number(this.gastoMes) + Number(total);
         this.restante = Number(this.saldoMes) - Number(total);
-   
+
       })
     this.database.list('gastos/fixos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
       .subscribe(snapshots => {
@@ -67,7 +79,7 @@ export class ShoppingListPage {
 
           total += Number(snapshot.val().valor);
         });
-        this.gastoMes = Number( this.gastoMes) + Number(total);
+        this.gastoMes = Number(this.gastoMes) + Number(total);
         this.restante = Number(this.restante) - Number(total);
 
       })
@@ -77,7 +89,7 @@ export class ShoppingListPage {
         snapshots.forEach(snapshot => {
           total += Number(snapshot.val().valor);
         });
-        this.gastoMes = Number( this.gastoMes) + Number(total);
+        this.gastoMes = Number(this.gastoMes) + Number(total);
         this.restante = Number(this.restante) - Number(total);
 
       })
@@ -90,12 +102,18 @@ export class ShoppingListPage {
     //2 - remove item
     //3 - cancel selection
     this.actionSheetCtrl.create({
-      title: '',
+      title: `${shoppingItem.descricao}`,
       buttons: [
         {
           text: 'Edit',
           handler: () => {
             //send the item to edit item and pass key as parameter
+            this.navCtrl.push(EditShoppingItemPage,
+              {
+                shoppingItemId: shoppingItem.$key,
+                ano: this.data.substr(0, 4),
+                mes: this.data.substr(5, 2)
+              });
 
           }
         },

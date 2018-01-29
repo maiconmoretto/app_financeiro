@@ -29,6 +29,21 @@
     <ion-datetime displayFormat="MM/YYYY" [(ngModel)]="data"></ion-datetime>
   </ion-item>
   <ion-item>
+      <ion-label>Categoria</ion-label>
+        <ion-select [(ngModel)]="categoria">
+        <ion-option value="super" [selected]="shoppingItem.categoria == 'super' ">super</ion-option>
+        <ion-option value="lazer" [selected]="shoppingItem.categoria == 'lazer' ">lazer</ion-option>
+        <ion-option value="conexão" [selected]="shoppingItem.categoria == 'conexão' ">conexão</ion-option>
+        <ion-option value="transporte" [selected]="shoppingItem.categoria == 'transporte' ">transporte</ion-option>
+        <ion-option value="farmácia" [selected]="shoppingItem.categoria == 'farmácia' ">farmácia</ion-option>
+        <ion-option value="casa" [selected]="shoppingItem.categoria == 'casa' ">casa</ion-option>
+        <ion-option value="educação" [selected]="shoppingItem.categoria == 'educação' ">educação</ion-option>
+        <ion-option value="poupança" [selected]="shoppingItem.categoria == 'poupança' ">poupança</ion-option>
+        <ion-option value="bem estar" [selected]="shoppingItem.categoria == 'bem estar' ">bem estar</ion-option>
+        <ion-option value="outros" [selected]="shoppingItem.categoria == 'outros' ">outros</ion-option>
+      </ion-select>
+    </ion-item>
+  <ion-item>
     <ion-label>Gasto por</ion-label>
     <ion-select [(ngModel)]="gasto_por">
       <ion-option value="Bruna">Bruna</ion-option>
@@ -36,7 +51,7 @@
     </ion-select>
   </ion-item>
   <br>
-  <button ion-button block (click)="adicionarGasto(descricao,valor,prestacoes,data,gasto_por)">Adicionar</button>
+  <button ion-button block (click)="adicionarGasto(descricao,valor,prestacoes,data,gasto_por,categoria)">Adicionar</button>
 
   <ion-list>
     <ion-item *ngFor="let item of gastosCredito$ | async" >
@@ -47,7 +62,10 @@
         <ion-icon ios="ios-cash" md="md-cash"></ion-icon>R$ {{item.valor}} </h2>
       <h2>
       X Parcelas {{item.prestacoes}} </h2>
-   
+      <h2>
+      <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}}</h2>
+
+
       <h2>
         <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{ item.data.substr(5, 2) + '/' +  item.data.substr(0, 4)}} </h2>
 

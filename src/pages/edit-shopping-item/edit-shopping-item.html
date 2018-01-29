@@ -7,12 +7,53 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>EdiShoppingItem</ion-title>
+    <ion-title>Editar item</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+
+  <ion-item>
+    <ion-label floating>Descricao</ion-label>
+    <ion-input type="text" [(ngModel)]="shoppingItem.descricao"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Valor</ion-label>
+    <ion-input type="number" [(ngModel)]="shoppingItem.valor"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Data</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="shoppingItem.data"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Categoria</ion-label>
+    <ion-select [(ngModel)]="categoria">
+      <ion-option value="super" [selected]="shoppingItem.categoria == 'super' ">super</ion-option>
+      <ion-option value="lazer" [selected]="shoppingItem.categoria == 'lazer' ">lazer</ion-option>
+      <ion-option value="conexão" [selected]="shoppingItem.categoria == 'conexão' ">conexão</ion-option>
+      <ion-option value="transporte" [selected]="shoppingItem.categoria == 'transporte' ">transporte</ion-option>
+      <ion-option value="farmácia" [selected]="shoppingItem.categoria == 'farmácia' ">farmácia</ion-option>
+      <ion-option value="casa" [selected]="shoppingItem.categoria == 'casa' ">casa</ion-option>
+      <ion-option value="educação" [selected]="shoppingItem.categoria == 'educação' ">educação</ion-option>
+      <ion-option value="poupança" [selected]="shoppingItem.categoria == 'poupança' ">poupança</ion-option>
+      <ion-option value="bem estar" [selected]="shoppingItem.categoria == 'bem estar' ">bem estar</ion-option>
+      <ion-option value="outros" [selected]="shoppingItem.categoria == 'outros' ">outros</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Gasto por</ion-label>
+    <ion-select [(ngModel)]="gasto_por">
+      <ion-option value="Bruna" [selected]="shoppingItem.gasto_por == 'Bruna' ">Bruna</ion-option>
+      <ion-option value="Maicon" [selected]="shoppingItem.gasto_por == 'Maicon'">Maicon</ion-option>
+    </ion-select>
+  </ion-item>
+  <br>
+  <button ion-button block (click)="editShoppingItem(shoppingItem)">Editar</button>
+
 
 </ion-content>
