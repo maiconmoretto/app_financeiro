@@ -4,6 +4,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
+import { ToastController } from 'ionic-angular';
 
 
 @IonicPage()
@@ -14,7 +15,10 @@ import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface
 export class GestaoCreditoPage {
 
   gastosCredito$: FirebaseListObservable<ShoppingItem[]>
-  constructor(public navCtrl: NavController, public navParams: NavParams, private database: AngularFireDatabase) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private database: AngularFireDatabase,
+    private toastCtrl: ToastController) {
     this.gastosCredito$ = this.database.list('gastosCredito/');
   }
 
@@ -57,6 +61,22 @@ export class GestaoCreditoPage {
       });
       mes++;
     }
+    let toast = this.toastCtrl.create({
+      message: 'Adicionado gasto com crédito com sucesso!',
+      duration: 3000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      // console.log('Dismissed toast');
+    });
+
+
+    toast.present();
+    // this.navCtrl.pop();
+
+
+    
   }
 
 

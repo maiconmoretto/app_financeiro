@@ -19,18 +19,6 @@ export class ShoppingListPage {
   shoppingListRef$: FirebaseListObservable<ShoppingItem[]>;
   gastosFixosRef$: FirebaseListObservable<ShoppingItem[]>;
   gastosCreditoRef$: FirebaseListObservable<ShoppingItem[]>;
-
-  categorias = ["super",
-    "lazer",
-    "conexão",
-    "transporte",
-    "farmácia",
-    "casa",
-    "educação",
-    "poupança",
-    "bem estar",
-    "outros"
-  ];
   saldoMes = 4000;
   data;
   gastoMes = 0;
@@ -102,7 +90,7 @@ export class ShoppingListPage {
     //2 - remove item
     //3 - cancel selection
     this.actionSheetCtrl.create({
-      title: `${shoppingItem.descricao}`,
+      title: '',
       buttons: [
         {
           text: 'Edit',

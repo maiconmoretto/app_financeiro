@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 import { FirebaseObjectFactoryOpts } from 'angularfire2/interfaces';
-import { ShoppingItem } '../../models/shopping-item/shopping-item.interface'; 
+import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
+import { ToastController } from 'ionic-angular';
 
 @Component({
   selector: 'page-edit-shopping-item',
@@ -16,7 +17,8 @@ export class EditShoppingItemPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private database: AngularFireDatabase) {
+    private database: AngularFireDatabase,
+    private toastCtrl: ToastController) {
 
     //capture the shopping item id as  a nagParameter
     const shoppingItemId = this.navParams.get('shoppingItemId');
@@ -38,6 +40,16 @@ export class EditShoppingItemPage {
   //update  our  firebase node  whit new item data
   editShoppingItem(shoppingItem: ShoppingItem) {
     this.shoppingItemRef$.update(shoppingItem);
+    let toast = this.toastCtrl.create({
+      message: 'Gasto editado com sucesso!',
+      duration: 3000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      // console.log('Dismissed toast');
+    }); 
+    toast.present();
   }
 
 

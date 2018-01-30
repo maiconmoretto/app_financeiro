@@ -32,7 +32,7 @@ import {EditShoppingItemPage} from '../pages/edit-shopping-item/edit-shopping-it
     HomePage,
     CadastroGastoFixoPage,
     GestaoCreditoPage,
-    EditShoppingItemPage
+    EditShoppingItemPage,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +53,7 @@ import {EditShoppingItemPage} from '../pages/edit-shopping-item/edit-shopping-it
     ShoppingListPage,
     CadastroGastoFixoPage,
     GestaoCreditoPage,
-    EditShoppingItemPage
+    EditShoppingItemPage,
   ],
   providers: [
     StatusBar,

@@ -4,6 +4,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
+import { ToastController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -14,23 +15,35 @@ import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface
 export class CadastroGastoFixoPage {
 
   gastosFixos$: FirebaseListObservable<ShoppingItem[]>
-  constructor(public navCtrl: NavController, public navParams: NavParams, private database: AngularFireDatabase,
-    private actionSheetCtrl: ActionSheetController) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private database: AngularFireDatabase,
+    private actionSheetCtrl: ActionSheetController,
+    private toastCtrl: ToastController) {
     this.gastosFixos$ = this.database.list('gastosFixos/');
-  } 
+  }
 
-  
 
-  adicionarGasto(descricao,valor,categoria){
+
+  adicionarGasto(descricao, valor, categoria) {
     this.database.list("/gastosFixos/").push({
       descricao: descricao,
       valor: valor,
       categoria: categoria
     });
+    let toast = this.toastCtrl.create({
+      message: 'Adicionado gasto fixo com sucesso!',
+      duration: 3000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      // console.log('Dismissed toast');
+    });
   }
 
 
-  
+
   selectShoppingItem(shoppingItem: ShoppingItem) {
     console.log(shoppingItem);
     //display a actionsheet
