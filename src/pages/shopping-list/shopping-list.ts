@@ -19,6 +19,8 @@ export class ShoppingListPage {
   shoppingListRef$: FirebaseListObservable<ShoppingItem[]>;
   gastosFixosRef$: FirebaseListObservable<ShoppingItem[]>;
   gastosCreditoRef$: FirebaseListObservable<ShoppingItem[]>;
+  categorias$: FirebaseListObservable<ShoppingItem[]>;
+ 
   saldoMes = 4000;
   data;
   gastoMes = 0;
@@ -38,6 +40,10 @@ export class ShoppingListPage {
   poupanca;
   bem_estar;
   outros;
+  mes;
+  ano;
+  stringMes;
+   myObj = new Object();
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -46,97 +52,99 @@ export class ShoppingListPage {
     private alertCtrl: AlertController) {
     //deleta toda colecao
     // this.database.list('gastos').remove();
+
     this.data = this.navParams.data.obj;
+
+    if (this.data == undefined) {
+      var d = new Date();
+
+      var data = "";
+      this.mes = (d.getMonth() + 1) < 10 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
+
+      this.ano = d.getFullYear();
+
+
+    } else {
+      this.mes = this.data.substr(5, 2);
+      this.ano = this.data.substr(0, 4);
+    }
+
+
+    this.buscaMes();
     this.somaTotalGastos();
     this.buscaGastos();
+    this.buscaGastosPorCategoria();
 
   }
 
   buscaGastos() {
-    this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
-    this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
-    this.gastosCreditoRef$ = this.database.list('gastos/credito/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
+  
+    this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.ano + '/' + this.mes);
+    this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes);
+    this.gastosCreditoRef$ = this.database.list('gastos/credito/' + this.ano + '/' + this.mes);
+    this.categorias$ = this.database.list('categorias/');
   }
 
   somaTotalGastos() {
 
-    this.database.list('gastos/diversos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
+    this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
           total += Number(snapshot.val().valor);
           // this.buscaGastosPorCategoria(snapshot.val().categoria);
         });
-        this.gastoMes = Number(this.gastoMes) + Number(total);
-        this.restante = Number(this.saldoMes) - Number(total);
+        this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
+        this.restante = Math.round(Number(this.saldoMes) - Number(total));
 
       })
 
-    this.database.list('gastos/fixos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
+    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
 
           total += Number(snapshot.val().valor);
         });
-        this.gastoMes = Number(this.gastoMes) + Number(total);
-        this.restante = Number(this.restante) - Number(total);
+        this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
+        this.restante = Math.round(Number(this.restante) - Number(total));
 
       })
 
-    this.database.list('gastos/credito/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
+    this.database.list('gastos/credito/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
           total += Number(snapshot.val().valor);
         });
-        this.gastoMes = Number(this.gastoMes) + Number(total);
-        this.restante = Number(this.restante) - Number(total);
+        this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
+        this.restante = Math.round(Number(this.restante) - Number(total));
 
       })
-
-
-
-
-
-    // console.log('supermercado ' + this.supermercado);
-    // console.log('lazer' + this.lazer);
-    // console.log('conexao' + this.conexao);
-    // console.log('transporte' + this.transporte);
-    // console.log('farmacia' + this.farmacia);
-    // console.log('casa ' + this.casa);
-    // console.log('educacao ' + this.educacao);
-    // console.log('poupanca ' + this.poupanca);
-    // console.log('bem_estar' + this.bem_estar);
-    // console.log('outros ' + this.outros);
-
-
-
 
   }
 
   buscaGastosPorCategoria() {
 
-    var myObj = new Object();
-    this.database.list('categorias/', { preserveSnapshot: true })
+       this.database.list('categorias/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          var categoria = snapshot.val().descricao;
-         
+         var categoria = snapshot.val().descricao;
 
           // Add two expando properties that cannot be written in the
           // object.property syntax.
           // The first contains invalid characters (spaces), so must be
           // written inside square brackets.
 
-          this.database.list('gastos/diversos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
+          this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
             .subscribe(snapshots => {
               var total = 0;
               snapshots.forEach(snapshot => {
                 if (categoria == snapshot.val().categoria) {
                   // console.log('aqui ' + categoria);
-                  myObj[categoria] = "This is the property value";
                   
+                 this.myObj[categoria] =  this.myObj[categoria] == undefined ?  snapshot.val().valor :Number( this.myObj[categoria]) + Number(snapshot.val().valor);
+                  // console.log('myObj ' + myObj.casa);
                 }
 
               });
@@ -147,12 +155,12 @@ export class ShoppingListPage {
 
 
           // console.log('nome ' + snapshot.val().descricao);
-   
+
 
         });
       })
-      console.log('myObj ' + myObj["casa"]);
 
+      console.log('myObj ' + this.myObj.casa);
 
     // if (categoria == "super") {
     //   this.supermercado++;
@@ -198,8 +206,8 @@ export class ShoppingListPage {
             this.navCtrl.push(EditShoppingItemPage,
               {
                 shoppingItemId: shoppingItem.$key,
-                ano: this.data.substr(0, 4),
-                mes: this.data.substr(5, 2)
+                ano: this.ano,
+                mes: this.mes
               });
 
           }
@@ -228,7 +236,7 @@ export class ShoppingListPage {
 
   importarGastosFixos() {
 
-    if (this.database.list('gastos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2) + '/gastosFixos/') != null) {
+    if (this.database.list('gastos/' + this.ano + '/' + this.mes + '/gastosFixos/') != null) {
 
       let alert = this.alertCtrl.create({
         title: 'Importar gasos fixos',
@@ -244,12 +252,12 @@ export class ShoppingListPage {
           {
             text: 'Importar',
             handler: () => {
-              this.database.list('gastos/fixos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2)).remove().then(_ => console.log('deleted!'));
+              this.database.list('gastos/fixos/' + this.ano + '/' + this.mes).remove().then(_ => console.log('deleted!'));
               this.database.list('gastosFixos/', { preserveSnapshot: true })
                 .subscribe(snapshots => {
                   var total = 0;
                   snapshots.forEach(snapshot => {
-                    this.database.list("/gastos/fixos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2)).push({
+                    this.database.list("/gastos/fixos/" + this.ano + '/' + this.mes).push({
                       valor: snapshot.val().valor,
                       descricao: snapshot.val().descricao,
                       gastoFixo: true
@@ -267,7 +275,7 @@ export class ShoppingListPage {
         .subscribe(snapshots => {
           var total = 0;
           snapshots.forEach(snapshot => {
-            this.database.list("/gastos/fixos/" + this.data.substr(0, 4) + '/' + this.data.substr(5, 2)).push({
+            this.database.list("/gastos/fixos/" + this.ano + '/' + this.mes).push({
               valor: snapshot.val().valor,
               descricao: snapshot.val().descricao,
               gastoFixo: true
@@ -286,6 +294,13 @@ export class ShoppingListPage {
   navigateToaddShoppingPage() {
     //navigagte  the user to AddShoppingPage
     this.navCtrl.push(AddShoppingPage);
+  }
+
+  buscaMes() {
+    var date = new Date(this.mes),
+      locale = "pt-br",
+      month = date.toLocaleString(locale, { month: "short" });
+    this.stringMes = month;
   }
 
 }

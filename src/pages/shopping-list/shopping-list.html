@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Gastos {{data}}</ion-title>
+    <ion-title>Gastos {{stringMes}} / {{ ano }}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="navigateToaddShoppingPage()">
         <ion-icon name="add"></ion-icon>
@@ -21,28 +21,24 @@
     restante
   </div>
 
-
+  <hr>
   <br>
   <br>
   <br>
   <br>
   <hr>
-  <ion-list>
-    <h3> fixos</h3>
-    <ion-item >
-      supermercado {{supermercado}}  <BR:
-      lazer {{lazer}}  
-      conexao {{conexao}}  
-      transporte {{transporte}}  
-      farmacia {{farmacia}}  
-      casa {{casa}}  
-      educacao {{educacao}}  
-      supermercado {{supermercado}}  
-      supermercado {{supermercado}}  
-      supermercado {{supermercado}}  
- 
   
-   
+  <ion-list>
+    <h3>Gasto por categoria</h3>
+    <ion-item *ngFor="let item of categorias$ | async">
+
+      <h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+      <h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{myObj[item.descricao]}} </h2>
+ 
+
+
     </ion-item>
   </ion-list>
   <hr>

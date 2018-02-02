@@ -21,7 +21,7 @@ export class HomePage {
   }
 
   navigateToaList(data) {
-    console.log(data);
+
 
     if (data == undefined) {
       var d = new Date();
