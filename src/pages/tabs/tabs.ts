@@ -5,6 +5,7 @@ import { ContactPage } from '../contact/contact';
 import { HomePage } from '../home/home';
 import { CadastroGastoFixoPage } from '../cadastro-gasto-fixo/cadastro-gasto-fixo';
 import { GestaoCreditoPage } from '../gestao-credito/gestao-credito';
+import { GestaoCategoriasPage } from '../gestao-categorias/gestao-categorias';
 
  
   
@@ -16,6 +17,7 @@ export class TabsPage {
   tab1Root = HomePage;
   tab2Root = CadastroGastoFixoPage;
   tab3Root = GestaoCreditoPage;
+  tab4Root = GestaoCategoriasPage;
  
   constructor() {
 

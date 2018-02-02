@@ -20,6 +20,7 @@ import {HomePage} from '../pages/home/home';
 import {CadastroGastoFixoPage} from '../pages/cadastro-gasto-fixo/cadastro-gasto-fixo'; 
 import {GestaoCreditoPage} from '../pages/gestao-credito/gestao-credito'; 
 import {EditShoppingItemPage} from '../pages/edit-shopping-item/edit-shopping-item'; 
+import {GestaoCategoriasPage} from '../pages/gestao-categorias/gestao-categorias'; 
  
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {EditShoppingItemPage} from '../pages/edit-shopping-item/edit-shopping-it
     CadastroGastoFixoPage,
     GestaoCreditoPage,
     EditShoppingItemPage,
+    GestaoCategoriasPage,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +56,7 @@ import {EditShoppingItemPage} from '../pages/edit-shopping-item/edit-shopping-it
     CadastroGastoFixoPage,
     GestaoCreditoPage,
     EditShoppingItemPage,
+    GestaoCategoriasPage,
   ],
   providers: [
     StatusBar,

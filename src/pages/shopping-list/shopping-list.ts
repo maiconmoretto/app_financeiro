@@ -22,11 +22,23 @@ export class ShoppingListPage {
   saldoMes = 4000;
   data;
   gastoMes = 0;
-  gastoFixo;
-  gastosCredito;
-  gastosDiversos;
-  gastosFixos;
-  restante;
+  gastoFixo = 0;;
+  gastosCredito = 0;;
+  gastosDiversos = 0;;
+  restante = 0;
+
+  categorias = [];
+  supermercado;
+  lazer;
+  conexao;
+  transporte;
+  farmacia;
+  casa;
+  educacao;
+  poupanca;
+  bem_estar;
+  outros;
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
@@ -44,8 +56,6 @@ export class ShoppingListPage {
     this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
     this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
     this.gastosCreditoRef$ = this.database.list('gastos/credito/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2));
-
-
   }
 
   somaTotalGastos() {
@@ -55,11 +65,13 @@ export class ShoppingListPage {
         var total = 0;
         snapshots.forEach(snapshot => {
           total += Number(snapshot.val().valor);
+          // this.buscaGastosPorCategoria(snapshot.val().categoria);
         });
         this.gastoMes = Number(this.gastoMes) + Number(total);
         this.restante = Number(this.saldoMes) - Number(total);
 
       })
+
     this.database.list('gastos/fixos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
@@ -71,6 +83,7 @@ export class ShoppingListPage {
         this.restante = Number(this.restante) - Number(total);
 
       })
+
     this.database.list('gastos/credito/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
@@ -81,7 +94,93 @@ export class ShoppingListPage {
         this.restante = Number(this.restante) - Number(total);
 
       })
+
+
+
+
+
+    // console.log('supermercado ' + this.supermercado);
+    // console.log('lazer' + this.lazer);
+    // console.log('conexao' + this.conexao);
+    // console.log('transporte' + this.transporte);
+    // console.log('farmacia' + this.farmacia);
+    // console.log('casa ' + this.casa);
+    // console.log('educacao ' + this.educacao);
+    // console.log('poupanca ' + this.poupanca);
+    // console.log('bem_estar' + this.bem_estar);
+    // console.log('outros ' + this.outros);
+
+
+
+
   }
+
+  buscaGastosPorCategoria() {
+
+    var myObj = new Object();
+    this.database.list('categorias/', { preserveSnapshot: true })
+      .subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          var categoria = snapshot.val().descricao;
+         
+
+          // Add two expando properties that cannot be written in the
+          // object.property syntax.
+          // The first contains invalid characters (spaces), so must be
+          // written inside square brackets.
+
+          this.database.list('gastos/diversos/' + this.data.substr(0, 4) + '/' + this.data.substr(5, 2), { preserveSnapshot: true })
+            .subscribe(snapshots => {
+              var total = 0;
+              snapshots.forEach(snapshot => {
+                if (categoria == snapshot.val().categoria) {
+                  // console.log('aqui ' + categoria);
+                  myObj[categoria] = "This is the property value";
+                  
+                }
+
+              });
+
+
+            })
+
+
+
+          // console.log('nome ' + snapshot.val().descricao);
+   
+
+        });
+      })
+      console.log('myObj ' + myObj["casa"]);
+
+
+    // if (categoria == "super") {
+    //   this.supermercado++;
+    // } else if (categoria == "lazer") {
+    //   console.log('aqui lazer' + categoria);
+    //   this.lazer++;
+    // } else if (categoria == "conexão") {
+    //   this.conexao++;
+    // } else if (categoria == "transporte") {
+    //   this.transporte++;
+    // } else if (categoria == "casa") {
+    //   console.log('aqui casa' + categoria);
+    //   this.casa++;
+    // } else if (categoria == "educação") {
+    //   this.educacao++;
+    // } else if (categoria == "poupança") {
+    //   this.poupanca++;
+    // } else if (categoria == "bem estar") {
+    //   this.bem_estar++;
+    // } else if (categoria == "outros") {
+    //   this.outros++;
+    // }
+
+
+
+
+  }
+
 
   selectShoppingItem(shoppingItem: ShoppingItem) {
     console.log(shoppingItem);
@@ -123,10 +222,9 @@ export class ShoppingListPage {
         },
       ]
 
-
     }).present();
-
   }
+
 
   importarGastosFixos() {
 
