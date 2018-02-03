@@ -20,6 +20,20 @@
     <h2> {{restante}} </h2>
     restante
   </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <hr>
+  <div id="left">
+    <h2>  {{totalBruna}} </h2>
+    total Bruna
+  </div>
+
+  <div id="right">
+    <h2> {{totalMaicon}} </h2>
+    total Maicon
+  </div>
 
   <hr>
   <br>
@@ -57,6 +71,8 @@
         <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
         <h2>
             <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
+            <h2>dividir ?
+              {{item.dividir}} </h2>
     </ion-item>
   </ion-list>
   <button ion-button (click)="importarGastosFixos()">Importar gastos fixos</button>
@@ -81,6 +97,8 @@
             <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
       <h2>
         <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
+        <h2>dividir ?
+          {{item.dividir}} </h2>
 
     </ion-item>
   </ion-list>
@@ -105,6 +123,8 @@
 
       <h2>
         <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
+        <h2>dividir ?
+          {{item.dividir}} </h2>
 
     </ion-item>
 

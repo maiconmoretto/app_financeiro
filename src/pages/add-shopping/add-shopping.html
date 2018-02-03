@@ -44,6 +44,13 @@
     </ion-select>
   </ion-item>
   <ion-item>
+    <ion-label>Dividir valor?</ion-label>
+    <ion-select [(ngModel)]="dividir">
+      <ion-option value="sim">sim</ion-option>
+      <ion-option value="nao">não</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
     <ion-label>Gasto por</ion-label>
     <ion-select [(ngModel)]="gasto_por">
       <ion-option value="Bruna">Bruna</ion-option>
@@ -51,5 +58,5 @@
     </ion-select>
   </ion-item>
   <br>
-  <button ion-button block (click)="addShoppingItem(descricao,valor,data,gasto_por,categoria)">Adicionar</button>
+  <button ion-button block (click)="addShoppingItem(descricao,valor,data,gasto_por,categoria,dividir)">Adicionar</button>
 </ion-content>

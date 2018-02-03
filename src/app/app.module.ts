@@ -7,7 +7,7 @@ import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 
 import { TabsPage } from '../pages/tabs/tabs';
-
+ 
 import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
 import { AddShoppingPage } from '../pages/add-shopping/add-shopping';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -21,7 +21,8 @@ import {CadastroGastoFixoPage} from '../pages/cadastro-gasto-fixo/cadastro-gasto
 import {GestaoCreditoPage} from '../pages/gestao-credito/gestao-credito'; 
 import {EditShoppingItemPage} from '../pages/edit-shopping-item/edit-shopping-item'; 
 import {GestaoCategoriasPage} from '../pages/gestao-categorias/gestao-categorias'; 
- 
+import { GestaoReceitaPage } from '../pages/gestao-receita/gestao-receita';
+  
 @NgModule({
   declarations: [
     MyApp,
@@ -35,6 +36,7 @@ import {GestaoCategoriasPage} from '../pages/gestao-categorias/gestao-categorias
     GestaoCreditoPage,
     EditShoppingItemPage,
     GestaoCategoriasPage,
+    GestaoReceitaPage,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +59,7 @@ import {GestaoCategoriasPage} from '../pages/gestao-categorias/gestao-categorias
     GestaoCreditoPage,
     EditShoppingItemPage,
     GestaoCategoriasPage,
+    GestaoReceitaPage,
   ],
   providers: [
     StatusBar,

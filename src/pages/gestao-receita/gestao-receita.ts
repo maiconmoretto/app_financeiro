@@ -6,36 +6,46 @@ import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
 
+
 @IonicPage()
 @Component({
-  selector: 'page-cadastro-gasto-fixo',
-  templateUrl: 'cadastro-gasto-fixo.html',
+  selector: 'page-gestao-receita',
+  templateUrl: 'gestao-receita.html',
 })
+export class GestaoReceitaPage {
 
-export class CadastroGastoFixoPage {
+  receita$: FirebaseListObservable<ShoppingItem[]>;
 
-  gastosFixos$: FirebaseListObservable<ShoppingItem[]>
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
     private actionSheetCtrl: ActionSheetController,
     private toastCtrl: ToastController) {
-    this.gastosFixos$ = this.database.list('gastosFixos/');
+    this.buscaReceita();
   }
 
+  buscaReceita() {
+    this.receita$ = this.database.list('receita/');
+  }
+
+  adicionarReceita(descricao, valor, data) {
+
+    var mes = data.substr(5, 2);
+    var ano = data.substr(0, 4);
 
 
-  adicionarGasto(descricao, valor, categoria,dividir) {
-    this.database.list("/gastosFixos/").push({
+    this.database.list("/receita/").push({
       descricao: descricao,
       valor: valor,
-      categoria: categoria,
-      dividir: dividir
+      mes: mes,
+      ano: ano,
     });
+
+
     let toast = this.toastCtrl.create({
-      message: 'Adicionado gasto fixo com sucesso!',
+      message: 'Adicionada receita com sucesso!',
       duration: 3000,
-      position: 'bottom'
+      position: 'top'
     });
 
     toast.onDidDismiss(() => {
@@ -54,19 +64,13 @@ export class CadastroGastoFixoPage {
     this.actionSheetCtrl.create({
       title: '',
       buttons: [
-        {
-          text: 'Edit',
-          handler: () => {
-            //send the item to edit item and pass key as parameter
 
-          }
-        },
         {
           text: 'Delete',
           role: 'destructive',
           handler: () => {
             //delete the current item
-            this.gastosFixos$.remove(shoppingItem.$key);
+            this.receita$.remove(shoppingItem.$key);
           }
         },
         {
@@ -83,11 +87,5 @@ export class CadastroGastoFixoPage {
     }).present();
 
   }
-
-  navigateToaddShoppingPage() {
-    //navigagte  the user to AddShoppingPage
-    this.navCtrl.push(AddShoppingPage);
-  }
-
 
 }

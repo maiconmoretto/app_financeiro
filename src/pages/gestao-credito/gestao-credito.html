@@ -43,6 +43,13 @@
     </ion-select>
   </ion-item>
   <ion-item>
+    <ion-label>Dividir valor?</ion-label>
+    <ion-select [(ngModel)]="dividir">
+      <ion-option value="sim">sim</ion-option>
+      <ion-option value="nao">não</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
     <ion-label>Gasto por</ion-label>
     <ion-select [(ngModel)]="gasto_por">
       <ion-option value="Bruna">Bruna</ion-option>
@@ -50,7 +57,7 @@
     </ion-select>
   </ion-item>
   <br>
-  <button ion-button block (click)="adicionarGasto(descricao,valor,prestacoes,data,gasto_por,categoria)">Adicionar</button>
+  <button ion-button block (click)="adicionarGasto(descricao,valor,prestacoes,data,gasto_por,categoria,dividir)">Adicionar</button>
 
   <ion-list>
     <ion-item *ngFor="let item of gastosCredito$ | async">
@@ -68,6 +75,8 @@
       <h2>
         <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{ item.data.substr(5, 2) + '/' + item.data.substr(0, 4)}} </h2>
 
+        <h2>dividir ?
+          {{item.dividir}} </h2>
     </ion-item>
 
   </ion-list>

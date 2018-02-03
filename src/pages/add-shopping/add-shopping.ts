@@ -20,7 +20,7 @@ export class AddShoppingPage {
   }
 
 
-  addShoppingItem(descricao, valor, data, gasto_por, categoria) {
+  addShoppingItem(descricao, valor, data, gasto_por, categoria,dividir) {
    
     if (descricao == undefined
       || valor == undefined
@@ -47,7 +47,8 @@ export class AddShoppingPage {
       valor: valor,
       data: data,
       gasto_por: gasto_por,
-      categoria: categoria
+      categoria: categoria,
+      dividir: dividir
 
     });
 

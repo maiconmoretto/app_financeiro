@@ -46,6 +46,13 @@
     </ion-select>
   </ion-item>
   <ion-item>
+    <ion-label>Dividir valor?</ion-label>
+    <ion-select [(ngModel)]="categoria">
+      <ion-option value="sim">sim</ion-option>
+      <ion-option value="nao">não</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
     <ion-label>Gasto por</ion-label>
     <ion-select [(ngModel)]="gasto_por">
       <ion-option value="Bruna" [selected]="shoppingItem.gasto_por == 'Bruna' ">Bruna</ion-option>
