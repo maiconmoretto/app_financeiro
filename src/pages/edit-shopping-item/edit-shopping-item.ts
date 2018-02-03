@@ -43,7 +43,7 @@ export class EditShoppingItemPage {
     let toast = this.toastCtrl.create({
       message: 'Gasto editado com sucesso!',
       duration: 3000,
-      position: 'bottom'
+      position: 'top'
     });
 
     toast.onDidDismiss(() => {

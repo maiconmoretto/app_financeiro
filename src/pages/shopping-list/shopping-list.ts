@@ -7,6 +7,8 @@ import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { AlertController } from 'ionic-angular';
 import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
+import * as $ from 'jquery';
+
 
 @Component({
   selector: 'page-shopping-list',
@@ -45,6 +47,9 @@ export class ShoppingListPage {
   totalMaicon = 0;
   totalBruna = 0;
 
+  statusDiversos;
+  statusCredito;
+  statusFixos;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -113,12 +118,6 @@ export class ShoppingListPage {
           }
           total += Number(snapshot.val().valor);
         });
-
-        // this.totalMaicon = Number(this.totalMaicon) + Number(totMaicon);
-        // this.totalBruna = Number(this.totalBruna) + Number(totBruna);
-        // this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
-        // this.restante = Math.round(Number(this.saldoMes) - Number(total));
-
       })
 
 
@@ -135,11 +134,6 @@ export class ShoppingListPage {
           }
           total += Number(snapshot.val().valor);
         });
-        // this.totalMaicon = totMaicon;
-        // this.totalBruna = totBruna;
-        // this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
-         // this.restante = Math.round(Number(this.saldoMes) - Number(total));
-
       })
 
     this.database.list('gastos/credito/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
@@ -159,9 +153,7 @@ export class ShoppingListPage {
         this.totalBruna = totBruna;
         this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
         this.restante = Math.round(Number(this.saldoMes) - Number(total));
-
       })
-
   }
 
 
@@ -184,10 +176,7 @@ export class ShoppingListPage {
                   this.myObj[categoria] = this.myObj[categoria] == undefined ? snapshot.val().valor : Number(this.myObj[categoria]) + Number(snapshot.val().valor);
 
                 }
-
               });
-
-
             })
         });
       })
@@ -195,7 +184,6 @@ export class ShoppingListPage {
 
 
   selectShoppingItem(shoppingItem: ShoppingItem) {
-    console.log(shoppingItem);
     //display a actionsheet
     //1 - edit 
     //2 - remove item
@@ -228,7 +216,6 @@ export class ShoppingListPage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('the user has selected the cancel button');
 
           }
         },
@@ -300,5 +287,17 @@ export class ShoppingListPage {
       month = date.toLocaleString(locale, { month: "short" });
     this.stringMes = month;
   }
+
+  hideShowDiversos(status) {
+    this.statusDiversos = status;
+  }
+  hideShowCredito(status) {
+    this.statusCredito = status;
+  }
+  hideShowFixos(status) {
+    this.statusFixos = status;
+  }
+
+
 
 }

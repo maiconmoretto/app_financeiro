@@ -35,7 +35,7 @@ export class CadastroGastoFixoPage {
     let toast = this.toastCtrl.create({
       message: 'Adicionado gasto fixo com sucesso!',
       duration: 3000,
-      position: 'bottom'
+      position: 'top'
     });
 
     toast.onDidDismiss(() => {

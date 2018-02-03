@@ -42,29 +42,14 @@ export class GestaoCreditoPage {
       if (mes == 13) {
         mes = "01";
         ano = Number(ano) + Number(1);
-      } else {
-        if (mes < 10) {
-          if (mes != "01") {
-            mes = "0" + mes;
-          }
-        }
       }
 
-
-      this.database.list("/gastos/credito/" + ano + '/' + mes).push({
-        descricao: descricao,
-        valor: valor,
-        data: data,
-        parcela: (i + 1) + "/" + prestacoes,
-        gasto_por: gasto_por,
-        categoria:categoria
-      });
       mes++;
     }
     let toast = this.toastCtrl.create({
       message: 'Adicionado gasto com crédito com sucesso!',
       duration: 3000,
-      position: 'bottom'
+      position: 'top'
     });
 
     toast.onDidDismiss(() => {

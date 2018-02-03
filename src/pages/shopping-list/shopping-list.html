@@ -12,12 +12,12 @@
 <ion-content padding>
 
   <div id="left">
-    <h2>  {{gastoMes}} </h2>
-     gasto
+    <h2>R$ {{gastoMes}} </h2>
+    gasto
   </div>
 
   <div id="right">
-    <h2> {{restante}} </h2>
+    <h2>R$ {{restante}} </h2>
     restante
   </div>
   <br>
@@ -25,23 +25,6 @@
   <br>
   <br>
   <hr>
-  <div id="left">
-    <h2>  {{totalBruna}} </h2>
-    total Bruna
-  </div>
-
-  <div id="right">
-    <h2> {{totalMaicon}} </h2>
-    total Maicon
-  </div>
-
-  <hr>
-  <br>
-  <br>
-  <br>
-  <br>
-  <hr>
-  
   <ion-list>
     <h3>Gasto por categoria</h3>
     <ion-item *ngFor="let item of categorias$ | async">
@@ -50,7 +33,7 @@
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
       <h2>
         <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{myObj[item.descricao]}} </h2>
- 
+
 
 
     </ion-item>
@@ -61,28 +44,41 @@
   <br>
   <br>
   <hr>
-  <ion-list>
-    <h3> fixos</h3>
+  <div id="left">
+      <h3> Fixos </h3>
+    </div>
+    <div id="right">
+      <ion-icon (click)="hideShowFixos(false)" name="md-remove"></ion-icon> 
+      <ion-icon (click)="hideShowFixos(true)" name="md-add"></ion-icon>
+    </div>
+  <ion-list [class.hide]="!statusFixos">
     <ion-item *ngFor="let item of gastosFixosRef$ | async">
 
       <h2>
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
       <h2>
         <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
-        <h2>
-            <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
-            <h2>dividir ?
-              {{item.dividir}} </h2>
+      <h2>
+        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
+      <h2>dividir ? {{item.dividir}} </h2>
     </ion-item>
+    <button ion-button (click)="importarGastosFixos()">Importar gastos fixos</button>
   </ion-list>
-  <button ion-button (click)="importarGastosFixos()">Importar gastos fixos</button>
+
 
   <br>
   <br>
   <br>
   <hr>
-  <ion-list>
-    <h3> crédito </h3>
+  <div id="left">
+      <h3> crédito </h3>
+    </div>
+    <div id="right">
+      <ion-icon (click)="hideShowCredito(false)" name="md-remove"></ion-icon> 
+      <ion-icon (click)="hideShowCredito(true)" name="md-add"></ion-icon>
+    </div>
+  <ion-list [class.hide]="!statusCredito">
+
     <ion-item *ngFor="let item of gastosCreditoRef$ | async">
 
       <h2>
@@ -93,12 +89,11 @@
       <h2>
         <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.parcela}} </h2>
 
-        <h2>
-            <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
+      <h2>
+        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
       <h2>
         <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
-        <h2>dividir ?
-          {{item.dividir}} </h2>
+      <h2>dividir ? {{item.dividir}} </h2>
 
     </ion-item>
   </ion-list>
@@ -108,8 +103,21 @@
   <br>
   <br>
   <hr>
-  <ion-list>
-    <h3> diversos</h3>
+  <!-- <ion-list>
+    <ion-item>
+      <ion-label>diversos</ion-label>
+      <ion-toggle [(ngModel)]="pepperoni" ></ion-toggle>
+    </ion-item>
+  </ion-list> -->
+  <div id="left">
+    <h3>diversos</h3>
+  </div>
+  <div id="right">
+    <ion-icon (click)="hideShowDiversos(false)" name="md-remove"></ion-icon> 
+    <ion-icon (click)="hideShowDiversos(true)" name="md-add"></ion-icon>
+  </div>
+  <ion-list [class.hide]="!statusDiversos">
+
     <ion-item *ngFor="let item of shoppingListRef$ | async" (click)="selectShoppingItem(item)">
 
       <h2>
@@ -123,8 +131,7 @@
 
       <h2>
         <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
-        <h2>dividir ?
-          {{item.dividir}} </h2>
+      <h2>dividir ? {{item.dividir}} </h2>
 
     </ion-item>
 

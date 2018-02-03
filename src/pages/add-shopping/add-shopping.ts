@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase ,FirebaseListObservable} from 'angularfire2/database';
 import { ToastController } from 'ionic-angular';
+import { Observable } from 'rxjs/Observable';
+import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
+import { AlertController } from 'ionic-angular';
+import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
+import * as $ from 'jquery';
+
 
 @IonicPage()
 @Component({
@@ -11,11 +17,12 @@ import { ToastController } from 'ionic-angular';
 export class AddShoppingPage {
   nome;
 
+
   constructor(public navCtrl: NavController,
     public NavParams: NavParams,
     private fdb: AngularFireDatabase,
     private toastCtrl: ToastController) {
-
+     
 
   }
 
@@ -33,7 +40,7 @@ export class AddShoppingPage {
       let msg = this.toastCtrl.create({
         message: 'preencha todos os campos!',
         duration: 3000,
-        position: 'bottom'
+        position: 'top'
       });
 
       msg.onDidDismiss(() => {
