@@ -13,7 +13,7 @@ import { ToastController } from 'ionic-angular';
 })
 
 export class CadastroGastoFixoPage {
-
+  categorias = [];
   gastosFixos$: FirebaseListObservable<ShoppingItem[]>
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -21,9 +21,18 @@ export class CadastroGastoFixoPage {
     private actionSheetCtrl: ActionSheetController,
     private toastCtrl: ToastController) {
     this.gastosFixos$ = this.database.list('gastosFixos/');
+    this.listaCategorias();
   }
 
-
+  listaCategorias() {
+    this.database.list('/categorias/', { preserveSnapshot: true })
+      .subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          this.categorias.push(snapshot.val().descricao);
+          this.categorias.sort();
+        })
+      })
+  }
 
   adicionarGasto(descricao, valor, categoria,dividir) {
     this.database.list("/gastosFixos/").push({

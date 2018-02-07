@@ -28,21 +28,15 @@
     <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="data"></ion-datetime>
   </ion-item>
 
+
   <ion-item>
     <ion-label>Categoria</ion-label>
     <ion-select [(ngModel)]="categoria">
-      <ion-option value="super">super</ion-option>
-      <ion-option value="lazer" >lazer</ion-option>
-      <ion-option value="conexão" >conexão</ion-option>
-      <ion-option value="transporte">transporte</ion-option>
-      <ion-option value="farmácia">farmácia</ion-option>
-      <ion-option value="casa">casa</ion-option>
-      <ion-option value="educação" >educação</ion-option>
-      <ion-option value="poupança" >poupança</ion-option>
-      <ion-option value="bem estar" >bem estar</ion-option>
-      <ion-option value="outros" >outros</ion-option>
+      <ion-option value="{{categoria}}" *ngFor="let categoria of categorias"> {{categoria}}</ion-option>
     </ion-select>
   </ion-item>
+
+
   <ion-item>
     <ion-label>Dividir valor?</ion-label>
     <ion-select [(ngModel)]="dividir">

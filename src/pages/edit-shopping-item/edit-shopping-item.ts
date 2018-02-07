@@ -13,7 +13,7 @@ export class EditShoppingItemPage {
 
   shoppingItemRef$: FirebaseObjectObservable<ShoppingItem>;
   shoppingItem = {} as ShoppingItem;
-
+  categorias = [];
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -34,8 +34,19 @@ export class EditShoppingItemPage {
     //sucbscibe the  object, and assing the result  to this.ShoppingItem
     this.shoppingItemRef$.subscribe(
       shoppingItem => this.shoppingItem = shoppingItem);
+      this.listaCategorias();
+
+    }
   
-  }
+    listaCategorias() {
+      this.database.list('/categorias/', { preserveSnapshot: true })
+        .subscribe(snapshots => {
+          snapshots.forEach(snapshot => {
+            this.categorias.push(snapshot.val().descricao);
+            this.categorias.sort();
+          })
+        })
+    }
 
   //update  our  firebase node  whit new item data
   editShoppingItem(shoppingItem: ShoppingItem) {

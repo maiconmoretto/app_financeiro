@@ -98,6 +98,7 @@ export class ShoppingListPage {
     this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes);
     this.gastosCreditoRef$ = this.database.list('gastos/credito/' + this.ano + '/' + this.mes);
     this.categorias$ = this.database.list('categorias/');
+   
   }
 
   somaTotalGastos() {

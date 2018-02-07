@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase ,FirebaseListObservable} from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { ToastController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
@@ -16,19 +16,29 @@ import * as $ from 'jquery';
 })
 export class AddShoppingPage {
   nome;
-
+  categorias = [];
 
   constructor(public navCtrl: NavController,
     public NavParams: NavParams,
     private fdb: AngularFireDatabase,
-    private toastCtrl: ToastController) {
-     
+    private toastCtrl: ToastController,
+    private database: AngularFireDatabase) {
+    this.listaCategorias();
 
   }
 
+  listaCategorias() {
+    this.fdb.list('/categorias/', { preserveSnapshot: true })
+      .subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          this.categorias.push(snapshot.val().descricao);
+          this.categorias.sort();
+        })
+      })
+  }
 
-  addShoppingItem(descricao, valor, data, gasto_por, categoria,dividir) {
-   
+  addShoppingItem(descricao, valor, data, gasto_por, categoria, dividir) {
+
     if (descricao == undefined
       || valor == undefined
       || data == undefined
@@ -36,7 +46,7 @@ export class AddShoppingPage {
       || categoria == undefined
     ) {
       alert('Preencha todos os campos!');
- 
+
       let msg = this.toastCtrl.create({
         message: 'preencha todos os campos!',
         duration: 3000,

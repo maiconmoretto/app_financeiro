@@ -45,12 +45,17 @@
   <br>
   <hr>
   <div id="left">
-      <h3> Fixos </h3>
-    </div>
-    <div id="right">
-      <ion-icon (click)="hideShowFixos(false)" name="md-remove"></ion-icon> 
+    <h3> Fixos </h3>
+  </div>
+  <div id="right">
+    <button ion-button>
+      <ion-icon (click)="hideShowFixos(false)" name="md-remove"></ion-icon>
+    </button>
+    <button ion-button>
       <ion-icon (click)="hideShowFixos(true)" name="md-add"></ion-icon>
-    </div>
+    </button>
+
+  </div>
   <ion-list [class.hide]="!statusFixos">
     <ion-item *ngFor="let item of gastosFixosRef$ | async">
 
@@ -71,12 +76,16 @@
   <br>
   <hr>
   <div id="left">
-      <h3> crédito </h3>
-    </div>
-    <div id="right">
-      <ion-icon (click)="hideShowCredito(false)" name="md-remove"></ion-icon> 
-      <ion-icon (click)="hideShowCredito(true)" name="md-add"></ion-icon>
-    </div>
+    <h3> crédito </h3>
+  </div>
+  <div id="right">
+      <button ion-button>
+          <ion-icon (click)="hideShowCredito(false)" name="md-remove"></ion-icon>
+        </button>
+        <button ion-button>
+          <ion-icon (click)="hideShowCredito(true)" name="md-add"></ion-icon>
+        </button>
+  </div>
   <ion-list [class.hide]="!statusCredito">
 
     <ion-item *ngFor="let item of gastosCreditoRef$ | async">
@@ -113,8 +122,13 @@
     <h3>diversos</h3>
   </div>
   <div id="right">
-    <ion-icon (click)="hideShowDiversos(false)" name="md-remove"></ion-icon> 
-    <ion-icon (click)="hideShowDiversos(true)" name="md-add"></ion-icon>
+      <button ion-button>
+          <ion-icon (click)="hideShowDiversos(false)" name="md-remove"></ion-icon>
+        </button>
+        <button ion-button>
+          <ion-icon (click)="hideShowDiversos(true)" name="md-add"></ion-icon>
+        </button>
+
   </div>
   <ion-list [class.hide]="!statusDiversos">
 

@@ -13,13 +13,25 @@ import { ToastController } from 'ionic-angular';
   templateUrl: 'gestao-credito.html',
 })
 export class GestaoCreditoPage {
-
+  categorias = [];
   gastosCredito$: FirebaseListObservable<ShoppingItem[]>
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
     private database: AngularFireDatabase,
     private toastCtrl: ToastController) {
     this.gastosCredito$ = this.database.list('gastosCredito/');
+    this.listaCategorias();
+
+  }
+
+  listaCategorias() {
+    this.database.list('/categorias/', { preserveSnapshot: true })
+      .subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          this.categorias.push(snapshot.val().descricao);
+          this.categorias.sort();
+        })
+      })
   }
 
 
