@@ -39,8 +39,15 @@
     </ion-select>
   </ion-item>
 
+    <ion-item>
+      <ion-label>Gasto por</ion-label>
+      <ion-select [(ngModel)]="gasto_por">
+        <ion-option value="Bruna" >Bruna</ion-option>
+        <ion-option value="Maicon" >Maicon</ion-option>
+      </ion-select>
+    </ion-item>
   <br>
-  <button ion-button block (click)="adicionarGasto(descricao,valor,categoria,dividir)">Adicionar</button>
+  <button ion-button block (click)="adicionarGasto(descricao,valor,categoria,dividir,gasto_por)">Adicionar</button>
 
   <ion-list>
     <ion-item *ngFor="let item of gastosFixos$ | async" (click)="selectShoppingItem(item)">
@@ -52,6 +59,9 @@
       <h2>
         <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
       <h2>dividir ? {{item.dividir}} </h2>
+      <h2>
+          <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
+    
 
 
 

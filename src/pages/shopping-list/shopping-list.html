@@ -8,7 +8,15 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
+<br>
+<br>
+<br>
+<br>
 
+<br>
+<br>
+<br>
+<br>
 <ion-content padding>
 
   <div id="left">
@@ -25,14 +33,63 @@
   <br>
   <br>
   <hr>
-  <ion-list>
-    <h3>Gasto por categoria</h3>
+  <div id="left">
+    <h4>por pessoa</h4>
+  </div>
+  <div id="right">
+    <button ion-button>
+      <ion-icon (click)="hideShowPorPessoa(false)" name="md-remove"></ion-icon>
+    </button>
+    <button ion-button>
+      <ion-icon (click)="hideShowPorPessoa(true)" name="md-add"></ion-icon>
+    </button>
+  </div>
+  <ion-list [class.hide]="!statusPorPessoa">
+    <ion-item>
+
+      <h4> Bruna:</h4> apos divisão = R$ {{ ( (gastosDivisiveisBruna + gastosDivisiveisMaicon ) / 2 ) - (gastosDivisiveisBruna)
+      }}
+      <br> total divisiveis = {{gastosDivisiveisBruna}}
+      <br> gastos individuais = {{gastosIndividuaisBruna}}
+      <br> gastos totais = {{ gastosDivisiveisBruna + gastosIndividuaisBruna }}
+    </ion-item>
+    <ion-item>
+      <h4> Maicon:</h4> apos divisão = R$ {{ ( (gastosDivisiveisBruna + gastosDivisiveisMaicon ) / 2 ) - (gastosDivisiveisMaicon)
+      }}
+      <br> total divisiveis = {{gastosDivisiveisMaicon}}
+      <br> gastos individuais = {{gastosIndividuaisMaicon}}
+      <br> gastos totais = {{ gastosDivisiveisMaicon + gastosIndividuaisMaicon }}
+    </ion-item>
+
+
+  </ion-list>
+  <br>
+  <br>
+  <br>
+  <br>
+  <hr>
+  <div id="left">
+    <h4>por categoria</h4>
+  </div>
+  <div id="right">
+    <button ion-button>
+      <ion-icon (click)="hideShowCategorias(false)" name="md-remove"></ion-icon>
+    </button>
+    <button ion-button>
+      <ion-icon (click)="hideShowCategorias(true)" name="md-add"></ion-icon>
+    </button>
+  </div>
+
+  <ion-list [class.hide]="!statusCategorias">
+
     <ion-item *ngFor="let item of categorias$ | async">
 
       <h2>
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
       <h2>
         <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{myObj[item.descricao]}} </h2>
+      <h2>
+        % {{ ( myObj[item.descricao] * 100) / (gastoMes )}} </h2>
 
 
 
@@ -45,7 +102,9 @@
   <br>
   <hr>
   <div id="left">
-    <h3> Fixos </h3>
+
+    <h4> fixos R$ {{totalFixos}}</h4>
+
   </div>
   <div id="right">
     <button ion-button>
@@ -76,15 +135,16 @@
   <br>
   <hr>
   <div id="left">
-    <h3> crédito </h3>
+    <h4> crédito R$ {{totalCredito}}</h4>
+
   </div>
   <div id="right">
-      <button ion-button>
-          <ion-icon (click)="hideShowCredito(false)" name="md-remove"></ion-icon>
-        </button>
-        <button ion-button>
-          <ion-icon (click)="hideShowCredito(true)" name="md-add"></ion-icon>
-        </button>
+    <button ion-button>
+      <ion-icon (click)="hideShowCredito(false)" name="md-remove"></ion-icon>
+    </button>
+    <button ion-button>
+      <ion-icon (click)="hideShowCredito(true)" name="md-add"></ion-icon>
+    </button>
   </div>
   <ion-list [class.hide]="!statusCredito">
 
@@ -119,15 +179,16 @@
     </ion-item>
   </ion-list> -->
   <div id="left">
-    <h3>diversos</h3>
+    <h4>diversos R$ {{totalDiversos}}</h4>
+
   </div>
   <div id="right">
-      <button ion-button>
-          <ion-icon (click)="hideShowDiversos(false)" name="md-remove"></ion-icon>
-        </button>
-        <button ion-button>
-          <ion-icon (click)="hideShowDiversos(true)" name="md-add"></ion-icon>
-        </button>
+    <button ion-button>
+      <ion-icon (click)="hideShowDiversos(false)" name="md-remove"></ion-icon>
+    </button>
+    <button ion-button>
+      <ion-icon (click)="hideShowDiversos(true)" name="md-add"></ion-icon>
+    </button>
 
   </div>
   <ion-list [class.hide]="!statusDiversos">

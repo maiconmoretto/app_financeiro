@@ -44,12 +44,29 @@ export class ShoppingListPage {
   ano;
   stringMes;
   myObj = new Object();
+
+  //divisao
+  totalDivididoMaicon = 0;
   totalMaicon = 0;
+  gastosDivisiveisMaicon = 0;
+  gastosIndividuaisMaicon = 0;
+  gastosTotaisMaicon = 0;
+
   totalBruna = 0;
+  gastosDivisiveisBruna = 0;
+  gastosIndividuaisBruna = 0;
+  gastosTotaisBruna = 0;
+  totalDivididoBruna = 0;
+
+  totalCredito = 0;
+  totalDiversos = 0;
+  totalFixos = 0;
 
   statusDiversos;
   statusCredito;
   statusFixos;
+  statusCategorias;
+  statusPorPessoa;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -92,32 +109,23 @@ export class ShoppingListPage {
         this.saldoMes = total;
       })
   }
-
+ 
   buscaGastos() {
     this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.ano + '/' + this.mes);
     this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes);
     this.gastosCreditoRef$ = this.database.list('gastos/credito/' + this.ano + '/' + this.mes);
     this.categorias$ = this.database.list('categorias/');
-   
-  }
+
+  }  
 
   somaTotalGastos() {
-
-    var totBruna = 0;
-    var totMaicon = 0;
     var total = 0;
     this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          if (snapshot.val().dividir == "sim") {
-            totBruna += Number(snapshot.val().valor / 2);
-            totMaicon += Number(snapshot.val().valor / 2);
-          } else if (snapshot.val().gasto_por == "Maicon" && snapshot.val().dividir == "nao") {
-            totMaicon += Number(snapshot.val().valor);
-          } else if (snapshot.val().gasto_por == "Bruna" && snapshot.val().dividir == "nao") {
-            totBruna += Number(snapshot.val().valor);
-          }
+          this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
           total += Number(snapshot.val().valor);
+          this.totalDiversos += Math.round(Number(snapshot.val().valor));
         });
       })
 
@@ -125,38 +133,60 @@ export class ShoppingListPage {
     this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          if (snapshot.val().dividir == "sim") {
-            totBruna += Number(snapshot.val().valor / 2);
-            totMaicon += Number(snapshot.val().valor / 2);
-          } else if (snapshot.val().gasto_por == "Maicon" && snapshot.val().dividir == "nao") {
-            totMaicon += Number(snapshot.val().valor);
-          } else if (snapshot.val().gasto_por == "Bruna" && snapshot.val().dividir == "nao") {
-            totBruna += Number(snapshot.val().valor);
-          }
-          total += Number(snapshot.val().valor);
+          this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
+          this.totalFixos += Math.round(Number(snapshot.val().valor));
         });
       })
 
     this.database.list('gastos/credito/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          if (snapshot.val().dividir == "sim") {
-            totBruna += Number(snapshot.val().valor / 2);
-            totMaicon += Number(snapshot.val().valor / 2);
-          } else if (snapshot.val().gasto_por == "Maicon" && snapshot.val().dividir == "nao") {
-            totMaicon += Number(snapshot.val().valor);
-          } else if (snapshot.val().gasto_por == "Bruna" && snapshot.val().dividir == "nao") {
-            totBruna += Number(snapshot.val().valor);
-          }
+          this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
           total += Number(snapshot.val().valor);
+          this.totalCredito += Math.round(Number(snapshot.val().valor));
         });
-        this.totalMaicon = totMaicon;
-        this.totalBruna = totBruna;
         this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
         this.restante = Math.round(Number(this.saldoMes) - Number(total));
+
       })
   }
 
+  buscaGastosPorPessoa(gasto_por, dividir, valor) {
+    var totBruna = 0;
+    var totDivididoBruna = 0;
+    //gastos divisiveis
+    var gastosDivBruna = 0;
+    //gastos individuais
+    var gastosIndBruna = 0;
+
+    var totMaicon = 0;
+    var totDivididoMaicon = 0;
+    //gastos divisiveis
+    var gastosDivMaicon = 0;
+    //gastos individuais
+    var gastosIndMaicon = 0;
+    //gastos individuais
+    if (gasto_por == "Maicon" && dividir == "nao") {
+      gastosIndMaicon += Number(valor);
+      console.log("gastosIndMaicon  = " + gastosIndMaicon);
+      //gastos individuais
+    } else if (gasto_por == "Bruna" && dividir == "nao") {
+      gastosIndBruna += Number(valor);
+      console.log("gastosIndBruna  = " + gastosIndBruna);
+      //gastos divisiveis bruna
+    } else if (gasto_por == "Bruna" && dividir == "sim") {
+      gastosDivBruna += Number(valor);
+      console.log("gastosDivBruna  = " + gastosDivBruna);
+      //gastos divisiveis Maicon
+    } else if (gasto_por == "Maicon" && dividir == "sim") {
+      console.log("gastosDivMaicon  = " + gastosDivMaicon);
+      gastosDivMaicon += Number(valor);
+    }
+    this.gastosIndividuaisBruna += Math.round(Number(gastosIndBruna));
+    this.gastosIndividuaisMaicon += Math.round(Number(gastosIndMaicon));
+    this.gastosDivisiveisBruna += Math.round(Number(gastosDivBruna));
+    this.gastosDivisiveisMaicon += Math.round(Number(gastosDivMaicon));
+  }
 
   buscaGastosPorCategoria() {
     this.database.list('categorias/', { preserveSnapshot: true })
@@ -231,7 +261,7 @@ export class ShoppingListPage {
 
       let alert = this.alertCtrl.create({
         title: 'Importar gasos fixos',
-        message: 'Já foi realizada uma importação, deseja imortar novamente?<br>Isso irá apagar a importação existente!',
+        message: 'Já foi realizada uma importação, deseja importar novamente?<br>Isso irá apagar a importação existente!',
         buttons: [
           {
             text: 'Cancelar',
@@ -251,7 +281,10 @@ export class ShoppingListPage {
                     this.database.list("/gastos/fixos/" + this.ano + '/' + this.mes).push({
                       valor: snapshot.val().valor,
                       descricao: snapshot.val().descricao,
-                      gastoFixo: true
+                      gastoFixo: true,
+                      dividir: snapshot.val().dividir,
+                      gasto_por: snapshot.val().gasto_por
+
                     });
                   });
 
@@ -269,7 +302,9 @@ export class ShoppingListPage {
             this.database.list("/gastos/fixos/" + this.ano + '/' + this.mes).push({
               valor: snapshot.val().valor,
               descricao: snapshot.val().descricao,
-              gastoFixo: true
+              gastoFixo: true,
+              dividir: snapshot.val().dividir,
+              gasto_por: snapshot.val().gasto_por,
             });
           });
 
@@ -297,6 +332,12 @@ export class ShoppingListPage {
   }
   hideShowFixos(status) {
     this.statusFixos = status;
+  }
+  hideShowCategorias(status) {
+    this.statusCategorias = status;
+  }
+  hideShowPorPessoa(status) {
+    this.statusPorPessoa = status;
   }
 
 

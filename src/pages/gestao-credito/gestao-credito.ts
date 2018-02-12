@@ -15,8 +15,8 @@ import { ToastController } from 'ionic-angular';
 export class GestaoCreditoPage {
   categorias = [];
   gastosCredito$: FirebaseListObservable<ShoppingItem[]>
-  constructor(public navCtrl: NavController, 
-    public navParams: NavParams, 
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
     private database: AngularFireDatabase,
     private toastCtrl: ToastController) {
     this.gastosCredito$ = this.database.list('gastosCredito/');
@@ -35,17 +35,17 @@ export class GestaoCreditoPage {
   }
 
 
-  adicionarGasto(descricao, valor, prestacoes, data, gasto_por,categoria) {
+  adicionarGasto(descricao, valor, prestacoes, data, gasto_por, categoria) {
     var mes = data.substr(5, 2);
     var ano = data.substr(0, 4);
 
-    //cadastro no node gastosCredito
+    // cadastro no node gastosCredito
     this.database.list("/gastosCredito/").push({
       descricao: descricao,
       valor: valor,
       prestacoes: prestacoes,
       data: data,
-      categoria:categoria
+      categoria: categoria
     });
 
 
@@ -54,8 +54,20 @@ export class GestaoCreditoPage {
       if (mes == 13) {
         mes = "01";
         ano = Number(ano) + Number(1);
+      } else {
+        if (mes.length != 2) {
+          mes = "0" + mes;
+        }
       }
 
+      this.database.list("/gastos/credito/" + ano + '/' + mes).push({
+        descricao: descricao,
+        valor: valor,
+        data: data,
+        parcela: (i + 1) + "/" + prestacoes,
+        gasto_por: gasto_por,
+        categoria: categoria
+      });
       mes++;
     }
     let toast = this.toastCtrl.create({
@@ -73,7 +85,7 @@ export class GestaoCreditoPage {
     // this.navCtrl.pop();
 
 
-    
+
   }
 
 

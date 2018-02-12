@@ -33,13 +33,14 @@ export class CadastroGastoFixoPage {
         })
       })
   }
-
-  adicionarGasto(descricao, valor, categoria,dividir) {
+ 
+  adicionarGasto(descricao, valor, categoria,dividir,gasto_por) {
     this.database.list("/gastosFixos/").push({
       descricao: descricao,
       valor: valor,
       categoria: categoria,
-      dividir: dividir
+      dividir: dividir,
+      gasto_por: gasto_por,
     });
     let toast = this.toastCtrl.create({
       message: 'Adicionado gasto fixo com sucesso!',
@@ -50,6 +51,7 @@ export class CadastroGastoFixoPage {
     toast.onDidDismiss(() => {
       // console.log('Dismissed toast');
     });
+    toast.present();
   }
 
 
@@ -82,7 +84,7 @@ export class CadastroGastoFixoPage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('the user has selected the cancel button');
+    
 
           }
         },
