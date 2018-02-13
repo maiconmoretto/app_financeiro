@@ -168,18 +168,18 @@ export class ShoppingListPage {
     //gastos individuais
     if (gasto_por == "Maicon" && dividir == "nao") {
       gastosIndMaicon += Number(valor);
-      console.log("gastosIndMaicon  = " + gastosIndMaicon);
+   
       //gastos individuais
     } else if (gasto_por == "Bruna" && dividir == "nao") {
       gastosIndBruna += Number(valor);
-      console.log("gastosIndBruna  = " + gastosIndBruna);
+
       //gastos divisiveis bruna
     } else if (gasto_por == "Bruna" && dividir == "sim") {
       gastosDivBruna += Number(valor);
-      console.log("gastosDivBruna  = " + gastosDivBruna);
+
       //gastos divisiveis Maicon
     } else if (gasto_por == "Maicon" && dividir == "sim") {
-      console.log("gastosDivMaicon  = " + gastosDivMaicon);
+   
       gastosDivMaicon += Number(valor);
     }
     this.gastosIndividuaisBruna += Math.round(Number(gastosIndBruna));
