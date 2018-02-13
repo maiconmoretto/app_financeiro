@@ -55,8 +55,10 @@ export class GestaoCreditoPage {
         mes = "01";
         ano = Number(ano) + Number(1);
       } else {
-        if (mes.length != 2) {
-          mes = "0" + mes;
+        if (mes < 10) {
+          if (mes.length != 2) {
+            mes = "0" + mes;
+          }
         }
       }
 
