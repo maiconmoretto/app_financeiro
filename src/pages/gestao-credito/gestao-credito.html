@@ -51,7 +51,7 @@
   <button ion-button block (click)="adicionarGasto(descricao,valor,prestacoes,data,gasto_por,categoria,dividir)">Adicionar</button>
 
   <ion-list>
-    <ion-item *ngFor="let item of gastosCredito$ | async">
+    <ion-item *ngFor="let item of gastosCredito$ | async" (click)="selectShoppingItem(item)">
 
       <h2>
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
@@ -61,10 +61,12 @@
         X Parcelas {{item.prestacoes}} </h2>
       <h2>
         <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}}</h2>
+      <h2>
+        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.gasto_por}}</h2>
 
 
       <h2>
-        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{ item.data.substr(5, 2) + '/' + item.data.substr(0, 4)}} </h2>
+        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{ item.dataInicio ? item.dataInicio.substr(5, 2) + '/' + item.dataInicio.substr(0, 4) : ''}} </h2>
 
         <h2>dividir ?
           {{item.dividir}} </h2>

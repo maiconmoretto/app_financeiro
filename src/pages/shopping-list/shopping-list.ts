@@ -25,9 +25,10 @@ export class ShoppingListPage {
   data;
   gastoMes = 0;
   gastoFixo = 0;;
-  gastosCredito = 0;;
-  gastosDiversos = 0;;
+  gastosCredito = 0;
+  gastosDiversos = 0;
   restante = 0;
+  arrayGastoCredito = [];
 
   categorias = [];
   supermercado;
@@ -75,7 +76,6 @@ export class ShoppingListPage {
     private alertCtrl: AlertController) {
     //deleta toda colecao
     // this.database.list('gastos').remove();
-
     this.data = this.navParams.data.obj;
 
     if (this.data == undefined) {
@@ -109,14 +109,14 @@ export class ShoppingListPage {
         this.saldoMes = total;
       })
   }
- 
+
   buscaGastos() {
     this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.ano + '/' + this.mes);
     this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes);
-    this.gastosCreditoRef$ = this.database.list('gastos/credito/' + this.ano + '/' + this.mes);
+
     this.categorias$ = this.database.list('categorias/');
 
-  }  
+  }
 
   somaTotalGastos() {
     var total = 0;
@@ -138,15 +138,38 @@ export class ShoppingListPage {
         });
       })
 
-    this.database.list('gastos/credito/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
+    this.database.list('gastosCredito/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
-          total += Number(snapshot.val().valor);
-          this.totalCredito += Math.round(Number(snapshot.val().valor));
+          var descricao = snapshot.val().descricao;
+          var ano = snapshot.val().ano;
+          var mes = snapshot.val().mes;
+
+          this.database.list('gastosCreditoHistorico/' + ano + '/' + mes, { preserveSnapshot: true })
+            .subscribe(snapshots => {
+              snapshots.forEach(snapshot => {
+                if (descricao == snapshot.val().descricao) {
+                  this.arrayGastoCredito.push(snapshot.val());
+                  this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
+                  total += Number(snapshot.val().valor);
+                  this.totalCredito += Math.round(Number(snapshot.val().valor));
+                }
+              });
+              this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
+              this.restante = Math.round(Number(this.saldoMes) - Number(total));
+
+            })
+
+
+
+
+
+          // this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
+          // total += Number(snapshot.val().valor);
+          // this.totalCredito += Math.round(Number(snapshot.val().valor));
         });
-        this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
-        this.restante = Math.round(Number(this.saldoMes) - Number(total));
+        // this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
+        // this.restante = Math.round(Number(this.saldoMes) - Number(total));
 
       })
   }
@@ -168,7 +191,7 @@ export class ShoppingListPage {
     //gastos individuais
     if (gasto_por == "Maicon" && dividir == "nao") {
       gastosIndMaicon += Number(valor);
-   
+
       //gastos individuais
     } else if (gasto_por == "Bruna" && dividir == "nao") {
       gastosIndBruna += Number(valor);
@@ -179,7 +202,7 @@ export class ShoppingListPage {
 
       //gastos divisiveis Maicon
     } else if (gasto_por == "Maicon" && dividir == "sim") {
-   
+
       gastosDivMaicon += Number(valor);
     }
     this.gastosIndividuaisBruna += Math.round(Number(gastosIndBruna));
@@ -198,7 +221,6 @@ export class ShoppingListPage {
           // object.property syntax.
           // The first contains invalid characters (spaces), so must be
           // written inside square brackets.
-
           this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
             .subscribe(snapshots => {
               var total = 0;

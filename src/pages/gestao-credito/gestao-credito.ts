@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
@@ -18,7 +18,8 @@ export class GestaoCreditoPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController,
+    private actionSheetCtrl: ActionSheetController, ) {
     this.gastosCredito$ = this.database.list('gastosCredito/');
     this.listaCategorias();
 
@@ -35,7 +36,7 @@ export class GestaoCreditoPage {
   }
 
 
-  adicionarGasto(descricao, valor, prestacoes, data, gasto_por, categoria) {
+  adicionarGasto(descricao, valor, prestacoes, data, gasto_por, categoria, dividir) {
     var mes = data.substr(5, 2);
     var ano = data.substr(0, 4);
 
@@ -44,8 +45,12 @@ export class GestaoCreditoPage {
       descricao: descricao,
       valor: valor,
       prestacoes: prestacoes,
-      data: data,
-      categoria: categoria
+      dataInicio: data,
+      mes: mes,
+      ano: ano,
+      categoria: categoria,
+      gasto_por: gasto_por,
+      dividir: dividir
     });
 
 
@@ -62,7 +67,7 @@ export class GestaoCreditoPage {
         }
       }
 
-      this.database.list("/gastos/credito/" + ano + '/' + mes).push({
+      this.database.list("/gastosCreditoHistorico/" + ano + '/' + mes + "/").push({
         descricao: descricao,
         valor: valor,
         data: data,
@@ -72,6 +77,8 @@ export class GestaoCreditoPage {
       });
       mes++;
     }
+
+
     let toast = this.toastCtrl.create({
       message: 'Adicionado gasto com crédito com sucesso!',
       duration: 3000,
@@ -88,6 +95,35 @@ export class GestaoCreditoPage {
 
 
 
+  }
+
+  selectShoppingItem(gastosCredito: ShoppingItem) {
+    //display a actionsheet
+    //1 - edit 
+    //2 - remove item
+    //3 - cancel selection
+    this.actionSheetCtrl.create({
+      title: '',
+      buttons: [
+
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            //delete the current item
+            this.gastosCredito$.remove(gastosCredito.$key);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+
+          }
+        },
+      ]
+
+    }).present();
   }
 
 
