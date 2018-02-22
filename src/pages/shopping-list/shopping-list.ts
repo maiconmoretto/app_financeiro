@@ -145,7 +145,7 @@ export class ShoppingListPage {
           var ano = snapshot.val().ano;
           var mes = snapshot.val().mes;
 
-          this.database.list('gastosCreditoHistorico/' + ano + '/' + mes, { preserveSnapshot: true })
+          this.database.list('gastosCreditoHistorico/' + this.ano + '/' +  this.mes, { preserveSnapshot: true })
             .subscribe(snapshots => {
               snapshots.forEach(snapshot => {
                 if (descricao == snapshot.val().descricao) {
