@@ -138,6 +138,7 @@ export class ShoppingListPage {
         });
       })
 
+
     this.database.list('gastosCredito/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
@@ -145,7 +146,7 @@ export class ShoppingListPage {
           var ano = snapshot.val().ano;
           var mes = snapshot.val().mes;
 
-          this.database.list('gastosCreditoHistorico/' + this.ano + '/' +  this.mes, { preserveSnapshot: true })
+          this.database.list('gastosCreditoHistorico/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
             .subscribe(snapshots => {
               snapshots.forEach(snapshot => {
                 if (descricao == snapshot.val().descricao) {
@@ -155,23 +156,12 @@ export class ShoppingListPage {
                   this.totalCredito += Math.round(Number(snapshot.val().valor));
                 }
               });
-              this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
-              this.restante = Math.round(Number(this.saldoMes) - Number(total));
-
+              this.gastoMes = Math.round(Number(this.totalFixos) + Number(this.totalDiversos) + Number(this.totalCredito));
+              this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
             })
-
-
-
-
-
-          // this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
-          // total += Number(snapshot.val().valor);
-          // this.totalCredito += Math.round(Number(snapshot.val().valor));
         });
-        // this.gastoMes = Math.round(Number(this.gastoMes) + Number(total));
-        // this.restante = Math.round(Number(this.saldoMes) - Number(total));
-
       })
+
   }
 
   buscaGastosPorPessoa(gasto_por, dividir, valor) {

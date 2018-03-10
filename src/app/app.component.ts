@@ -34,9 +34,9 @@ export class MyApp {
       { title: 'Página Inicial', component: ShoppingListPage  },
       { title: 'Adicionar gasto', component: AddShoppingPage },
       { title: 'Gasto Fixo', component: CadastroGastoFixoPage },
-      { title: 'Categorias', component: GestaoCategoriasPage },
       { title: 'Crédito', component: GestaoCreditoPage },
       { title: 'Receita', component: GestaoReceitaPage },
+      { title: 'Categorias', component: GestaoCategoriasPage },
       { title: 'Buscar', component:  HomePage }
 
     ];
