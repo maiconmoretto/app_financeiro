@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { AddShoppingPage } from '../pages/add-shopping/add-shopping';
@@ -11,8 +10,7 @@ import { GestaoCategoriasPage } from '../pages/gestao-categorias/gestao-categori
 import { GestaoCreditoPage } from '../pages/gestao-credito/gestao-credito';
 import { GestaoReceitaPage } from '../pages/gestao-receita/gestao-receita';
 import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
-
-
+import { ResumoGastosPage } from '../pages/resumo-gastos/resumo-gastos';
 
 
 @Component({
@@ -21,7 +19,7 @@ import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = ShoppingListPage;
+  rootPage: any = ResumoGastosPage;
   // rootPage:any = TabsPage;
   // rootPage:any = HomePage;
   pages: Array<{ title: string, component: any }>;
@@ -31,7 +29,8 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Página Inicial', component: ShoppingListPage  },
+      { title: 'Página Inicial', component: ResumoGastosPage  },
+      { title: 'Detalhe gastos', component: ShoppingListPage  },
       { title: 'Adicionar gasto', component: AddShoppingPage },
       { title: 'Gasto Fixo', component: CadastroGastoFixoPage },
       { title: 'Crédito', component: GestaoCreditoPage },

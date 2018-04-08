@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Gastos {{stringMes}} / {{ ano }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="navigateToaddShoppingPage()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <div id="left">
+        <h2>R$ {{gastoMes}} </h2>
+        gasto
+      </div>
+      <div id="right">
+        <h2>R$ {{restante}} </h2>
+        restante
+      </div>
+    </ion-item>
+  </ion-list>
+  <br>
+  <button ion-button block (click)="verDetalhes()">Ver detalhes  &nbsp; &nbsp;
+    <ion-icon ios="ios-arrow-round-down" md="md-arrow-round-down"></ion-icon></button>
+</ion-content>
