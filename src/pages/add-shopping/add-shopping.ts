@@ -72,7 +72,7 @@ export class AddShoppingPage {
     let toast = this.toastCtrl.create({
       message: 'Adicionado gasto com sucesso!',
       duration: 3000,
-      position: 'bottom'
+      position: 'top'
     });
 
     toast.onDidDismiss(() => {
