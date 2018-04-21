@@ -7,7 +7,7 @@ import { ShoppingListPage } from '../shopping-list/shopping-list';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { AlertController } from 'ionic-angular';
 
- 
+
 @Component({
   selector: 'page-resumo-gastos',
   templateUrl: 'resumo-gastos.html',
@@ -31,6 +31,7 @@ export class ResumoGastosPage {
   totalCredito = 0;
   totalDiversos = 0;
   totalFixos = 0;
+  listaMaioresGastos = [];
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -40,6 +41,8 @@ export class ResumoGastosPage {
     //deleta toda colecao
     // this.database.list('gastos').remove();
     this.data = this.navParams.data.obj;
+
+
 
     if (this.data == undefined) {
       var d = new Date();
@@ -54,7 +57,7 @@ export class ResumoGastosPage {
     this.somaTotalReceita();
     this.somaTotalGastos();
     this.buscaGastos();
-   }
+  }
 
   somaTotalReceita() {
     this.database.list('receita/', { preserveSnapshot: true })
@@ -79,6 +82,7 @@ export class ResumoGastosPage {
     this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
+          this.adicionaGastos(snapshot.val());
           total += Number(snapshot.val().valor);
           this.totalDiversos += Math.round(Number(snapshot.val().valor));
         });
@@ -88,6 +92,7 @@ export class ResumoGastosPage {
     this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
+          this.adicionaGastos(snapshot.val());
           this.totalFixos += Math.round(Number(snapshot.val().valor));
         });
       })
@@ -103,6 +108,7 @@ export class ResumoGastosPage {
             .subscribe(snapshots => {
               snapshots.forEach(snapshot => {
                 if (descricao == snapshot.val().descricao) {
+                  this.adicionaGastos(snapshot.val());
                   this.arrayGastoCredito.push(snapshot.val());
                   total += Number(snapshot.val().valor);
                   this.totalCredito += Math.round(Number(snapshot.val().valor));
@@ -115,6 +121,27 @@ export class ResumoGastosPage {
       })
 
   }
+  adicionaGastos($gasto) {
+    this.listaMaioresGastos.push(
+      {
+        "valor": $gasto.valor,
+        "descricao": $gasto.descricao,
+      }
+    );
+    this.listaMaioresGastos.sort(sortFunction);
+    function sortFunction(a, b) {
+      if (Math.round(a["valor"]) === Math.round(b["valor"])) {
+        return 0;
+      }
+      else {
+        return (Math.round(a["valor"]) < Math.round(b["valor"])) ? 1 : -1;
+      }
+    }
+    this.listaMaioresGastos.length = 5;
+
+  }
+
+
 
   verDetalhes() {
     //navigagte  the user to AddShoppingPage

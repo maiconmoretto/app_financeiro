@@ -9,7 +9,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+    <hr>
   <ion-list>
     <ion-item>
       <div id="left">
@@ -22,7 +23,19 @@
       </div>
     </ion-item>
   </ion-list>
+  <hr>
+
+  <ion-item>5 maiores gastos do mês:</ion-item>
+  <ion-item *ngFor="let item of listaMaioresGastos;">
+    <h2>
+      <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+    <h2>
+      <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+  </ion-item>
+
+
   <br>
-  <button ion-button block (click)="verDetalhes()">Ver detalhes  &nbsp; &nbsp;
-    <ion-icon ios="ios-arrow-round-down" md="md-arrow-round-down"></ion-icon></button>
+  <button ion-button block (click)="verDetalhes()">Ver detalhes &nbsp; &nbsp;
+    <ion-icon ios="ios-arrow-round-down" md="md-arrow-round-down"></ion-icon>
+  </button>
 </ion-content>
