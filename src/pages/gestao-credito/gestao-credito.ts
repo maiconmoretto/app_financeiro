@@ -39,6 +39,9 @@ export class GestaoCreditoPage {
   adicionarGasto(descricao, valor, prestacoes, data, gasto_por, categoria, dividir) {
     var mes = data.substr(5, 2);
     var ano = data.substr(0, 4);
+    var diaAtual = new Date().getDate();
+    var mesAtual = new Date().getMonth() < 10 ? "0" + (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
+    var anoAtual = new Date().getFullYear();
 
     // cadastro no node gastosCredito
     this.database.list("/gastosCredito/").push({
@@ -50,7 +53,8 @@ export class GestaoCreditoPage {
       ano: ano,
       categoria: categoria,
       gasto_por: gasto_por,
-      dividir: dividir
+      dividir: dividir,
+      data_cadastro: diaAtual + '/'+  mesAtual + '/' + anoAtual,
     });
 
 
@@ -73,7 +77,8 @@ export class GestaoCreditoPage {
         data: data,
         parcela: (i + 1) + "/" + prestacoes,
         gasto_por: gasto_por,
-        categoria: categoria
+        categoria: categoria,
+        data_cadastro:  diaAtual + '/'+  mesAtual + '/' + anoAtual,
       });
       mes++;
     }

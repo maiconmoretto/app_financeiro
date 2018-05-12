@@ -42,6 +42,8 @@
       <br> total divisiveis = {{gastosDivisiveisBruna}}
       <br> gastos individuais = {{gastosIndividuaisBruna}}
       <br> gastos totais = {{ gastosDivisiveisBruna + gastosIndividuaisBruna }}
+      <br>
+      <button ion-button (click)="detalheGastoPessoa('Bruna')">Detalhes de gasto de Bruna</button>
     </ion-item>
     <ion-item>
       <h4> Maicon:</h4> apos divisão = R$ {{ ( (gastosDivisiveisBruna + gastosDivisiveisMaicon ) / 2 ) - (gastosDivisiveisMaicon)
@@ -49,6 +51,8 @@
       <br> total divisiveis = {{gastosDivisiveisMaicon}}
       <br> gastos individuais = {{gastosIndividuaisMaicon}}
       <br> gastos totais = {{ gastosDivisiveisMaicon + gastosIndividuaisMaicon }}
+      <br>
+      <button ion-button (click)="detalheGastoPessoa('Maicon')">Detalhes de gasto de Maicon</button>
     </ion-item>
   </ion-list>
 
@@ -99,7 +103,9 @@
         <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
       <h2>
         <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
-      <h2>dividir ? {{item.dividir}} </h2>
+      <h2>
+        <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
+      <h2>dividir ? {{item.dividir ? 'sim' : 'não'}} </h2>
     </ion-item>
     <button ion-button (click)="importarGastosFixos()">Importar gastos fixos</button>
   </ion-list>
@@ -134,7 +140,7 @@
         <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
       <h2>
         <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
-      <h2>dividir ? {{item.dividir}} </h2>
+      <h2>dividir ? {{item.dividir ? 'sim' : 'não'}} </h2>
 
     </ion-item>
   </ion-list>
@@ -165,7 +171,7 @@
         <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
       <h2>
         <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
-      <h2>dividir ? {{item.dividir}} </h2>
+      <h2>dividir ? {{item.dividir ? 'sim' : 'não'}} </h2>
     </ion-item>
   </ion-list>
 

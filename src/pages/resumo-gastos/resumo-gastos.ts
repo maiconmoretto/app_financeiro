@@ -38,8 +38,7 @@ export class ResumoGastosPage {
     private database: AngularFireDatabase,
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController) {
-    //deleta toda colecao
-    // this.database.list('gastos').remove();
+
     this.data = this.navParams.data.obj;
 
 
@@ -53,6 +52,22 @@ export class ResumoGastosPage {
       this.mes = this.data.substr(5, 2);
       this.ano = this.data.substr(0, 4);
     }
+
+
+    //   this.database.list('gastos/diversos/' + this.ano + '/' + this.mes,
+    //   {
+    //     query: {
+    //       orderByChild: 'gasto_por',
+    //       equalTo: 'Maicon'
+    //     }
+    //   }
+    // )
+    //   .subscribe(snapshots => {
+    //     snapshots.forEach(snapshot => {
+    //       console.log('aqui ' + snapshot.valor);
+    //     });
+    //   })
+
     this.buscaMes();
     this.somaTotalReceita();
     this.somaTotalGastos();
@@ -150,6 +165,38 @@ export class ResumoGastosPage {
   navigateToaddShoppingPage() {
     //navigagte  the user to AddShoppingPage
     this.navCtrl.push(AddShoppingPage);
+  }
+
+  vaiParaMes(vaiPara) {
+    var d = new Date();
+    var mes;
+    var ano;
+    var data;
+
+    if (vaiPara == 'proximo') {
+      if (d.getMonth() == 12) {
+        mes = '01';
+        ano = (d.getFullYear() + 2);
+        data = ano + '-' + mes;
+      } else {
+        mes = (d.getMonth() + 2) < 10 ? '0' + (d.getMonth() + 2) : (d.getMonth() + 2);
+        ano = d.getFullYear();
+        data = ano + '-' + mes;
+      }
+    } else {
+      if (d.getMonth() == 2) {
+        mes = '12';
+        ano = (d.getFullYear() - 1);
+        data = ano + '-' + mes;
+      } else {
+        mes = (d.getMonth() - 1) < 10 ? '0' + (d.getMonth() - 1) : (d.getMonth() - 1);
+        ano = d.getFullYear();
+        data = ano + '-' + mes;
+      }
+    }
+
+    this.navCtrl.push(ShoppingListPage, { obj: data });
+
   }
 
   buscaMes() {

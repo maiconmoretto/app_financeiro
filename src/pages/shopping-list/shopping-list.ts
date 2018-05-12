@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-//import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { AlertController } from 'ionic-angular';
 import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
+import { DetalheGastoPessoaPage } from '../detalhe-gasto-pessoa/detalhe-gasto-pessoa';
 import * as $ from 'jquery';
 
 
@@ -295,7 +295,8 @@ export class ShoppingListPage {
                       descricao: snapshot.val().descricao,
                       gastoFixo: true,
                       dividir: snapshot.val().dividir,
-                      gasto_por: snapshot.val().gasto_por
+                      gasto_por: snapshot.val().gasto_por,
+                      categoria: snapshot.val().categoria
 
                     });
                   });
@@ -328,6 +329,20 @@ export class ShoppingListPage {
     //navigagte  the user to AddShoppingPage
     this.navCtrl.push(AddShoppingPage);
   }
+  detalheGastoPessoa(nome) {
+    var d = new Date();
+    var data = "";
+
+    var mes = (d.getMonth() + 1) < 10 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
+    data = d.getFullYear() + '-' + mes;
+
+    this.navCtrl.push(DetalheGastoPessoaPage, {
+      data: data,
+      nome: nome,
+    }
+    );
+  }
+
 
   buscaMes() {
     var date = new Date(this.mes),
