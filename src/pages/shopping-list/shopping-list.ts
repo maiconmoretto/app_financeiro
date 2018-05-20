@@ -145,12 +145,25 @@ export class ShoppingListPage {
           var descricao = snapshot.val().descricao;
           var ano = snapshot.val().ano;
           var mes = snapshot.val().mes;
+          var dividir = snapshot.val().dividir;
+          var gasto_por = snapshot.val().gasto_por;
 
           this.database.list('gastosCreditoHistorico/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
             .subscribe(snapshots => {
               snapshots.forEach(snapshot => {
                 if (descricao == snapshot.val().descricao) {
-                  this.arrayGastoCredito.push(snapshot.val());
+                  this.arrayGastoCredito.push(
+                    {
+                      categoria: snapshot.val().categoria,
+                      data: snapshot.val().data,
+                      data_cadastro: snapshot.val().data_cadastro,
+                      descricao: snapshot.val().descricao,
+                      gasto_por: snapshot.val().gasto_por,
+                      parcela: snapshot.val().parcela,
+                      dividir: dividir,
+                      valor: snapshot.val().valor,
+                     }
+                  );
                   this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
                   total += Number(snapshot.val().valor);
                   this.totalCredito += Math.round(Number(snapshot.val().valor));
