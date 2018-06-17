@@ -6,7 +6,6 @@ import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { AlertController } from 'ionic-angular';
 import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
-import { DetalheGastoPessoaPage } from '../detalhe-gasto-pessoa/detalhe-gasto-pessoa';
 import * as $ from 'jquery';
 
 
@@ -162,7 +161,7 @@ export class ShoppingListPage {
                       parcela: snapshot.val().parcela,
                       dividir: dividir,
                       valor: snapshot.val().valor,
-                     }
+                    }
                   );
                   this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
                   total += Number(snapshot.val().valor);
@@ -219,21 +218,66 @@ export class ShoppingListPage {
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           var categoria = snapshot.val().descricao;
-
-          // Add two expando properties that cannot be written in the
-          // object.property syntax.
-          // The first contains invalid characters (spaces), so must be
-          // written inside square brackets.
-          this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
+          //soma gastos diversos por categoria
+          this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
+            preserveSnapshot: true,
+            query: {
+              orderByChild: 'categoria',
+              equalTo: categoria
+            }
+          })
             .subscribe(snapshots => {
               var total = 0;
               snapshots.forEach(snapshot => {
-                if (categoria == snapshot.val().categoria) {
-                  this.myObj[categoria] = this.myObj[categoria] == undefined ? snapshot.val().valor : Number(this.myObj[categoria]) + Number(snapshot.val().valor);
-
-                }
+                this.myObj[categoria] = this.myObj[categoria] == undefined ? snapshot.val().valor : Number(this.myObj[categoria]) + Number(snapshot.val().valor);
               });
             })
+
+          //soma gastos fixos por categoria
+          this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
+            preserveSnapshot: true,
+            query: {
+              orderByChild: 'categoria',
+              equalTo: categoria
+            }
+          })
+            .subscribe(snapshots => {
+              var total = 0;
+              snapshots.forEach(snapshot => {
+                this.myObj[categoria] = this.myObj[categoria] == undefined ?  Math.ceil( snapshot.val().valor ):  
+                Math.ceil(Number(this.myObj[categoria]) + Number(snapshot.val().valor) );
+           
+              });
+            })
+            console.log('entrou');
+          //soma gastos fixos por categoria
+          this.database.list('gastosCredito/', { preserveSnapshot: true })
+            .subscribe(snapshots => {
+              snapshots.forEach(snapshot => {
+           
+                var descricao = snapshot.val().descricao;
+                var ano = snapshot.val().ano;
+                var mes = snapshot.val().mes;
+                console.log('desc '+descricao); 
+                this.database.list('gastosCreditoHistorico/' + this.ano + '/' + this.mes, { preserveSnapshot: true, })
+                  .subscribe(snapshots => {
+                    snapshots.forEach(snapshot => {
+                      if (descricao == snapshot.val().descricao) {
+                        if (categoria == snapshot.val().categoria) {
+                          this.myObj[categoria] = this.myObj[categoria] == undefined ? snapshot.val().valor : Number(this.myObj[categoria]) + Number(snapshot.val().valor);
+                        }
+                      }
+                    });
+
+                  })
+              });
+            })
+
+
+
+
+
+
         });
       })
   }
@@ -282,79 +326,30 @@ export class ShoppingListPage {
 
 
   importarGastosFixos() {
-    if (this.database.list('gastos/' + this.ano + '/' + this.mes + '/gastosFixos/') != null) {
-
-      let alert = this.alertCtrl.create({
-        title: 'Importar gasos fixos',
-        message: 'Já foi realizada uma importação, deseja importar novamente?<br>Isso irá apagar a importação existente!',
-        buttons: [
-          {
-            text: 'Cancelar',
-            role: 'cancel',
-            handler: () => {
-
-            }
-          },
-          {
-            text: 'Importar',
-            handler: () => {
-              this.database.list('gastos/fixos/' + this.ano + '/' + this.mes).remove();
-              this.database.list('gastosFixos/', { preserveSnapshot: true })
-                .subscribe(snapshots => {
-                  var total = 0;
-                  snapshots.forEach(snapshot => {
-                    this.database.list("/gastos/fixos/" + this.ano + '/' + this.mes).push({
-                      valor: snapshot.val().valor,
-                      descricao: snapshot.val().descricao,
-                      gastoFixo: true,
-                      dividir: snapshot.val().dividir,
-                      gasto_por: snapshot.val().gasto_por,
-                      categoria: snapshot.val().categoria
-
-                    });
-                  });
-
-                })
-            }
-          }
-        ]
-      });
-      alert.present();
-    } else {
-      this.database.list('gastosFixos/', { preserveSnapshot: true })
-        .subscribe(snapshots => {
-          var total = 0;
-          snapshots.forEach(snapshot => {
-            this.database.list("/gastos/fixos/" + this.ano + '/' + this.mes).push({
-              valor: snapshot.val().valor,
-              descricao: snapshot.val().descricao,
-              gastoFixo: true,
-              dividir: snapshot.val().dividir,
-              gasto_por: snapshot.val().gasto_por,
-            });
+    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes).remove();
+    this.database.list('gastosFixos/', { preserveSnapshot: true })
+      .subscribe(snapshots => {
+        var total = 0;
+        snapshots.forEach(snapshot => {
+          this.database.list("/gastos/fixos/" + this.ano + '/' + this.mes).push({
+            valor: snapshot.val().valor,
+            descricao: snapshot.val().descricao,
+            gastoFixo: true,
+            dividir: snapshot.val().dividir,
+            categoria: snapshot.val().categoria,
+            gasto_por: snapshot.val().gasto_por,
           });
+        });
 
-        })
-    }
+      })
+
   }
 
   navigateToaddShoppingPage() {
     //navigagte  the user to AddShoppingPage
     this.navCtrl.push(AddShoppingPage);
   }
-  detalheGastoPessoa(nome) {
-    var d = new Date();
-    var data = "";
 
-    var mes = (d.getMonth() + 1) < 10 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
-    data = d.getFullYear() + '-' + mes;
-
-    this.navCtrl.push(DetalheGastoPessoaPage, {
-      data: data,
-      nome: nome,
-    }
-    );
-  }
 
 
   buscaMes() {

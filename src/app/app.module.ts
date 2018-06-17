@@ -23,7 +23,6 @@ import {EditShoppingItemPage} from '../pages/edit-shopping-item/edit-shopping-it
 import {GestaoCategoriasPage} from '../pages/gestao-categorias/gestao-categorias'; 
 import { GestaoReceitaPage } from '../pages/gestao-receita/gestao-receita';
 import { ResumoGastosPage } from '../pages/resumo-gastos/resumo-gastos';
-import { DetalheGastoPessoaPage } from '../pages/detalhe-gasto-pessoa/detalhe-gasto-pessoa';
 
   
 @NgModule({
@@ -41,7 +40,6 @@ import { DetalheGastoPessoaPage } from '../pages/detalhe-gasto-pessoa/detalhe-ga
     GestaoCategoriasPage,
     GestaoReceitaPage,
     ResumoGastosPage,
-    DetalheGastoPessoaPage,
   ],
   imports: [
     BrowserModule,
@@ -65,8 +63,7 @@ import { DetalheGastoPessoaPage } from '../pages/detalhe-gasto-pessoa/detalhe-ga
     EditShoppingItemPage,
     GestaoCategoriasPage,
     GestaoReceitaPage,
-    ResumoGastosPage,
-    DetalheGastoPessoaPage,
+    ResumoGastosPage
   ],
   providers: [
     StatusBar,

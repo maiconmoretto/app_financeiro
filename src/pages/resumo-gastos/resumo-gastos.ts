@@ -54,20 +54,6 @@ export class ResumoGastosPage {
     }
 
 
-    //   this.database.list('gastos/diversos/' + this.ano + '/' + this.mes,
-    //   {
-    //     query: {
-    //       orderByChild: 'gasto_por',
-    //       equalTo: 'Maicon'
-    //     }
-    //   }
-    // )
-    //   .subscribe(snapshots => {
-    //     snapshots.forEach(snapshot => {
-    //       console.log('aqui ' + snapshot.valor);
-    //     });
-    //   })
-
     this.buscaMes();
     this.somaTotalReceita();
     this.somaTotalGastos();
@@ -152,7 +138,10 @@ export class ResumoGastosPage {
         return (Math.round(a["valor"]) < Math.round(b["valor"])) ? 1 : -1;
       }
     }
-    this.listaMaioresGastos.length = 5;
+    if(  this.listaMaioresGastos.length > 4){
+      this.listaMaioresGastos.length = 5;
+    }
+
 
   }
 

@@ -1,11 +1,12 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>
-      
-        <button ion-button color="light" title="anterior" (click)="vaiParaMes('anterior')"><</button>
-      Gastos {{stringMes}} / {{ ano }}
-    
-      <button ion-button  color="light" title="proximo" (click)="vaiParaMes('proximo')">></button>
+
+      <button ion-button color="light" title="anterior" (click)="vaiParaMes('anterior')">
+        <</button>
+          Gastos {{stringMes}} / {{ ano }}
+
+          <button ion-button color="light" title="proximo" (click)="vaiParaMes('proximo')">></button>
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="navigateToaddShoppingPage()">
@@ -13,10 +14,16 @@
       </button>
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <hr>
+
+  <hr>
   <ion-list>
     <ion-item>
       <div id="left">
@@ -30,7 +37,7 @@
     </ion-item>
   </ion-list>
   <hr>
-  
+
 
 
   <ion-item>5 maiores gastos do mês:</ion-item>

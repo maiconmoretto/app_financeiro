@@ -7,9 +7,15 @@
       </button>
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+  
   <ion-list>
     <ion-item>
       <div id="left">
@@ -43,7 +49,7 @@
       <br> gastos individuais = {{gastosIndividuaisBruna}}
       <br> gastos totais = {{ gastosDivisiveisBruna + gastosIndividuaisBruna }}
       <br>
-      <button ion-button (click)="detalheGastoPessoa('Bruna')">Detalhes de gasto de Bruna</button>
+
     </ion-item>
     <ion-item>
       <h4> Maicon:</h4> apos divisão = R$ {{ ( (gastosDivisiveisBruna + gastosDivisiveisMaicon ) / 2 ) - (gastosDivisiveisMaicon)
@@ -52,7 +58,7 @@
       <br> gastos individuais = {{gastosIndividuaisMaicon}}
       <br> gastos totais = {{ gastosDivisiveisMaicon + gastosIndividuaisMaicon }}
       <br>
-      <button ion-button (click)="detalheGastoPessoa('Maicon')">Detalhes de gasto de Maicon</button>
+
     </ion-item>
   </ion-list>
 
@@ -76,9 +82,8 @@
       <h2>
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
       <h2>
-        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{myObj[item.descricao]}} </h2>
-      <h2>
-        % {{ ( myObj[item.descricao] * 100) / (gastoMes )}} </h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{myObj[item.descricao] ? myObj[item.descricao] : '0'}} </h2>
+      <!-- <h2>  % {{ myObj[item.descricao] ?   ( myObj[item.descricao] * 100) / (gastoMes ) : '0'}} </h2> -->
 
     </ion-item>
   </ion-list>
