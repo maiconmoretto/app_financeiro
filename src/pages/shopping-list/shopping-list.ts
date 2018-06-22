@@ -112,11 +112,13 @@ export class ShoppingListPage {
   }
 
   buscaGastos() {
-    this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.ano + '/' + this.mes);
+    this.shoppingListRef$ =  this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
+       query: {
+        orderByChild: 'data',
+      }
+    })
     this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes);
-
     this.categorias$ = this.database.list('categorias/');
-
   }
 
   somaTotalGastos() {
@@ -165,7 +167,12 @@ export class ShoppingListPage {
                       valor: snapshot.val().valor,
                     }
                   );
-                  this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
+                  console.log('aqui  snapshot.val().gasto_por '+  snapshot.val().gasto_por);
+                  console.log('aqui  dividir '+  dividir);
+                  console.log('aqui  snapshot.val().valor '+  snapshot.val().valor);
+         
+                
+                  this.buscaGastosPorPessoa(snapshot.val().gasto_por, dividir, snapshot.val().valor);
                   total += Number(snapshot.val().valor);
                   this.totalCredito += Math.round(Number(snapshot.val().valor));
                 }
@@ -273,12 +280,6 @@ export class ShoppingListPage {
                   })
               });
             })
-
-
-
-
-
-
         });
       })
   }
@@ -347,8 +348,7 @@ export class ShoppingListPage {
   }
 
   navigateToaddShoppingPage(page) {
- 
-    //navigagte  the user to AddShoppingPage
+     //navigagte  the user to AddShoppingPage
     if (page == 'credito') {
       this.navCtrl.push(GestaoCreditoPage);
     } else if (page == 'fixos') {
