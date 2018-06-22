@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, ActionSheetController } from 'ioni
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
+import { GestaoCreditoPage } from '../gestao-credito/gestao-credito';
+import { CadastroGastoFixoPage } from '../cadastro-gasto-fixo/cadastro-gasto-fixo';
 import { ShoppingListPage } from '../shopping-list/shopping-list';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { AlertController } from 'ionic-angular';
@@ -151,9 +153,16 @@ export class ResumoGastosPage {
     //navigagte  the user to AddShoppingPage
     this.navCtrl.push(ShoppingListPage);
   }
-  navigateToaddShoppingPage() {
+  navigateToaddShoppingPage(page) {
+
     //navigagte  the user to AddShoppingPage
-    this.navCtrl.push(AddShoppingPage);
+    if (page == 'credito') {
+      this.navCtrl.push(GestaoCreditoPage);
+    } else if (page == 'fixos') {
+      this.navCtrl.push(CadastroGastoFixoPage);
+    } else {
+      this.navCtrl.push(AddShoppingPage);
+    }
   }
 
   vaiParaMes(vaiPara) {

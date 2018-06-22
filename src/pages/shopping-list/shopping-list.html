@@ -1,21 +1,16 @@
 <ion-header>
+
   <ion-navbar color="primary">
+
     <ion-title>Gastos {{stringMes}} / {{ ano }}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="navigateToaddShoppingPage()">
-        <ion-icon name="add"></ion-icon>
-      </button>
+
     </ion-buttons>
   </ion-navbar>
-  <ion-toolbar>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-    </ion-toolbar>
+
 </ion-header>
 
 <ion-content padding>
-  
   <ion-list>
     <ion-item>
       <div id="left">
@@ -30,17 +25,18 @@
   </ion-list>
 
   <hr>
-  <div id="left">
-    <h4>por pessoa</h4>
+  <br>
+  <div id="content">
+    <h4>gastos/pessoa</h4>
   </div>
-  <div id="right">
-    <button ion-button>
-      <ion-icon (click)="hideShowPorPessoa(false)" name="md-remove"></ion-icon>
-    </button>
-    <button ion-button>
-      <ion-icon (click)="hideShowPorPessoa(true)" name="md-add"></ion-icon>
+  <div id="search">
+    <button ion-button (click)="hideShowPorPessoa()">
+      <ion-icon name="ios-search"></ion-icon>
     </button>
   </div>
+  <br>
+  <hr>
+  <br>
   <ion-list [class.hide]="!statusPorPessoa">
     <ion-item>
       <h4> Bruna:</h4> apos divisão = R$ {{ ( (gastosDivisiveisBruna + gastosDivisiveisMaicon ) / 2 ) - (gastosDivisiveisBruna)
@@ -49,7 +45,6 @@
       <br> gastos individuais = {{gastosIndividuaisBruna}}
       <br> gastos totais = {{ gastosDivisiveisBruna + gastosIndividuaisBruna }}
       <br>
-
     </ion-item>
     <ion-item>
       <h4> Maicon:</h4> apos divisão = R$ {{ ( (gastosDivisiveisBruna + gastosDivisiveisMaicon ) / 2 ) - (gastosDivisiveisMaicon)
@@ -58,48 +53,48 @@
       <br> gastos individuais = {{gastosIndividuaisMaicon}}
       <br> gastos totais = {{ gastosDivisiveisMaicon + gastosIndividuaisMaicon }}
       <br>
-
     </ion-item>
   </ion-list>
 
   <hr>
-  <div id="left">
-    <h4>por categoria</h4>
-  </div>
-  <div id="right">
-    <button ion-button>
-      <ion-icon (click)="hideShowCategorias(false)" name="md-remove"></ion-icon>
-    </button>
-    <button ion-button>
-      <ion-icon (click)="hideShowCategorias(true)" name="md-add"></ion-icon>
-    </button>
-  </div>
+  <br>
 
+  <div id="content">
+    <h4>gastos/categoria</h4>
+  </div>
+  <div id="search">
+    <button (click)="hideShowCategorias()" ion-button>
+      <ion-icon name="ios-search"></ion-icon>
+    </button>
+  </div>
+  <br>
+  <hr>
+  <br>
   <ion-list [class.hide]="!statusCategorias">
-
     <ion-item *ngFor="let item of categorias$ | async">
-
       <h2>
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
       <h2>
         <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{myObj[item.descricao] ? myObj[item.descricao] : '0'}} </h2>
       <!-- <h2>  % {{ myObj[item.descricao] ?   ( myObj[item.descricao] * 100) / (gastoMes ) : '0'}} </h2> -->
-
     </ion-item>
   </ion-list>
 
+  <br>
   <hr>
-  <div id="left">
-    <h4> fixos R$ {{totalFixos}}</h4>
+  <br>
+
+  <div id="content">
+    <h4><ion-icon name="logo-usd"></ion-icon> fixos R$ {{totalFixos}}</h4>  
   </div>
-  <div id="right">
-    <button ion-button>
-      <ion-icon (click)="hideShowFixos(false)" name="md-remove"></ion-icon>
-    </button>
-    <button ion-button>
-      <ion-icon (click)="hideShowFixos(true)" name="md-add"></ion-icon>
+  <div id="search">
+    <button (click)="hideShowFixos()" ion-button>
+      <ion-icon name="md-search"></ion-icon>
     </button>
   </div>
+  <br>
+  <hr>
+  <br>
   <ion-list [class.hide]="!statusFixos">
     <ion-item *ngFor="let item of gastosFixosRef$ | async">
       <h2>
@@ -114,25 +109,23 @@
     </ion-item>
     <button ion-button (click)="importarGastosFixos()">Importar gastos fixos</button>
   </ion-list>
-
-
+  <br>
   <hr>
-  <div id="left">
-    <h4> crédito R$ {{totalCredito}}</h4>
+  <br>
+  <div id="content">
+    <h4><ion-icon name="card"></ion-icon> crédito R$ {{totalCredito}}</h4>
 
   </div>
-  <div id="right">
-    <button ion-button>
-      <ion-icon (click)="hideShowCredito(false)" name="md-remove"></ion-icon>
-    </button>
-    <button ion-button>
-      <ion-icon (click)="hideShowCredito(true)" name="md-add"></ion-icon>
+  <div id="search">
+    <button (click)="hideShowCredito()" ion-button>
+      <ion-icon name="ios-search"></ion-icon>
     </button>
   </div>
+  <br>
+  <hr>
+  <br>
   <ion-list [class.hide]="!statusCredito">
-
     <ion-item *ngFor="let item of arrayGastoCredito">
-
       <h2>
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
       <h2>
@@ -149,21 +142,20 @@
 
     </ion-item>
   </ion-list>
-
-
+  <br>
   <hr>
-  <div id="left">
-    <h4>diversos R$ {{totalDiversos}}</h4>
+  <br>
+  <div id="content">
+    <h4> <ion-icon name="cash"></ion-icon> variáveis R$ {{totalDiversos}}</h4>
   </div>
-  <div id="right">
-    <button ion-button>
-      <ion-icon (click)="hideShowDiversos(false)" name="md-remove"></ion-icon>
+  <div id="search">
+    <button (click)="hideShowDiversos()" ion-button>
+      <ion-icon name="ios-search"></ion-icon>
     </button>
-    <button ion-button>
-      <ion-icon (click)="hideShowDiversos(true)" name="md-add"></ion-icon>
-    </button>
-
   </div>
+  <br>
+  <hr>
+  <br>
   <ion-list [class.hide]="!statusDiversos">
     <ion-item *ngFor="let item of shoppingListRef$ | async" (click)="selectShoppingItem(item)">
       <h2>

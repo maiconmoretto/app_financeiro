@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, ActionSheetController } from 'ioni
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
+import { GestaoCreditoPage } from '../gestao-credito/gestao-credito';
+import { CadastroGastoFixoPage } from '../cadastro-gasto-fixo/cadastro-gasto-fixo';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { AlertController } from 'ionic-angular';
 import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
@@ -244,21 +246,20 @@ export class ShoppingListPage {
             .subscribe(snapshots => {
               var total = 0;
               snapshots.forEach(snapshot => {
-                this.myObj[categoria] = this.myObj[categoria] == undefined ?  Math.ceil( snapshot.val().valor ):  
-                Math.ceil(Number(this.myObj[categoria]) + Number(snapshot.val().valor) );
-           
+                this.myObj[categoria] = this.myObj[categoria] == undefined ? Math.ceil(snapshot.val().valor) :
+                  Math.ceil(Number(this.myObj[categoria]) + Number(snapshot.val().valor));
+
               });
             })
-            console.log('entrou');
+
           //soma gastos fixos por categoria
           this.database.list('gastosCredito/', { preserveSnapshot: true })
             .subscribe(snapshots => {
               snapshots.forEach(snapshot => {
-           
+
                 var descricao = snapshot.val().descricao;
                 var ano = snapshot.val().ano;
                 var mes = snapshot.val().mes;
-                console.log('desc '+descricao); 
                 this.database.list('gastosCreditoHistorico/' + this.ano + '/' + this.mes, { preserveSnapshot: true, })
                   .subscribe(snapshots => {
                     snapshots.forEach(snapshot => {
@@ -345,11 +346,17 @@ export class ShoppingListPage {
 
   }
 
-  navigateToaddShoppingPage() {
+  navigateToaddShoppingPage(page) {
+ 
     //navigagte  the user to AddShoppingPage
-    this.navCtrl.push(AddShoppingPage);
+    if (page == 'credito') {
+      this.navCtrl.push(GestaoCreditoPage);
+    } else if (page == 'fixos') {
+      this.navCtrl.push(CadastroGastoFixoPage);
+    } else {
+      this.navCtrl.push(AddShoppingPage);
+    }
   }
-
 
 
   buscaMes() {
@@ -359,22 +366,30 @@ export class ShoppingListPage {
     this.stringMes = month;
   }
 
-  hideShowDiversos(status) {
-    this.statusDiversos = status;
+  hideShowDiversos() {
+    console.log('aqui ' + this.statusDiversos);
+    this.statusDiversos = this.statusDiversos == true ? false : true;
   }
-  hideShowCredito(status) {
-    this.statusCredito = status;
-  }
-  hideShowFixos(status) {
-    this.statusFixos = status;
-  }
-  hideShowCategorias(status) {
-    this.statusCategorias = status;
-  }
-  hideShowPorPessoa(status) {
-    this.statusPorPessoa = status;
-  }
+  hideShowCredito() {
 
+    console.log('aqui ' + this.statusCredito);
+    this.statusCredito = this.statusCredito == true ? false : true;
+  }
+  hideShowFixos() {
 
+    console.log('aqui ' + this.statusFixos);
+    this.statusFixos = this.statusFixos == true ? false : true;
+  }
+  hideShowCategorias() {
+
+    console.log('aqui ' + this.statusCategorias);
+    this.statusCategorias = this.statusCategorias == true ? false : true;
+
+  }
+  hideShowPorPessoa() {
+
+    console.log('aqui ' + this.statusPorPessoa);
+    this.statusPorPessoa = this.statusPorPessoa == true ? false : true;
+  }
 
 }

@@ -1,24 +1,25 @@
 <ion-header>
+
+  <ion-toolbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>  Menu
+  </ion-toolbar>
+
   <ion-navbar color="primary">
     <ion-title>
 
       <button ion-button color="light" title="anterior" (click)="vaiParaMes('anterior')">
-        <</button>
-          Gastos {{stringMes}} / {{ ano }}
-
-          <button ion-button color="light" title="proximo" (click)="vaiParaMes('proximo')">></button>
+        <ion-icon ios="ios-arrow-round-back" md="md-arrow-round-back"></ion-icon>
+      </button>
+      Gastos {{stringMes}} / {{ ano }}
+      <button ion-button color="light" title="proximo" (click)="vaiParaMes('proximo')">
+        <ion-icon ios="ios-arrow-round-forward" md="md-arrow-round-forward"></ion-icon>
+      </button>
     </ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="navigateToaddShoppingPage()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
+
   </ion-navbar>
-  <ion-toolbar>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-    </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
@@ -53,4 +54,22 @@
   <button ion-button block (click)="verDetalhes()">Ver detalhes &nbsp; &nbsp;
     <ion-icon ios="ios-arrow-round-down" md="md-arrow-round-down"></ion-icon>
   </button>
+
+  <ion-fab bottom right #fab>
+    <button ion-fab>
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="navigateToaddShoppingPage('credito')">
+        <ion-icon name="card"></ion-icon>
+      </button>
+      <button ion-fab (click)="navigateToaddShoppingPage('fixos')">
+        <ion-icon name="logo-usd"></ion-icon>
+      </button>
+      <button ion-fab (click)="navigateToaddShoppingPage('variaveis')">
+        <ion-icon name="cash"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
 </ion-content>

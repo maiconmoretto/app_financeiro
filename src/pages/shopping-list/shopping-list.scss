@@ -1,13 +1,25 @@
 page-shopping-list {
     #right{
-        height: 10%;
+        height: 5%;
         width: 50%;
         float: right;
     }
 
     #left{
-        height: 10%;
+        height: 5%;
         width: 50%;
+        float: left;
+    }
+
+    #search{
+        height: 5%;
+        width: 10%;
+        float: right;
+    }
+
+    #content{
+        height: 5%;
+        width: 90%;
         float: left;
     }
 }

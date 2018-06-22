@@ -1,7 +1,8 @@
 export const FIREBASE_CREDENTIALS = {
-    authDomain: "financial-restore.firebaseapp.com",
-    databaseURL: "https://financial-restore.firebaseio.com",
-    projectId: "financial-restore",
-    storageBucket: "financial-restore.appspot.com",
-    messagingSenderId: "605317077646"
+    authDomain: "app-controle-financeiro-14533.firebaseapp.com",
+    databaseURL: "https://app-controle-financeiro-14533.firebaseio.com",
+    projectId: "app-controle-financeiro-14533",
+    storageBucket: "app-controle-financeiro-14533.appspot.com",
+    messagingSenderId: "55375268344"
 } 
+ 
