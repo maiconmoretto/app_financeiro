@@ -11,17 +11,16 @@ import { GestaoCreditoPage } from '../pages/gestao-credito/gestao-credito';
 import { GestaoReceitaPage } from '../pages/gestao-receita/gestao-receita';
 import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
 import { ResumoGastosPage } from '../pages/resumo-gastos/resumo-gastos';
-
+import { LoginPage } from '../pages/login/login';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-
-  rootPage: any = ResumoGastosPage;
-  // rootPage:any = TabsPage;
-  // rootPage:any = HomePage;
+  
+  // rootPage: any = ResumoGastosPage;
+  rootPage: any = LoginPage;
   pages: Array<{ title: string, component: any }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
