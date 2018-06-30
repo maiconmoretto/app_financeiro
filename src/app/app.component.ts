@@ -20,7 +20,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   
   // rootPage: any = ResumoGastosPage;
-  rootPage: any = LoginPage;
+  rootPage: any = ResumoGastosPage; 
   pages: Array<{ title: string, component: any }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {

@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar color="primary">
-
+ 
     <ion-title>Gastos {{stringMes}} / {{ ano }}</ion-title>
     <ion-buttons end>
 
@@ -11,6 +11,48 @@
 </ion-header>
 
 <ion-content padding>
+
+
+    <!-- <ion-item>
+        <ion-label floating>Descrição</ion-label>
+        <ion-input type="text" [(ngModel)]="descricao"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Valor</ion-label>
+        <ion-input type="number" [(ngModel)]="valor"></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label>Data</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="data"></ion-datetime>
+      </ion-item>
+    
+    
+      <ion-item>
+        <ion-label>Categoria</ion-label>
+        <ion-select [(ngModel)]="categoria">
+          <ion-option value="{{categoria}}" *ngFor="let categoria of categorias"> {{categoria}}</ion-option>
+        </ion-select>
+      </ion-item>
+    
+    
+      <ion-item>
+        <ion-label>Dividir valor?</ion-label>
+        <ion-select [(ngModel)]="dividir">
+          <ion-option value="sim">sim</ion-option>
+          <ion-option value="nao">não</ion-option>
+        </ion-select>
+      </ion-item> -->
+      <ion-item>
+        <ion-label>Gasto por</ion-label>
+        <ion-select [(ngModel)]="gasto_por">
+          <ion-option value="Bruna">Bruna</ion-option>
+          <ion-option value="Maicon">Maicon</ion-option>
+        </ion-select>
+      </ion-item>
+<!-- ,dividir,categoria,data,valor,descricao-->
+  <button ion-button block (click)="filtrarGastos(gasto_por)">FILTRAR</button>
+
   <ion-list>
     <ion-item>
       <div id="left">
@@ -85,7 +127,8 @@
   <br>
 
   <div id="content">
-    <h4><ion-icon name="logo-usd"></ion-icon> fixos R$ {{totalFixos}}</h4>  
+    <h4>
+      <ion-icon name="logo-usd"></ion-icon> fixos R$ {{totalFixos}}</h4>
   </div>
   <div id="search">
     <button (click)="hideShowFixos()" ion-button>
@@ -113,7 +156,8 @@
   <hr>
   <br>
   <div id="content">
-    <h4><ion-icon name="card"></ion-icon> crédito R$ {{totalCredito}}</h4>
+    <h4>
+      <ion-icon name="card"></ion-icon> crédito R$ {{totalCredito}}</h4>
 
   </div>
   <div id="search">
@@ -146,7 +190,8 @@
   <hr>
   <br>
   <div id="content">
-    <h4> <ion-icon name="cash"></ion-icon> variáveis R$ {{totalDiversos}}</h4>
+    <h4>
+      <ion-icon name="cash"></ion-icon> variáveis R$ {{totalDiversos}}</h4>
   </div>
   <div id="search">
     <button (click)="hideShowDiversos()" ion-button>

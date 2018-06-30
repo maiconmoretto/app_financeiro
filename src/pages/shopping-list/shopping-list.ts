@@ -111,19 +111,32 @@ export class ShoppingListPage {
       })
   }
 
-  buscaGastos() {
+  buscaGastos(gasto_por) {
     this.shoppingListRef$ =  this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
        query: {
         orderByChild: 'data',
       }
     })
-    this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes);
-    this.categorias$ = this.database.list('categorias/');
+    this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
+      query: {
+       orderByChild: 'data',
+     }
+   });
+    this.categorias$ = this.database.list('categorias/' , {
+      query: {
+       orderByChild: 'data',
+     }
+   })
   }
 
-  somaTotalGastos() {
+  somaTotalGastos(param) {
     var total = 0;
-    this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
+    this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true,
+      query: {
+        orderByChild: 'gasto_por',
+        equalTo: param
+      }
+    })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
@@ -133,7 +146,12 @@ export class ShoppingListPage {
       })
 
 
-    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
+    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, { preserveSnapshot: true ,
+      query: {
+        orderByChild: 'gasto_por',
+        equalTo: param
+      }
+    })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
@@ -142,7 +160,12 @@ export class ShoppingListPage {
       })
 
 
-    this.database.list('gastosCredito/', { preserveSnapshot: true })
+    this.database.list('gastosCredito/', { preserveSnapshot: true ,
+      query: {
+        orderByChild: 'gasto_por',
+        equalTo: param
+      }
+    })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           var descricao = snapshot.val().descricao;
@@ -167,9 +190,6 @@ export class ShoppingListPage {
                       valor: snapshot.val().valor,
                     }
                   );
-                  console.log('aqui  snapshot.val().gasto_por '+  snapshot.val().gasto_por);
-                  console.log('aqui  dividir '+  dividir);
-                  console.log('aqui  snapshot.val().valor '+  snapshot.val().valor);
          
                 
                   this.buscaGastosPorPessoa(snapshot.val().gasto_por, dividir, snapshot.val().valor);
@@ -222,7 +242,7 @@ export class ShoppingListPage {
     this.gastosDivisiveisMaicon += Math.round(Number(gastosDivMaicon));
   }
 
-  buscaGastosPorCategoria() {
+  buscaGastosPorCategoria(gasto_por) {
     this.database.list('categorias/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
@@ -390,6 +410,12 @@ export class ShoppingListPage {
 
     console.log('aqui ' + this.statusPorPessoa);
     this.statusPorPessoa = this.statusPorPessoa == true ? false : true;
+  }
+
+  filtrarGastos(gasto_por){
+    this.somaTotalGastos(gasto_por);
+    this.buscaGastos(gasto_por);
+    this.buscaGastosPorCategoria(gasto_por);
   }
 
 }
