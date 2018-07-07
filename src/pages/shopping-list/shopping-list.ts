@@ -31,6 +31,8 @@ export class ShoppingListPage {
   restante = 0;
   arrayGastoCredito = [];
 
+
+  arrayGastoPorCategorias = [];
   categorias = [];
   supermercado;
   lazer;
@@ -111,27 +113,33 @@ export class ShoppingListPage {
       })
   }
 
-  buscaGastos(gasto_por) {
-    this.shoppingListRef$ =  this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
-       query: {
-        orderByChild: 'data',
+  buscaGastos(gasto_por = null) {
+    this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
+      query: {
+        orderByChild: 'gasto_por',
+        equalTo: gasto_por
       }
     })
     this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
       query: {
-       orderByChild: 'data',
-     }
-   });
-    this.categorias$ = this.database.list('categorias/' , {
+        orderByChild: 'gasto_por',
+        equalTo: gasto_por
+      }
+    });
+    this.categorias$ = this.database.list('categorias/', {
       query: {
-       orderByChild: 'data',
-     }
-   })
+        orderByChild: 'descricao'
+      }
+    })
   }
 
-  somaTotalGastos(param) {
+  somaTotalGastos(param = null) {
+    this.totalDiversos = 0;
+    this.totalFixos = 0;
+    this.totalCredito = 0;
     var total = 0;
-    this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true,
+    this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
+      preserveSnapshot: true,
       query: {
         orderByChild: 'gasto_por',
         equalTo: param
@@ -146,7 +154,8 @@ export class ShoppingListPage {
       })
 
 
-    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, { preserveSnapshot: true ,
+    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
+      preserveSnapshot: true,
       query: {
         orderByChild: 'gasto_por',
         equalTo: param
@@ -160,7 +169,8 @@ export class ShoppingListPage {
       })
 
 
-    this.database.list('gastosCredito/', { preserveSnapshot: true ,
+    this.database.list('gastosCredito/', {
+      preserveSnapshot: true,
       query: {
         orderByChild: 'gasto_por',
         equalTo: param
@@ -190,8 +200,8 @@ export class ShoppingListPage {
                       valor: snapshot.val().valor,
                     }
                   );
-         
-                
+
+
                   this.buscaGastosPorPessoa(snapshot.val().gasto_por, dividir, snapshot.val().valor);
                   total += Number(snapshot.val().valor);
                   this.totalCredito += Math.round(Number(snapshot.val().valor));
@@ -242,14 +252,15 @@ export class ShoppingListPage {
     this.gastosDivisiveisMaicon += Math.round(Number(gastosDivMaicon));
   }
 
-  buscaGastosPorCategoria(gasto_por) {
+  buscaGastosPorCategoria() {
+
     this.database.list('categorias/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           var categoria = snapshot.val().descricao;
           //soma gastos diversos por categoria
           this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
-            preserveSnapshot: true,
+            preserveSnapshot: true, 
             query: {
               orderByChild: 'categoria',
               equalTo: categoria
@@ -264,7 +275,7 @@ export class ShoppingListPage {
 
           //soma gastos fixos por categoria
           this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
-            preserveSnapshot: true,
+            preserveSnapshot: true, 
             query: {
               orderByChild: 'categoria',
               equalTo: categoria
@@ -280,7 +291,12 @@ export class ShoppingListPage {
             })
 
           //soma gastos fixos por categoria
-          this.database.list('gastosCredito/', { preserveSnapshot: true })
+          this.database.list('gastosCredito/', { preserveSnapshot: true, 
+            query: {
+              orderByChild: 'categoria',
+              equalTo: categoria
+            }
+          })
             .subscribe(snapshots => {
               snapshots.forEach(snapshot => {
 
@@ -303,6 +319,7 @@ export class ShoppingListPage {
         });
       })
   }
+  
 
 
   selectShoppingItem(shoppingItem: ShoppingItem) {
@@ -368,7 +385,7 @@ export class ShoppingListPage {
   }
 
   navigateToaddShoppingPage(page) {
-     //navigagte  the user to AddShoppingPage
+    //navigagte  the user to AddShoppingPage
     if (page == 'credito') {
       this.navCtrl.push(GestaoCreditoPage);
     } else if (page == 'fixos') {
@@ -408,14 +425,12 @@ export class ShoppingListPage {
   }
   hideShowPorPessoa() {
 
-    console.log('aqui ' + this.statusPorPessoa);
     this.statusPorPessoa = this.statusPorPessoa == true ? false : true;
   }
 
-  filtrarGastos(gasto_por){
+  filtrarGastos(gasto_por) {
     this.somaTotalGastos(gasto_por);
     this.buscaGastos(gasto_por);
-    this.buscaGastosPorCategoria(gasto_por);
   }
 
 }
