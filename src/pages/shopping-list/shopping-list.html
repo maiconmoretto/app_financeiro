@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar color="primary">
- 
+
     <ion-title>Gastos {{stringMes}} / {{ ano }}</ion-title>
     <ion-buttons end>
 
@@ -13,7 +13,23 @@
 <ion-content padding>
 
 
-    <!-- <ion-item>
+  <ion-list>
+    <ion-item>
+      <div id="left">
+        <h2>R$ {{gastoMes}} </h2>
+        gasto
+      </div>
+      <div id="right">
+        <h2>R$ {{restante}} </h2>
+        restante
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <hr>
+  <br>
+
+  <!-- <ion-item>
         <ion-label floating>Descrição</ion-label>
         <ion-input type="text" [(ngModel)]="descricao"></ion-input>
       </ion-item>
@@ -43,31 +59,19 @@
           <ion-option value="nao">não</ion-option>
         </ion-select>
       </ion-item> -->
-      <ion-item>
-        <ion-label>Gasto por</ion-label>
-        <ion-select [(ngModel)]="gasto_por">
-          <ion-option value="Bruna">Bruna</ion-option>
-          <ion-option value="Maicon">Maicon</ion-option>
-        </ion-select>
-      </ion-item>
-<!-- ,dividir,categoria,data,valor,descricao-->
+  <ion-item>
+    <ion-label>Gasto por</ion-label>
+    <ion-select [(ngModel)]="gasto_por">
+      <ion-option value="Ambos">Ambos</ion-option>
+      <ion-option value="Bruna">Bruna</ion-option>
+      <ion-option value="Maicon">Maicon</ion-option>
+    </ion-select>
+  </ion-item>
+  <!-- ,dividir,categoria,data,valor,descricao-->
   <button ion-button block (click)="filtrarGastos(gasto_por)">FILTRAR</button>
-
-  <ion-list>
-    <ion-item>
-      <div id="left">
-        <h2>R$ {{gastoMes}} </h2>
-        gasto
-      </div>
-      <div id="right">
-        <h2>R$ {{restante}} </h2>
-        restante
-      </div>
-    </ion-item>
-  </ion-list>
-
   <hr>
   <br>
+
   <div id="content">
     <h4>gastos/pessoa</h4>
   </div>

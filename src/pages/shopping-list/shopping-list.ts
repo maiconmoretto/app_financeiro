@@ -113,17 +113,17 @@ export class ShoppingListPage {
       })
   }
 
-  buscaGastos(gasto_por = null) {
+  buscaGastos(field = null, where = null) {
     this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
       query: {
-        orderByChild: 'gasto_por',
-        equalTo: gasto_por
+        orderByChild: field,
+        equalTo: where
       }
     })
     this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
       query: {
-        orderByChild: 'gasto_por',
-        equalTo: gasto_por
+        orderByChild: field,
+        equalTo: where
       }
     });
     this.categorias$ = this.database.list('categorias/', {
@@ -133,7 +133,27 @@ export class ShoppingListPage {
     })
   }
 
-  somaTotalGastos(param = null) {
+  buscaGastosFiltro(field = null, where = null) {
+    this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
+      query: {
+        orderByChild: field,
+        equalTo: where
+      }
+    })
+    this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
+      query: {
+        orderByChild: field,
+        equalTo: where
+      }
+    });
+    this.categorias$ = this.database.list('categorias/', {
+      query: {
+        orderByChild: 'descricao'
+      }
+    })
+  }
+
+  somaTotalGastos() {
     this.totalDiversos = 0;
     this.totalFixos = 0;
     this.totalCredito = 0;
@@ -141,8 +161,7 @@ export class ShoppingListPage {
     this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
-        orderByChild: 'gasto_por',
-        equalTo: param
+        orderByChild: 'data_cadastro'
       }
     })
       .subscribe(snapshots => {
@@ -157,8 +176,7 @@ export class ShoppingListPage {
     this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
-        orderByChild: 'gasto_por',
-        equalTo: param
+        orderByChild: 'data_cadastro'
       }
     })
       .subscribe(snapshots => {
@@ -172,8 +190,88 @@ export class ShoppingListPage {
     this.database.list('gastosCredito/', {
       preserveSnapshot: true,
       query: {
-        orderByChild: 'gasto_por',
-        equalTo: param
+        orderByChild: 'data_cadastro'
+      }
+    })
+      .subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          var descricao = snapshot.val().descricao;
+          var ano = snapshot.val().ano;
+          var mes = snapshot.val().mes;
+          var dividir = snapshot.val().dividir;
+          var gasto_por = snapshot.val().gasto_por;
+
+          this.database.list('gastosCreditoHistorico/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
+            .subscribe(snapshots => {
+              snapshots.forEach(snapshot => {
+                if (descricao == snapshot.val().descricao) {
+                  this.arrayGastoCredito.push(
+                    {
+                      categoria: snapshot.val().categoria,
+                      data: snapshot.val().data,
+                      data_cadastro: snapshot.val().data_cadastro,
+                      descricao: snapshot.val().descricao,
+                      gasto_por: snapshot.val().gasto_por,
+                      parcela: snapshot.val().parcela,
+                      dividir: dividir,
+                      valor: snapshot.val().valor,
+                    }
+                  );
+
+
+                  this.buscaGastosPorPessoa(snapshot.val().gasto_por, dividir, snapshot.val().valor);
+                  total += Number(snapshot.val().valor);
+                  this.totalCredito += Math.round(Number(snapshot.val().valor));
+                }
+              });
+              this.gastoMes = Math.round(Number(this.totalFixos) + Number(this.totalDiversos) + Number(this.totalCredito));
+              this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
+            })
+        });
+      })
+
+  }
+  somaTotalGastosFiltro(field = null, where = null) {
+    this.totalDiversos = 0;
+    this.totalFixos = 0;
+    this.totalCredito = 0;
+    var total = 0;
+    this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: field,
+        equalTo: where
+      }
+    })
+      .subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
+          total += Number(snapshot.val().valor);
+          this.totalDiversos += Math.round(Number(snapshot.val().valor));
+        });
+      })
+
+
+    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: field,
+        equalTo: where
+      }
+    })
+      .subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          this.buscaGastosPorPessoa(snapshot.val().gasto_por, snapshot.val().dividir, snapshot.val().valor);
+          this.totalFixos += Math.round(Number(snapshot.val().valor));
+        });
+      })
+
+
+    this.database.list('gastosCredito/', {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: field,
+        equalTo: where
       }
     })
       .subscribe(snapshots => {
@@ -260,7 +358,7 @@ export class ShoppingListPage {
           var categoria = snapshot.val().descricao;
           //soma gastos diversos por categoria
           this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
-            preserveSnapshot: true, 
+            preserveSnapshot: true,
             query: {
               orderByChild: 'categoria',
               equalTo: categoria
@@ -275,7 +373,7 @@ export class ShoppingListPage {
 
           //soma gastos fixos por categoria
           this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
-            preserveSnapshot: true, 
+            preserveSnapshot: true,
             query: {
               orderByChild: 'categoria',
               equalTo: categoria
@@ -291,7 +389,8 @@ export class ShoppingListPage {
             })
 
           //soma gastos fixos por categoria
-          this.database.list('gastosCredito/', { preserveSnapshot: true, 
+          this.database.list('gastosCredito/', {
+            preserveSnapshot: true,
             query: {
               orderByChild: 'categoria',
               equalTo: categoria
@@ -319,7 +418,7 @@ export class ShoppingListPage {
         });
       })
   }
-  
+
 
 
   selectShoppingItem(shoppingItem: ShoppingItem) {
@@ -404,33 +503,29 @@ export class ShoppingListPage {
   }
 
   hideShowDiversos() {
-    console.log('aqui ' + this.statusDiversos);
     this.statusDiversos = this.statusDiversos == true ? false : true;
   }
   hideShowCredito() {
-
-    console.log('aqui ' + this.statusCredito);
     this.statusCredito = this.statusCredito == true ? false : true;
   }
   hideShowFixos() {
-
-    console.log('aqui ' + this.statusFixos);
     this.statusFixos = this.statusFixos == true ? false : true;
   }
   hideShowCategorias() {
-
-    console.log('aqui ' + this.statusCategorias);
     this.statusCategorias = this.statusCategorias == true ? false : true;
 
   }
   hideShowPorPessoa() {
-
     this.statusPorPessoa = this.statusPorPessoa == true ? false : true;
   }
 
   filtrarGastos(gasto_por) {
-    this.somaTotalGastos(gasto_por);
-    this.buscaGastos(gasto_por);
+    this.somaTotalGastosFiltro('gasto_por', gasto_por);
+    this.buscaGastosFiltro('gasto_por', gasto_por);
+    if (gasto_por == "Ambos") {
+      this.somaTotalGastos();
+      this.buscaGastos();
+    }
   }
 
 }
