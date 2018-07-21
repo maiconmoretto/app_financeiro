@@ -1,26 +1,15 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+App to control family finances whit the focus on familiar habitat
 
-## How to use this template
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
+The main objective of the Family Finance application is to provide control over expenses, mainly aiming at a shared environment among people who live together daily, such as a family. To do so, the application focuses on sharing records, history, and categorizations of expenses incurred in a familiar, everyday living environment.
 
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
 
-### With the Ionic CLI:
+## How to use this project
 
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
-
-```bash
-$ sudo npm install -g ionic cordova
-$ ionic start myTabs tabs
-```
-
-Then, to run it, cd into `myTabs` and run:
-
-```bash
-$ ionic cordova platform add ios
-$ ionic cordova run ios
-```
-
-Substitute ios for android if not on a Mac.
-
+you need to have 'node' installed on you local
+then install cordova
+  npm install -g ionic cordova
+then 
+run comand 'ionic serve'
+then to have firebase and angularfire2
+run command 'npm install angularfire2 firebase --save'
