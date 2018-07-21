@@ -6,7 +6,7 @@
     //     storageBucket: "app-controle-financeiro-14533.appspot.com",	
     //     messagingSenderId: "55375268344"	
     // } 	
-         
+
     export const firebaseConfig = {	
         fire: { 	
             apiKey: "AIzaSyAiWj2rpXvgF21m8Tg59rPJN1ZromP0oao",	
