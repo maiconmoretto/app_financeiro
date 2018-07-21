@@ -26,7 +26,7 @@ import { GestaoReceitaPage } from '../pages/gestao-receita/gestao-receita';
 import { ResumoGastosPage } from '../pages/resumo-gastos/resumo-gastos';
 import { LoginPage } from '../pages/login/login';
 import { AuthService } from '../services/auth.service';
-
+import { AngularFireAuthModule } from 'angularfire2/auth';
   
 @NgModule({
   declarations: [
@@ -50,7 +50,8 @@ import { AuthService } from '../services/auth.service';
     IonicModule.forRoot(MyApp),
     //inicialize  angular fire 
     AngularFireModule.initializeApp(firebaseConfig.fire),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
     
   ],
   bootstrap: [IonicApp],
