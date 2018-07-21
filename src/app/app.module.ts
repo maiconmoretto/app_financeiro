@@ -27,7 +27,8 @@ import { ResumoGastosPage } from '../pages/resumo-gastos/resumo-gastos';
 import { LoginPage } from '../pages/login/login';
 import { AuthService } from '../services/auth.service';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-  
+import { LogoutPage } from '../pages/logout/logout';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -44,6 +45,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
     GestaoReceitaPage,
     ResumoGastosPage,
     LoginPage,
+    LogoutPage
   ],
   imports: [
     BrowserModule,
@@ -71,6 +73,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
     GestaoReceitaPage,
     ResumoGastosPage,
     LoginPage,
+    LogoutPage
   ],
   providers: [
     StatusBar,

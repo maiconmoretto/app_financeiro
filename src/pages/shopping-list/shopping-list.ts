@@ -9,7 +9,7 @@ import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface
 import { AlertController } from 'ionic-angular';
 import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
 import * as $ from 'jquery';
-
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'page-shopping-list',
@@ -76,9 +76,9 @@ export class ShoppingListPage {
     public navParams: NavParams,
     private database: AngularFireDatabase,
     private actionSheetCtrl: ActionSheetController,
-    private alertCtrl: AlertController) {
-    //deleta toda colecao
-    // this.database.list('gastos').remove();
+    private alertCtrl: AlertController,
+      private authService : AuthService) {
+ 
     this.data = this.navParams.data.obj;
 
     if (this.data == undefined) {
@@ -99,7 +99,9 @@ export class ShoppingListPage {
 
   }
 
-
+  ionViewCanEnter() {
+    return this.authService.authenticated();
+  }
   somaTotalReceita() {
     this.database.list('receita/', { preserveSnapshot: true })
       .subscribe(snapshots => {

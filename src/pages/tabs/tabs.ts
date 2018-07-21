@@ -9,6 +9,7 @@ import { GestaoCategoriasPage } from '../gestao-categorias/gestao-categorias';
 import { GestaoReceitaPage } from '../gestao-receita/gestao-receita';
 import { ShoppingListPage } from '../shopping-list/shopping-list';
 
+import { AuthService } from '../../services/auth.service';
  
   
 @Component({
@@ -23,7 +24,11 @@ export class TabsPage {
   tab5Root = GestaoReceitaPage;
   tab6Root = HomePage;
  
-  constructor() {
+  constructor(
+    private authService: AuthService) {
 
+  }
+  ionViewCanEnter() {
+    return this.authService.authenticated();
   }
 }

@@ -12,6 +12,8 @@ import { GestaoReceitaPage } from '../pages/gestao-receita/gestao-receita';
 import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
 import { ResumoGastosPage } from '../pages/resumo-gastos/resumo-gastos';
 import { LoginPage } from '../pages/login/login';
+import { LogoutPage } from '../pages/logout/logout';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -20,12 +22,12 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   
   // rootPage: any = ResumoGastosPage;
-  rootPage: any = LoginPage; 
+  rootPage: any = LoginPage;  
   pages: Array<{ title: string, component: any }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
-
+ 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Página Inicial', component: ResumoGastosPage  },
@@ -35,15 +37,11 @@ export class MyApp {
       { title: 'Crédito', component: GestaoCreditoPage },
       { title: 'Receita', component: GestaoReceitaPage },
       { title: 'Categorias', component: GestaoCategoriasPage },
-      { title: 'Buscar', component:  HomePage }
+      { title: 'Buscar', component:  HomePage },
+      { title: 'Logout', component:  LogoutPage } 
 
     ];
-    // platform.ready().then(() => {
-    //   // Okay, so the platform is ready and our plugins are available.
-    //   // Here you can do any higher level native things you might need.
-    //   statusBar.styleDefault();
-    //   splashScreen.hide();
-    // });
+ 
   }
   initializeApp() {
     this.platform.ready().then(() => {
