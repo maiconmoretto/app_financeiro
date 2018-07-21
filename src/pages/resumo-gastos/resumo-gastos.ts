@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, ToastController, AlertController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
@@ -7,8 +7,9 @@ import { GestaoCreditoPage } from '../gestao-credito/gestao-credito';
 import { CadastroGastoFixoPage } from '../cadastro-gasto-fixo/cadastro-gasto-fixo';
 import { ShoppingListPage } from '../shopping-list/shopping-list';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
-import { AlertController } from 'ionic-angular';
-
+import { AngularFireAuth } from 'angularfire2/auth';
+import { LoginPage } from '../login/login';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'page-resumo-gastos',
@@ -39,12 +40,12 @@ export class ResumoGastosPage {
     public navParams: NavParams,
     private database: AngularFireDatabase,
     private actionSheetCtrl: ActionSheetController,
-    private alertCtrl: AlertController) {
-
+    private alertCtrl: AlertController,
+    private afAuth: AngularFireAuth,
+    private toast: ToastController,
+    private authService: AuthService
+  ) {
     this.data = this.navParams.data.obj;
-
-
-
     if (this.data == undefined) {
       var d = new Date();
       var data = "";
@@ -54,13 +55,37 @@ export class ResumoGastosPage {
       this.mes = this.data.substr(5, 2);
       this.ano = this.data.substr(0, 4);
     }
-
-
     this.buscaMes();
     this.somaTotalReceita();
     this.somaTotalGastos();
     this.buscaGastos();
   }
+
+
+  ionViewDidLoad() {
+    this.afAuth.authState.subscribe(data => {
+      if (data && data.email && data.uid) {
+        this.toast.create({
+          message: 'Bem vindo ' + data.email,
+          duration: 3000,
+          position: 'top'
+        }).present();
+      } else {
+        this.toast.create({
+          message: 'Não foi possivel encontrar detalhes da autenticação!',
+          duration: 3000,
+          position: 'top'
+        }).present();
+        return false;
+      }
+    });
+  }
+
+
+  ionViewCanEnter() {
+    return this.authService.authenticated();
+  }
+
 
   somaTotalReceita() {
     this.database.list('receita/', { preserveSnapshot: true })
@@ -140,7 +165,7 @@ export class ResumoGastosPage {
         return (Math.round(a["valor"]) < Math.round(b["valor"])) ? 1 : -1;
       }
     }
-    if(  this.listaMaioresGastos.length > 4){
+    if (this.listaMaioresGastos.length > 4) {
       this.listaMaioresGastos.length = 5;
     }
 

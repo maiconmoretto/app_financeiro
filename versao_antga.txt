@@ -1,2 +1,0 @@
- // versao antiga "firebase": "^4.6.0",
- //versao antiga "angularfire2": "^5.0.0-rc.3",

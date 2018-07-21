@@ -26,8 +26,9 @@ import { GestaoReceitaPage } from '../pages/gestao-receita/gestao-receita';
 import { ResumoGastosPage } from '../pages/resumo-gastos/resumo-gastos';
 import { LoginPage } from '../pages/login/login';
 import { AuthService } from '../services/auth.service';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { LogoutPage } from '../pages/logout/logout';
 
-  
 @NgModule({
   declarations: [
     MyApp,
@@ -44,13 +45,15 @@ import { AuthService } from '../services/auth.service';
     GestaoReceitaPage,
     ResumoGastosPage,
     LoginPage,
+    LogoutPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     //inicialize  angular fire 
     AngularFireModule.initializeApp(firebaseConfig.fire),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
     
   ],
   bootstrap: [IonicApp],
@@ -70,6 +73,7 @@ import { AuthService } from '../services/auth.service';
     GestaoReceitaPage,
     ResumoGastosPage,
     LoginPage,
+    LogoutPage
   ],
   providers: [
     StatusBar,

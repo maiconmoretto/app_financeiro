@@ -1,46 +1,60 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController, MenuController } from 'ionic-angular';
 import { ResumoGastosPage } from '../resumo-gastos/resumo-gastos';
 import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/user';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 // @IonicPage()
-@Component({ 
-  selector: 'page-login',
-  templateUrl: 'login.html',
+@Component({
+	selector: 'page-login',
+	templateUrl: 'login.html',
 })
 export class LoginPage {
-	loginForm: FormGroup;
-	loginError: string;
+
+	user = {} as User;
 
 	constructor(
 		private navCtrl: NavController,
-		private auth: AuthService,
-		fb: FormBuilder
-	) {
-		this.loginForm = fb.group({
-			email: ['', Validators.compose([Validators.required, Validators.email])],
-			password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
-		});
-  } 
-  
-  login(email, password) {
+		private afAuth: AngularFireAuth,
+		private authService: AuthService,
+		private alertController: AlertController,
+		private menuController: MenuController
+	) { }
 
-		//let data = this.loginForm.value;
 
-		if (!email) {
-			return;
+
+
+	ionViewWillEnter() {
+
+		this.menuController.swipeEnable(false)
+	}
+
+	ionViewDidLeave() {
+
+		this.menuController.swipeEnable(true)
+	}
+
+	isAuthenticated() {
+		return this.authService.authenticated();
+	}
+	async  login(user: User) {
+		var erro = false;
+		try {
+			const result = this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
+			if (result) {
+				this.navCtrl.setRoot(ResumoGastosPage);
+			}
+ 
+		} catch (e) {
+			console.error(e);
 		}
+	}
 
-		let credentials = {
-			email: email,
-			password: password
-		};
-		this.auth.signInWithEmail(credentials)
-			.then(
-				() => this.navCtrl.setRoot(ResumoGastosPage ),
-				error => this.loginError = error.message
-      );
 
-	} 
+	register() {
+		this.navCtrl.push('RegisterPage');
+	}
+
 }
