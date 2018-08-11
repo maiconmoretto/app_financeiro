@@ -61,7 +61,7 @@ export class ResumoGastosPage {
     this.buscaGastos();
   }
 
-
+ 
   ionViewDidLoad() {
     this.afAuth.authState.subscribe(data => {
       if (data && data.email && data.uid) {
@@ -105,50 +105,79 @@ export class ResumoGastosPage {
     this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes);
   }
 
+  
   somaTotalGastos() {
+    this.totalDiversos = 0;
+    this.totalFixos = 0;
+    this.totalCredito = 0;
     var total = 0;
-    this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
+    this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: 'data_cadastro'
+      }
+    })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          this.adicionaGastos(snapshot.val());
-          total += Number(snapshot.val().valor);
           this.totalDiversos += Math.round(Number(snapshot.val().valor));
         });
       })
 
 
-    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
+    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: 'data_cadastro'
+      }
+    })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          this.adicionaGastos(snapshot.val());
           this.totalFixos += Math.round(Number(snapshot.val().valor));
         });
       })
 
-    this.database.list('gastosCredito/', { preserveSnapshot: true })
+
+    this.database.list('prestacoes_credito', {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: 'mes_e_ano',
+        equalTo: this.mes + '/' + this.ano
+      }
+    })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          var descricao = snapshot.val().descricao;
-          var ano = snapshot.val().ano;
-          var mes = snapshot.val().mes;
-
-          this.database.list('gastosCreditoHistorico/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
+          var id_item = snapshot.val().id_item;
+          var valor_prestacao = Number(snapshot.val().valor);
+          var roundedString = valor_prestacao.toFixed(2);
+          var rounded = Number(roundedString);
+          this.database.list('gastosCredito', {
+            preserveSnapshot: true,
+            query: {
+              orderByKey: id_item,
+              equalTo: id_item
+            }
+          })
             .subscribe(snapshots => {
               snapshots.forEach(snapshot => {
-                if (descricao == snapshot.val().descricao) {
-                  this.adicionaGastos(snapshot.val());
-                  this.arrayGastoCredito.push(snapshot.val());
-                  total += Number(snapshot.val().valor);
-                  this.totalCredito += Math.round(Number(snapshot.val().valor));
-                }
-              });
-              this.gastoMes = Math.round(Number(this.totalFixos) + Number(this.totalDiversos) + Number(this.totalCredito));
-              this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
+                var gasto_por = snapshot.val().gasto_por;
+                var dividir = snapshot.val().dividir;
+                this.totalCredito += (Number(rounded));
+                this.gastoMes = Math.round(
+                  Number(this.totalFixos) +
+                  Number(this.totalDiversos) +
+                  Number(this.totalCredito)
+                );
+                this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
+              })
             })
+        
+
         });
       })
 
   }
+
+
   adicionaGastos($gasto) {
     this.listaMaioresGastos.push(
       {

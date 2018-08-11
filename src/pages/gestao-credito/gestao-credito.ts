@@ -42,9 +42,10 @@ export class GestaoCreditoPage {
     var diaAtual = new Date().getDate();
     var mesAtual = new Date().getMonth() < 10 ? "0" + (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
     var anoAtual = new Date().getFullYear();
+    var valorPrestacao = (valor / prestacoes);
 
     // cadastro no node gastosCredito
-    this.database.list("/gastosCredito/").push({
+    const newId = this.database.list("/gastosCredito/").push({
       descricao: descricao,
       valor: valor,
       prestacoes: prestacoes,
@@ -54,12 +55,11 @@ export class GestaoCreditoPage {
       categoria: categoria,
       gasto_por: gasto_por,
       dividir: dividir,
-      data_cadastro: diaAtual + '/'+  mesAtual + '/' + anoAtual,
-    });
+      data_cadastro: diaAtual + '/' + mesAtual + '/' + anoAtual,
+    }).key;
 
 
     for (var i = 0; i < prestacoes; i++) {
-
       if (mes == 13) {
         mes = "01";
         ano = Number(ano) + Number(1);
@@ -70,15 +70,15 @@ export class GestaoCreditoPage {
           }
         }
       }
-
-      this.database.list("/gastosCreditoHistorico/" + ano + '/' + mes + "/").push({
-        descricao: descricao,
-        valor: valor,
-        data: data,
+console.log('id '+newId);
+      this.database.list("/prestacoes_credito").push({
+        id_item: newId,
+        valor: valorPrestacao,
         parcela: (i + 1) + "/" + prestacoes,
-        gasto_por: gasto_por,
-        categoria: categoria,
-        data_cadastro:  diaAtual + '/'+  mesAtual + '/' + anoAtual,
+        mes:mes,
+        ano: ano,
+        mes_e_ano:mes + '/' + ano,
+        data_cadastro: diaAtual + '/' + mesAtual + '/' + anoAtual,
       });
       mes++;
     }
