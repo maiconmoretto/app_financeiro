@@ -28,6 +28,7 @@ import { LoginPage } from '../pages/login/login';
 import { AuthService } from '../services/auth.service';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { LogoutPage } from '../pages/logout/logout';
+import { EditCreditoPage } from '../pages/edit-credito/edit-credito';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { LogoutPage } from '../pages/logout/logout';
     GestaoReceitaPage,
     ResumoGastosPage,
     LoginPage,
-    LogoutPage
+    LogoutPage,
+    EditCreditoPage
   ],
   imports: [
     BrowserModule,
@@ -73,7 +75,8 @@ import { LogoutPage } from '../pages/logout/logout';
     GestaoReceitaPage,
     ResumoGastosPage,
     LoginPage,
-    LogoutPage
+    LogoutPage, 
+    EditCreditoPage
   ],
   providers: [
     StatusBar,

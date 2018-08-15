@@ -1,5 +1,5 @@
 export const firebaseConfig = {
-    fire: {
+    fire: {  
         apiKey: "AIzaSyBabEc4h3zMJ8Eyxu-DfWoquEZrkjYF_ms",
         authDomain: "financial-restore.firebaseapp.com",
         databaseURL: "https://financial-restore.firebaseio.com",

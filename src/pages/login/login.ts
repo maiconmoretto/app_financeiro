@@ -21,10 +21,21 @@ export class LoginPage {
 		private authService: AuthService,
 		private alertController: AlertController,
 		private menuController: MenuController
-	) { }
+	) {
 
+		 this.validateIsAuthenticaded();
 
+	}
 
+	validateIsAuthenticaded() {
+		if (localStorage.getItem("email")
+			&&
+			localStorage.getItem("password")) {
+			this.navCtrl.setRoot(ResumoGastosPage);
+		} else {
+			console.log('n');
+		}
+	}
 
 	ionViewWillEnter() {
 
@@ -44,9 +55,11 @@ export class LoginPage {
 		try {
 			const result = this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
 			if (result) {
+				localStorage.setItem("email", user.email);
+				localStorage.setItem("password", user.password);
 				this.navCtrl.setRoot(ResumoGastosPage);
 			}
- 
+
 		} catch (e) {
 			console.error(e);
 		}

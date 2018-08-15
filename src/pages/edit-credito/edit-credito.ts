@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
 import { FirebaseObjectFactoryOpts } from 'angularfire2/interfaces';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
+ 
 
-
+@IonicPage()
 @Component({
-  selector: 'page-edit-shopping-item',
-  templateUrl: 'edit-shopping-item.html',
+  selector: 'page-edit-credito',
+  templateUrl: 'edit-credito.html',
 })
-export class EditShoppingItemPage {
+
+
+export class EditCreditoPage {
  
   shoppingItemRef$: FirebaseObjectObservable<ShoppingItem>;
   shoppingItem = {} as ShoppingItem;
@@ -20,14 +23,14 @@ export class EditShoppingItemPage {
     public navParams: NavParams,
     private database: AngularFireDatabase,
     private toastCtrl: ToastController) {
- 
+
     //capture the shopping item id as  a nagParameter
     const shoppingItemId = this.navParams.get('shoppingItemId');
     const ano = this.navParams.get('ano');
     const mes = this.navParams.get('mes');
   
     //set  the scope of our  firebase object to our selected item
-    this.shoppingItemRef$ = this.database.object(`gastos/diversos/`+ano+`/`+mes+`/${shoppingItemId}`);
+    this.shoppingItemRef$ = this.database.object(`gastosCredito/${shoppingItemId}`);
  
     
     //sucbscibe the  object, and assing the result  to this.ShoppingItem
@@ -36,7 +39,7 @@ export class EditShoppingItemPage {
       this.listaCategorias();
 
     }
-   
+  
     listaCategorias() {
       this.database.list('/categorias/', { preserveSnapshot: true })
         .subscribe(snapshots => {
@@ -61,6 +64,9 @@ export class EditShoppingItemPage {
     }); 
     toast.present();
   }
+
+
+
 
 
 }

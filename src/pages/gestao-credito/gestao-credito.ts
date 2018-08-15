@@ -3,8 +3,12 @@ import { IonicPage, NavController, NavParams, ActionSheetController } from 'ioni
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
+import { EditCreditoPage } from '../edit-credito/edit-credito';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
+
+
+
 
 
 @IonicPage()
@@ -70,19 +74,17 @@ export class GestaoCreditoPage {
           }
         }
       }
-console.log('id '+newId);
       this.database.list("/prestacoes_credito").push({
         id_item: newId,
         valor: valorPrestacao,
         parcela: (i + 1) + "/" + prestacoes,
-        mes:mes,
+        mes: mes,
         ano: ano,
-        mes_e_ano:mes + '/' + ano,
+        mes_e_ano: mes + '/' + ano,
         data_cadastro: diaAtual + '/' + mesAtual + '/' + anoAtual,
       });
       mes++;
     }
-
 
     let toast = this.toastCtrl.create({
       message: 'Adicionado gasto com crédito com sucesso!',
@@ -94,13 +96,12 @@ console.log('id '+newId);
       // console.log('Dismissed toast');
     });
 
-
     toast.present();
     // this.navCtrl.pop();
 
-
-
   }
+
+
 
   selectShoppingItem(gastosCredito: ShoppingItem) {
     //display a actionsheet
@@ -117,6 +118,16 @@ console.log('id '+newId);
           handler: () => {
             //delete the current item
             this.gastosCredito$.remove(gastosCredito.$key);
+          }
+        },
+        { 
+          text: 'Edit',
+          handler: () => {
+            //send the item to edit item and pass key as parameter
+            this.navCtrl.push(EditCreditoPage,
+              {
+                shoppingItemId: gastosCredito.$key
+              });
           }
         },
         {

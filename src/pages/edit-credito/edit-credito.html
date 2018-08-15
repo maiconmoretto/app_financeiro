@@ -1,0 +1,55 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Editar gasto de Crédito</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+
+  <ion-item>
+    <ion-label floating>Descrição</ion-label>
+    <ion-input type="text" [(ngModel)]="shoppingItem.descricao"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Valor da parcela</ion-label>
+    <ion-input type="number" [(ngModel)]="shoppingItem.valor"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Números de prestações</ion-label>
+    <ion-input type="number" [(ngModel)]="shoppingItem.prestacoes"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Inicio prestação</ion-label>
+    <ion-datetime displayFormat="MM/YYYY" [(ngModel)]="shoppingItem.data"></ion-datetime>
+  </ion-item>
+  <ion-item>
+      <ion-label>Categoria</ion-label>
+      <ion-select [(ngModel)]="shoppingItem.categoria">
+        <ion-option value="{{categoria}}" *ngFor="let categoria of categorias" > {{categoria}}</ion-option>
+      </ion-select>
+    </ion-item>
+  <ion-item>
+    <ion-label>Dividir valor?</ion-label>
+    <ion-select [(ngModel)]="shoppingItem.dividir">
+      <ion-option value="sim">sim</ion-option>
+      <ion-option value="nao">não</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Gasto por</ion-label>
+    <ion-select [(ngModel)]="shoppingItem.gasto_por">
+      <ion-option value="Bruna">Bruna</ion-option>
+      <ion-option value="Maicon">Maicon</ion-option>
+    </ion-select>
+  </ion-item>
+  <br>
+  <button ion-button block (click)="editShoppingItem(shoppingItem)">Editar</button>
+
+
+
+</ion-content>
