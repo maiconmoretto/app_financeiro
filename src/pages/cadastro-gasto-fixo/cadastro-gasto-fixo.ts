@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
+import { EditGastoFixoPage } from '../edit-gasto-fixo/edit-gasto-fixo';
+
 
 @IonicPage()
 @Component({
@@ -13,8 +15,10 @@ import { ToastController } from 'ionic-angular';
 })
 
 export class CadastroGastoFixoPage {
+
   categorias = [];
   gastosFixos$: FirebaseListObservable<ShoppingItem[]>
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
@@ -33,8 +37,8 @@ export class CadastroGastoFixoPage {
         })
       })
   }
- 
-  adicionarGasto(descricao, valor, categoria,dividir,gasto_por) {
+
+  adicionarGasto(descricao, valor, categoria, dividir, gasto_por) {
     this.database.list("/gastosFixos/").push({
       descricao: descricao,
       valor: valor,
@@ -56,8 +60,8 @@ export class CadastroGastoFixoPage {
 
 
 
-  selectShoppingItem(shoppingItem: ShoppingItem) {
-    console.log(shoppingItem);
+  selectShoppingItem(gastosFixo: ShoppingItem) {
+    console.log('id ' +gastosFixo.$key);
     //display a actionsheet
     //1 - edit 
     //2 - remove item
@@ -69,7 +73,10 @@ export class CadastroGastoFixoPage {
           text: 'Edit',
           handler: () => {
             //send the item to edit item and pass key as parameter
-
+            this.navCtrl.push(EditGastoFixoPage,
+              {
+                shoppingItemId: gastosFixo.$key
+              });
           }
         },
         {
@@ -77,20 +84,20 @@ export class CadastroGastoFixoPage {
           role: 'destructive',
           handler: () => {
             //delete the current item
-            this.gastosFixos$.remove(shoppingItem.$key);
+            this.gastosFixos$.remove(gastosFixo.$key);
           }
         },
         {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-    
+
 
           }
         },
       ]
 
- 
+
     }).present();
 
   }

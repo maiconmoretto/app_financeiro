@@ -16,7 +16,6 @@ import 'rxjs/add/operator/take';
 export class EditCreditoPage {
 
   shoppingItemRef$: FirebaseObjectObservable<ShoppingItem>;
-  shoppingItemRemoveRef$: FirebaseObjectObservable<ShoppingItem>;
   shoppingItem = {} as ShoppingItem;
   categorias = [];
   idsDelete = [];
