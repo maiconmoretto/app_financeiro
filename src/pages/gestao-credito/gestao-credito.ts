@@ -17,15 +17,20 @@ import { ToastController } from 'ionic-angular';
   templateUrl: 'gestao-credito.html',
 })
 export class GestaoCreditoPage {
+
   categorias = [];
   gastosCredito$: FirebaseListObservable<ShoppingItem[]>
+  idsDelete = [];
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
     private toastCtrl: ToastController,
     private actionSheetCtrl: ActionSheetController, ) {
     this.gastosCredito$ = this.database.list('gastosCredito/');
+
     this.listaCategorias();
+
 
   }
 
@@ -102,7 +107,6 @@ export class GestaoCreditoPage {
   }
 
 
-
   selectShoppingItem(gastosCredito: ShoppingItem) {
     //display a actionsheet
     //1 - edit 
@@ -116,11 +120,28 @@ export class GestaoCreditoPage {
           text: 'Delete',
           role: 'destructive',
           handler: () => {
+
+            //deleta o item da prestação de  crédito
+            this.database.list('prestacoes_credito', {
+              preserveSnapshot: true,
+              query: {
+                orderByChild: 'id_item',
+                equalTo: gastosCredito.$key
+              }
+            })
+              .subscribe(snapshots => {
+                snapshots.forEach(snapshot => {
+                  this.database.list('prestacoes_credito/' + snapshot.key).remove();
+                  this.idsDelete.push(snapshot.key);
+                })
+              })
+
             //delete the current item
             this.gastosCredito$.remove(gastosCredito.$key);
+
           }
         },
-        { 
+        {
           text: 'Edit',
           handler: () => {
             //send the item to edit item and pass key as parameter
