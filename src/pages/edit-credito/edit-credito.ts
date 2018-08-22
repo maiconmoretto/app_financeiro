@@ -16,7 +16,6 @@ import 'rxjs/add/operator/take';
 export class EditCreditoPage {
 
   shoppingItemRef$: FirebaseObjectObservable<ShoppingItem>;
-  shoppingItemRemoveRef$: FirebaseObjectObservable<ShoppingItem>;
   shoppingItem = {} as ShoppingItem;
   categorias = [];
   idsDelete = [];
@@ -62,12 +61,10 @@ export class EditCreditoPage {
       this.editarItem(shoppingItem);
 
     } finally {
-      console.log(' this.idsDelete ' + this.idsDelete);
 
       for (var $i = 0; $i <= this.idsDelete.length; $i++) {
         console.log('id para  deletar --> ' + this.idsDelete[$i]);
         this.database.list('prestacoes_credito/' + this.idsDelete[$i]).remove();
-
       }
       this.cadastraNovosItens();
     }
