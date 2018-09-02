@@ -40,9 +40,6 @@ export class EditCreditoPage {
       shoppingItem => this.shoppingItem = shoppingItem);
     this.listaCategorias();
 
-
-
-
   }
 
   listaCategorias() {
@@ -63,7 +60,6 @@ export class EditCreditoPage {
     } finally {
 
       for (var $i = 0; $i <= this.idsDelete.length; $i++) {
-        console.log('id para  deletar --> ' + this.idsDelete[$i]);
         this.database.list('prestacoes_credito/' + this.idsDelete[$i]).remove();
       }
       this.cadastraNovosItens();
@@ -81,7 +77,6 @@ export class EditCreditoPage {
     })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          console.log('achou esse ' + snapshot.key);
           this.idsDelete.push(snapshot.key);
         })
       })
@@ -108,7 +103,6 @@ export class EditCreditoPage {
   }
 
   cadastraNovosItens() {
-
     var diaAtual = new Date().getDate();
     var mesAtual = new Date().getMonth() < 10 ? "0" + (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
     var anoAtual = new Date().getFullYear();
@@ -147,6 +141,59 @@ export class EditCreditoPage {
               id_item: this.navParams.get('shoppingItemId'),
               valor: valorPrestacao / prestacoes,
               parcela: (i + 1) + "/" + prestacoes,
+              mes: mes,
+              ano: ano,
+              mes_e_ano: mes + '/' + ano,
+              data_cadastro: diaAtual + '/' + mesAtual + '/' + anoAtual,
+            });
+            mes++;
+          }
+        })
+      })
+  }
+
+
+  //script de migracao de  formtato de credito
+  cadastraItens() {
+    var diaAtual = new Date().getDate();
+    var mesAtual = new Date().getMonth() < 10 ? "0" + (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
+    var anoAtual = new Date().getFullYear();
+    var prestacoes = 0;
+    var valorPrestacao = 0;
+    var descricao;
+    var id_item;
+    var mes;
+    var ano;
+    this.database.list('gastosCredito', {
+      preserveSnapshot: true,
+
+    })
+      .subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          prestacoes = snapshot.val().prestacoes;
+          mes = snapshot.val().mes;
+          ano = snapshot.val().ano;
+          valorPrestacao = snapshot.val().valor;
+          descricao = snapshot.val().descricao;
+          id_item = snapshot.key;
+
+          for (var i = 0; i < prestacoes; i++) {
+
+            if (mes == 13) {
+              mes = "01";
+              ano = Number(ano) + Number(1);
+            } else {
+              if (mes < 10) {
+                if (mes.length != 2) {
+                  mes = "0" + mes;
+                }
+              }
+            }
+            //insere na pasta prestacoes credito o item listado acima
+            this.database.list("/prestacoes_credito/").push({
+              id_item: id_item,
+              valor: valorPrestacao,
+              parcela: (i ) + "/" + prestacoes,
               mes: mes,
               ano: ano,
               mes_e_ano: mes + '/' + ano,
