@@ -162,8 +162,8 @@ export class ShoppingListPage {
           this.totalFixos += Math.round(Number(snapshot.val().valor));
         });
       })
-
-
+  
+ 
     this.database.list('prestacoes_credito', {
       preserveSnapshot: true,
       query: {
