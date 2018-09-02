@@ -190,7 +190,7 @@ export class ShoppingListPage {
                 var gasto_por = snapshot.val().gasto_por;
                 var dividir = snapshot.val().dividir;
                 this.buscaGastosPorPessoa(gasto_por, dividir, rounded);
-                this.totalCredito += (Number(rounded));
+                this.totalCredito += Math.round(Number(rounded));
                 this.gastoMes = Math.round(
                   Number(this.totalFixos) +
                   Number(this.totalDiversos) +
