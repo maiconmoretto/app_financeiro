@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { GestaoCreditoPage } from '../gestao-credito/gestao-credito';
 import { CadastroGastoFixoPage } from '../cadastro-gasto-fixo/cadastro-gasto-fixo';
-import { ShoppingListPage } from '../shopping-list/shopping-list';
+import { DetalheGastosPage } from '../detalhe-gastos/detalhe-gastos';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { LoginPage } from '../login/login';
@@ -35,6 +35,7 @@ export class ResumoGastosPage {
   totalDiversos = 0;
   totalFixos = 0;
   listaMaioresGastos = [];
+  uid = [];
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -59,9 +60,19 @@ export class ResumoGastosPage {
     this.somaTotalReceita();
     this.somaTotalGastos();
     this.buscaGastos();
+    console.log(this.authService.getCurrentUserEmail());
+    console.log(this.authService.getCurrentUserId());
+    // this.afAuth.authState.subscribe(data => {
+    //   alert(data.email);
+    // });
+    this.afAuth.authState.subscribe(data => {
+      this.uid.push(data.uid);
+      // alert(data.uid);
+    });
+    console.log('data '+ this.uid );
   }
 
- 
+
   ionViewDidLoad() {
     this.afAuth.authState.subscribe(data => {
       if (data && data.email && data.uid) {
@@ -88,7 +99,7 @@ export class ResumoGastosPage {
 
 
   somaTotalReceita() {
-    this.database.list('receita/', { preserveSnapshot: true })
+    this.database.list(localStorage.getItem("uid")+'/receita/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
@@ -101,17 +112,17 @@ export class ResumoGastosPage {
   }
 
   buscaGastos() {
-    this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.ano + '/' + this.mes);
-    this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes);
+    this.shoppingListRef$ = this.database.list(localStorage.getItem("uid")+'/gastos/diversos/' + this.ano + '/' + this.mes);
+    this.gastosFixosRef$ = this.database.list(localStorage.getItem("uid")+'/gastos/fixos/' + this.ano + '/' + this.mes);
   }
 
-  
+
   somaTotalGastos() {
     this.totalDiversos = 0;
     this.totalFixos = 0;
     this.totalCredito = 0;
     var total = 0;
-    this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
+    this.database.list(localStorage.getItem("uid")+'/gastos/diversos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
@@ -124,7 +135,7 @@ export class ResumoGastosPage {
       })
 
 
-    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
+    this.database.list(localStorage.getItem("uid")+'/gastos/fixos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
@@ -137,7 +148,8 @@ export class ResumoGastosPage {
       })
 
 
-    this.database.list('prestacoes_credito', {
+    this.database.list(localStorage.getItem("uid")+
+     'prestacoes_credito', {
       preserveSnapshot: true,
       query: {
         orderByChild: 'mes_e_ano',
@@ -170,7 +182,7 @@ export class ResumoGastosPage {
                 this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
               })
             })
-        
+
 
         });
       })
@@ -205,7 +217,7 @@ export class ResumoGastosPage {
 
   verDetalhes() {
     //navigagte  the user to AddShoppingPage
-    this.navCtrl.push(ShoppingListPage);
+    this.navCtrl.push(DetalheGastosPage);
   }
   navigateToaddShoppingPage(page) {
 
@@ -247,7 +259,7 @@ export class ResumoGastosPage {
       }
     }
 
-    this.navCtrl.push(ShoppingListPage, { obj: data });
+    this.navCtrl.push(DetalheGastosPage, { obj: data });
 
   }
 
@@ -257,5 +269,13 @@ export class ResumoGastosPage {
       month = date.toLocaleString(locale, { month: "short" });
     this.stringMes = month;
   }
+
+
+  // getCurrentUser() {
+  //   this.afAuth.authState.subscribe(data => {
+  //     console.log('A informacao de data ' + data.uid);
+  //     return data.uid;
+  //   });
+  // }
 
 }

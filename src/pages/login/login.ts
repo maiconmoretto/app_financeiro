@@ -23,7 +23,7 @@ export class LoginPage {
 		private menuController: MenuController
 	) {
 
-		 this.validateIsAuthenticaded();
+		this.validateIsAuthenticaded();
 
 	}
 
@@ -58,6 +58,10 @@ export class LoginPage {
 				localStorage.setItem("email", user.email);
 				localStorage.setItem("password", user.password);
 				this.navCtrl.setRoot(ResumoGastosPage);
+				this.afAuth.authState.subscribe(data => {
+					localStorage.setItem("uid", data.uid);
+				});
+
 			}
 
 		} catch (e) {

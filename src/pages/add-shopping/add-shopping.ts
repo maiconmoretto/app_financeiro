@@ -24,7 +24,7 @@ export class AddShoppingPage {
     private toastCtrl: ToastController,
     private database: AngularFireDatabase) {
     this.listaCategorias();
-
+console.log(localStorage.getItem("uid"));
   }
 
   listaCategorias() {
@@ -59,7 +59,7 @@ export class AddShoppingPage {
       return;
     }
 
-    this.fdb.list("/gastos/diversos/" + data.substr(0, 4) + '/' + data.substr(5, 2) + '/').push({
+    this.fdb.list(localStorage.getItem("uid")+"/gastos/diversos/" + data.substr(0, 4) + '/' + data.substr(5, 2) + '/').push({
       descricao: descricao,
       valor: valor,
       data: data,

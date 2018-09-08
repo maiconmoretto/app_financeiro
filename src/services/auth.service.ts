@@ -23,4 +23,17 @@ export class AuthService {
 		});
 		return this.isLoggedIn;
 	}
+
+	getCurrentUserId() {
+		this.afAuth.authState.subscribe(data => {
+		  return data.uid;
+		});
+	  }
+	  
+	getCurrentUserEmail() {
+		this.afAuth.authState.subscribe(data => {
+		  return data.email;
+		});
+	  }
+	
 }
