@@ -136,7 +136,7 @@ export class ResumoGastosPage {
         });
       })
 
-
+ 
     this.database.list('prestacoes_credito', {
       preserveSnapshot: true,
       query: {

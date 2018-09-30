@@ -5,7 +5,7 @@ import { ResumoGastosPage } from '../resumo-gastos/resumo-gastos';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
 import { AngularFireAuth } from 'angularfire2/auth';
-
+import { ToastController } from 'ionic-angular';
 // @IonicPage()
 @Component({
 	selector: 'page-login',
@@ -20,21 +20,16 @@ export class LoginPage {
 		private afAuth: AngularFireAuth,
 		private authService: AuthService,
 		private alertController: AlertController,
-		private menuController: MenuController
+		private menuController: MenuController,
+		private toastCtrl: ToastController
 	) {
 
-		 this.validateIsAuthenticaded();
+		this.validateIsAuthenticaded();
 
 	}
 
 	validateIsAuthenticaded() {
-		if (localStorage.getItem("email")
-			&&
-			localStorage.getItem("password")) {
-			this.navCtrl.setRoot(ResumoGastosPage);
-		} else {
-			console.log('n');
-		}
+
 	}
 
 	ionViewWillEnter() {
@@ -52,17 +47,19 @@ export class LoginPage {
 	}
 	async  login(user: User) {
 		var erro = false;
-		try {
-			const result = this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
-			if (result) {
-				localStorage.setItem("email", user.email);
-				localStorage.setItem("password", user.password);
-				this.navCtrl.setRoot(ResumoGastosPage);
-			}
-
-		} catch (e) {
-			console.error(e);
+		const result = this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
+			.catch(function (error) {
+				erro = true;
+				var errorMessage = error.message;
+				alert(errorMessage);
+				console.log(error);
+				return false;
+			});
+		console.log(result);
+		if ('1' == '2') {
+			this.navCtrl.setRoot(ResumoGastosPage);
 		}
+
 	}
 
 
