@@ -18,7 +18,7 @@ export class AuthService {
 			if (data && data.email && data.uid) {
 				this.isLoggedIn = true;
 			} else {
-				this.isLoggedIn = true;
+				this.isLoggedIn = false;
 			}
 		});
 		return this.isLoggedIn;

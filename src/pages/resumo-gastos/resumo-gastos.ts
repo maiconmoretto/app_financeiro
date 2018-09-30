@@ -115,14 +115,15 @@ export class ResumoGastosPage {
     this.shoppingListRef$ = this.database.list(localStorage.getItem("uid")+'/gastos/diversos/' + this.ano + '/' + this.mes);
     this.gastosFixosRef$ = this.database.list(localStorage.getItem("uid")+'/gastos/fixos/' + this.ano + '/' + this.mes);
   }
-
-
+ 
+ 
   somaTotalGastos() {
+    console.log('somaTotalGastos = ' +localStorage.getItem("uid"));
     this.totalDiversos = 0;
     this.totalFixos = 0;
     this.totalCredito = 0;
     var total = 0;
-    this.database.list(localStorage.getItem("uid")+'/gastos/diversos/' + this.ano + '/' + this.mes, {
+    this.database.list(localStorage.getItem("uid")+'qHZWGwHASLVNIeK5dc02pfCxGuj1/gastos/diversos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
