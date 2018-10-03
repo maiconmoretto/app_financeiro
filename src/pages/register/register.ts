@@ -23,12 +23,19 @@ export class RegisterPage {
     private afAuth: AngularFireAuth) {
   }
 
-  async register(user : User) {
-    try{
-      
-    const result = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
-    console.log(result);
-    }catch(e){
+  async register(user: User) {
+    try {
+      var self = this;
+      const result = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password).then(function () {
+        alert('usuário cadastrado');
+      }).catch(function (error) {
+        var errorMessage = error.message;
+        alert(errorMessage);
+      });
+
+
+      console.log(result);
+    } catch (e) {
       console.error(e);
     }
   }
