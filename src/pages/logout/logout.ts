@@ -21,8 +21,6 @@ export class LogoutPage {
   }
 
   ionViewDidLoad(user: User) {
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
     this.authService.logout();
     this.navCtrl.push(LoginPage);
   }

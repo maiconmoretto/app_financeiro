@@ -45,23 +45,25 @@ export class LoginPage {
 	isAuthenticated() {
 		return this.authService.authenticated();
 	}
+
 	async  login(user: User) {
-		var erro = false;
-		const result = this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
-			.catch(function (error) {
-				erro = true;
-				var errorMessage = error.message;
-				alert(errorMessage);
-				console.log(error);
-				return false;
-			});
-		console.log(result);
-		if ('1' == '2') {
-			this.navCtrl.setRoot(ResumoGastosPage);
-		}
+		var self = this;
+		this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password).then(function () {
+			self.navCtrl.push(ResumoGastosPage);
+			// this.navCtrl.setRoot(ResumoGastosPage);
+			// console.log('aqui '+ this.authService.authenticated());
+			console.log('sucesso');
+		}).catch(function (error) {
+			// var errorCode = error.code;
+			var errorMessage = error.message;
+			alert(errorMessage);
+			console.log('erro');
+			// this.authService.logout();
+			// this.navCtrl.push(LoginPage);
+		});
+
 
 	}
-
 
 	register() {
 		this.navCtrl.push('RegisterPage');
