@@ -47,23 +47,32 @@ export class LoginPage {
 	}
 
 	async  login(user: User) {
-		var self = this;
-		this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password).then(function () {
-			self.navCtrl.push(ResumoGastosPage);
-			// this.navCtrl.setRoot(ResumoGastosPage);
-			// console.log('aqui '+ this.authService.authenticated());
-			console.log('sucesso');
-		}).catch(function (error) {
-			// var errorCode = error.code;
-			var errorMessage = error.message;
-			alert(errorMessage);
-			console.log('erro');
-			// this.authService.logout();
-			// this.navCtrl.push(LoginPage);
-		});
 
+		if (user.email == undefined || user.password == undefined) {
+			let toast = this.toastCtrl.create({
+				message: 'Digite os campos email e senha!',
+				duration: 3000,
+				position: 'top'
+			});
 
+			toast.onDidDismiss(() => {
+			});
+
+			toast.present();
+
+		} else {
+			var self = this;
+			this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password).then(function () {
+				self.navCtrl.push(ResumoGastosPage);
+				console.log('sucesso');
+			}).catch(function (error) {
+				var errorMessage = error.message;
+				alert(errorMessage);
+				console.log('erro');
+			});
+		}
 	}
+
 
 	register() {
 		this.navCtrl.push('RegisterPage');

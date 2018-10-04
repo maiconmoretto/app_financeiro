@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { User } from '../../models/user';
+import { ResumoGastosPage } from '../resumo-gastos/resumo-gastos';
 /**
  * Generated class for the RegisterPage page.
  *
@@ -28,6 +29,14 @@ export class RegisterPage {
       var self = this;
       const result = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password).then(function () {
         alert('usuário cadastrado');
+        self.afAuth.auth.signInWithEmailAndPassword(user.email, user.password).then(function () {
+          self.navCtrl.push(ResumoGastosPage);
+          console.log('sucesso');
+        }).catch(function (error) {
+          var errorMessage = error.message;
+          alert(errorMessage);
+          console.log('erro');
+        });
       }).catch(function (error) {
         var errorMessage = error.message;
         alert(errorMessage);
