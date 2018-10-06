@@ -74,7 +74,7 @@ import { EditGastoFixoPage } from '../pages/edit-gasto-fixo/edit-gasto-fixo';
     EditShoppingItemPage,
     GestaoCategoriasPage,
     GestaoReceitaPage,
-    ResumoGastosPage,
+    ResumoGastosPage, 
     LoginPage,
     LogoutPage, 
     EditCreditoPage,

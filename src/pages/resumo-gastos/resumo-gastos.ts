@@ -60,11 +60,7 @@ export class ResumoGastosPage {
     this.somaTotalReceita();
     this.somaTotalGastos();
     this.buscaGastos();
-    console.log(this.authService.getCurrentUserEmail());
-    console.log(this.authService.getCurrentUserId());
-    // this.afAuth.authState.subscribe(data => {
-    //   alert(data.email);
-    // });
+
     this.afAuth.authState.subscribe(data => {
       this.uid.push(data.uid);
       // alert(data.uid);
@@ -148,9 +144,8 @@ export class ResumoGastosPage {
         });
       })
 
-
-    this.database.list(localStorage.getItem("uid")+
-     'prestacoes_credito', {
+ 
+    this.database.list('prestacoes_credito', {
       preserveSnapshot: true,
       query: {
         orderByChild: 'mes_e_ano',
@@ -272,11 +267,5 @@ export class ResumoGastosPage {
   }
 
 
-  // getCurrentUser() {
-  //   this.afAuth.authState.subscribe(data => {
-  //     console.log('A informacao de data ' + data.uid);
-  //     return data.uid;
-  //   });
-  // }
 
 }

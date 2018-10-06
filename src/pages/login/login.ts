@@ -5,7 +5,7 @@ import { ResumoGastosPage } from '../resumo-gastos/resumo-gastos';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
 import { AngularFireAuth } from 'angularfire2/auth';
-
+import { ToastController } from 'ionic-angular';
 // @IonicPage()
 @Component({
 	selector: 'page-login',
@@ -20,7 +20,8 @@ export class LoginPage {
 		private afAuth: AngularFireAuth,
 		private authService: AuthService,
 		private alertController: AlertController,
-		private menuController: MenuController
+		private menuController: MenuController,
+		private toastCtrl: ToastController
 	) {
 
 		this.validateIsAuthenticaded();
@@ -28,13 +29,7 @@ export class LoginPage {
 	}
 
 	validateIsAuthenticaded() {
-		if (localStorage.getItem("email")
-			&&
-			localStorage.getItem("password")) {
-			this.navCtrl.setRoot(ResumoGastosPage);
-		} else {
-			console.log('n');
-		}
+
 	}
 
 	ionViewWillEnter() {
@@ -50,22 +45,31 @@ export class LoginPage {
 	isAuthenticated() {
 		return this.authService.authenticated();
 	}
+
 	async  login(user: User) {
-		var erro = false;
-		try {
-			const result = this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
-			if (result) {
-				localStorage.setItem("email", user.email);
-				localStorage.setItem("password", user.password);
-				this.navCtrl.setRoot(ResumoGastosPage);
-				this.afAuth.authState.subscribe(data => {
-					localStorage.setItem("uid", data.uid);
-				});
 
-			}
+		if (user.email == undefined || user.password == undefined) {
+			let toast = this.toastCtrl.create({
+				message: 'Digite os campos email e senha!',
+				duration: 3000,
+				position: 'top'
+			});
 
-		} catch (e) {
-			console.error(e);
+			toast.onDidDismiss(() => {
+			});
+
+			toast.present();
+
+		} else {
+			var self = this;
+			this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password).then(function () {
+				self.navCtrl.push(ResumoGastosPage);
+				console.log('sucesso');
+			}).catch(function (error) {
+				var errorMessage = error.message;
+				alert(errorMessage);
+				console.log('erro');
+			});
 		}
 	}
 
