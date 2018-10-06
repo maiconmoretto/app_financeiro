@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ShoppingListPage } from '../shopping-list/shopping-list';
+import { DetalheGastosPage } from '../detalhe-gastos/detalhe-gastos';
 
 /**
  * Generated class for the HomePage page.
@@ -32,7 +32,7 @@ export class HomePage {
 
     }
 
-    this.navCtrl.push(ShoppingListPage, { obj: data });
+    this.navCtrl.push(DetalheGastosPage, { obj: data });
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');

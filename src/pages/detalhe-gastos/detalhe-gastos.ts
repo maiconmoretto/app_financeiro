@@ -270,7 +270,7 @@ export class DetalheGastosPage {
 
 
   buscaMes() {
-    var date = new Date(this.mes),
+    var date = new Date(this.mes.toString()),
       locale = "pt-br",
       month = date.toLocaleString(locale, { month: "short" });
     this.stringMes = month;

@@ -62,7 +62,7 @@ import { EditGastoFixoPage } from '../pages/edit-gasto-fixo/edit-gasto-fixo';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
+    MyApp, 
     AboutPage,
     ContactPage,
     AddShoppingPage,
