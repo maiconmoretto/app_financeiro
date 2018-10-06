@@ -63,7 +63,6 @@ export class ResumoGastosPage {
     this.afAuth.authState.subscribe((auth) => {
       this.authState = auth
     });
-    console.log(this.authService.currentUserId );
   }
 
   get authenticated(): boolean {
@@ -134,12 +133,15 @@ export class ResumoGastosPage {
       }
     })
       .subscribe(snapshots => {
-        snapshots.forEach(snapshot => {
-          console.log('chegou ');
-          console.log('descricao  ' +snapshot.val().descricao);
-          console.log('valor  ' +snapshot.val().valor);
+        snapshots.forEach(snapshot => {          
+          this.adicionaGastos(snapshot.val());
           this.totalDiversos += Math.round(Number(snapshot.val().valor));
-          console.log('total diversos agora = '+ this.totalDiversos )
+          this.gastoMes = Math.round(
+            Number(this.totalFixos) +
+            Number(this.totalDiversos) +
+            Number(this.totalCredito)
+          );
+          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
         });
       })
 
@@ -152,12 +154,14 @@ export class ResumoGastosPage {
     })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
+          this.adicionaGastos(snapshot.val());
           this.totalFixos += Math.round(Number(snapshot.val().valor));
           this.gastoMes = Math.round(
             Number(this.totalFixos) +
             Number(this.totalDiversos) +
             Number(this.totalCredito)
           );
+          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
           this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
         });
       })
@@ -188,7 +192,7 @@ export class ResumoGastosPage {
                 var gasto_por = snapshot.val().gasto_por;
                 var dividir = snapshot.val().dividir;
                 this.totalCredito += (Number(rounded));
-                console.log('aquiiiii  ---> '+this.totalDiversos);
+                this.adicionaGastos(snapshot.val());
                 this.gastoMes = Math.round(
                   Number(this.totalFixos) +
                   Number(this.totalDiversos) +
