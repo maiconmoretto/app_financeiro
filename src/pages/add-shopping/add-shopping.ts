@@ -29,7 +29,7 @@ console.log(localStorage.getItem("uid"));
   }
 
   listaCategorias() {
-    this.fdb.list('/categorias/', { preserveSnapshot: true })
+    this.fdb.list(this.authService.currentUserId+'/categorias/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           this.categorias.push(snapshot.val().descricao);

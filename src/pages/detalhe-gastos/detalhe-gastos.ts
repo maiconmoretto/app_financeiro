@@ -68,7 +68,7 @@ export class DetalheGastosPage {
   statusFixos;
   statusCategorias;
   statusPorPessoa;
-
+ 
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
