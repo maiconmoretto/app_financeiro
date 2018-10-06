@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { AlertController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
+import { EditShoppingItemPage} from '../edit-shopping-item/edit-shopping-item';
 
 
 

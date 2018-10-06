@@ -24,7 +24,7 @@ export class GestaoReceitaPage {
     private authService: AuthService) {
     this.buscaReceita();
   }
-
+ 
   buscaReceita() {
     this.receita$ = this.database.list(this.authService.currentUserId+'/receita/');
   }
