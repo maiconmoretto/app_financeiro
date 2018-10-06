@@ -43,7 +43,8 @@ export class GestaoCategoriasPage {
     }
 
     this.database.list(this.authService.currentUserId+"/categorias/").push({
-      descricao: descricao
+      descricao: descricao,
+      cadastrado_por: this.authService.currentUserId
 
     });
 

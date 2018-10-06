@@ -40,6 +40,7 @@ export class GestaoReceitaPage {
       valor: valor,
       mes: mes,
       ano: ano,
+      cadastrado_por: this.authService.currentUserId
     });
 
 
