@@ -100,7 +100,7 @@ export class DetalheGastosPage {
   }
 
   somaTotalReceita() {
-    this.database.list('receita/', { preserveSnapshot: true })
+    this.database.list(this.authService.currentUserId+'/receita/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
@@ -113,10 +113,10 @@ export class DetalheGastosPage {
   }
 
   buscaGastos() {
-    this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
+    this.shoppingListRef$ = this.database.list(this.authService.currentUserId+'/gastos/diversos/' + this.ano + '/' + this.mes, {
 
     })
-    this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
+    this.gastosFixosRef$ = this.database.list(this.authService.currentUserId+'/gastos/fixos/' + this.ano + '/' + this.mes, {
 
     });
 
@@ -128,7 +128,7 @@ export class DetalheGastosPage {
     this.totalFixos = 0;
     this.totalCredito = 0;
     var total = 0;
-    this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
+    this.database.list(this.authService.currentUserId+'/gastos/diversos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
@@ -141,7 +141,7 @@ export class DetalheGastosPage {
       })
 
 
-    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
+    this.database.list(this.authService.currentUserId+'/gastos/fixos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
@@ -154,7 +154,7 @@ export class DetalheGastosPage {
       })
 
 
-    this.database.list('prestacoes_credito', {
+    this.database.list(this.authService.currentUserId+'/prestacoes_credito', {
       preserveSnapshot: true,
       query: {
         orderByChild: 'mes_e_ano',
@@ -168,7 +168,7 @@ export class DetalheGastosPage {
           var roundedString = valor_prestacao.toFixed(2);
           var rounded = Number(roundedString);
           var parcela = snapshot.val().parcela;
-          this.database.list('gastosCredito', {
+          this.database.list(this.authService.currentUserId+'/gastosCredito', {
             preserveSnapshot: true,
             query: {
               orderByKey: id_item,
@@ -248,12 +248,12 @@ export class DetalheGastosPage {
 
 
   importarGastosFixos() {
-    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes).remove();
-    this.database.list('gastosFixos/', { preserveSnapshot: true })
+    this.database.list(this.authService.currentUserId+'/gastos/fixos/' + this.ano + '/' + this.mes).remove();
+    this.database.list(this.authService.currentUserId+'/gastosFixos/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
-          this.database.list("/gastos/fixos/" + this.ano + '/' + this.mes).push({
+          this.database.list(this.authService.currentUserId+"/gastos/fixos/" + this.ano + '/' + this.mes).push({
             valor: snapshot.val().valor,
             descricao: snapshot.val().descricao,
             gastoFixo: true,

@@ -6,9 +6,7 @@ import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { EditCreditoPage } from '../edit-credito/edit-credito';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
-
-
-
+import { AuthService } from '../../services/auth.service';
 
 
 @IonicPage()
@@ -26,7 +24,9 @@ export class GestaoCreditoPage {
     public navParams: NavParams,
     private database: AngularFireDatabase,
     private toastCtrl: ToastController,
-    private actionSheetCtrl: ActionSheetController, ) {
+    private actionSheetCtrl: ActionSheetController,
+    private authService: AuthService
+   ) {
     this.gastosCredito$ = this.database.list('gastosCredito/');
 
     this.listaCategorias();
@@ -54,7 +54,7 @@ export class GestaoCreditoPage {
     var valorPrestacao = (valor / prestacoes);
 
     // cadastro no node gastosCredito
-    const newId = this.database.list("/gastosCredito/").push({
+    const newId = this.database.list(this.authService.currentUserId+"/gastosCredito/").push({
       descricao: descricao,
       valor: valor,
       prestacoes: prestacoes,
@@ -65,9 +65,10 @@ export class GestaoCreditoPage {
       gasto_por: gasto_por,
       dividir: dividir,
       data_cadastro: diaAtual + '/' + mesAtual + '/' + anoAtual,
+      cadastrado_por: this.authService.currentUserId
     }).key;
 
-
+ 
     for (var i = 0; i < prestacoes; i++) {
       if (mes == 13) {
         mes = "01";
@@ -79,7 +80,7 @@ export class GestaoCreditoPage {
           }
         }
       }
-      this.database.list("/prestacoes_credito").push({
+      this.database.list(this.authService.currentUserId+"/prestacoes_credito").push({
         id_item: newId,
         valor: valorPrestacao,
         parcela: (i + 1) + "/" + prestacoes,
@@ -87,6 +88,7 @@ export class GestaoCreditoPage {
         ano: ano,
         mes_e_ano: mes + '/' + ano,
         data_cadastro: diaAtual + '/' + mesAtual + '/' + anoAtual,
+        cadastrado_por: this.authService.currentUserId
       });
       mes++;
     }
