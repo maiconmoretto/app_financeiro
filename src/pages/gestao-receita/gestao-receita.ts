@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
-
+import { AuthService } from '../../services/auth.service';
 
 @IonicPage()
 @Component({
@@ -20,12 +20,13 @@ export class GestaoReceitaPage {
     public navParams: NavParams,
     private database: AngularFireDatabase,
     private actionSheetCtrl: ActionSheetController,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController,
+    private authService: AuthService) {
     this.buscaReceita();
   }
 
   buscaReceita() {
-    this.receita$ = this.database.list('receita/');
+    this.receita$ = this.database.list(this.authService.currentUserId+'/receita/');
   }
 
   adicionarReceita(descricao, valor, data) {
@@ -34,7 +35,7 @@ export class GestaoReceitaPage {
     var ano = data.substr(0, 4);
 
 
-    this.database.list("/receita/").push({
+    this.database.list(this.authService.currentUserId+"/receita/").push({
       descricao: descricao,
       valor: valor,
       mes: mes,

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
-
+import { AuthService } from '../../services/auth.service';
 
 @IonicPage()
 @Component({
@@ -20,7 +20,8 @@ export class GestaoCategoriasPage {
     public navParams: NavParams, 
     private database: AngularFireDatabase,
     private toastCtrl: ToastController,
-    private actionSheetCtrl: ActionSheetController) {
+    private actionSheetCtrl: ActionSheetController,
+    private authService: AuthService) {
     this.categorias$ = this.database.list('categorias/');
   }
 
@@ -41,7 +42,7 @@ export class GestaoCategoriasPage {
       return;
     }
 
-    this.database.list("/categorias/").push({
+    this.database.list(this.authService.currentUserId+"/categorias/").push({
       descricao: descricao
 
     });
