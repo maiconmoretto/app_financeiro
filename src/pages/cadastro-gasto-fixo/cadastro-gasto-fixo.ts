@@ -6,7 +6,7 @@ import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
 import { EditGastoFixoPage } from '../edit-gasto-fixo/edit-gasto-fixo';
-
+import { AuthService } from '../../services/auth.service';
 
 @IonicPage()
 @Component({
@@ -23,7 +23,8 @@ export class CadastroGastoFixoPage {
     public navParams: NavParams,
     private database: AngularFireDatabase,
     private actionSheetCtrl: ActionSheetController,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController,
+    private authService: AuthService) {
     this.gastosFixos$ = this.database.list('gastosFixos/');
     this.listaCategorias();
   }
@@ -39,12 +40,13 @@ export class CadastroGastoFixoPage {
   }
 
   adicionarGasto(descricao, valor, categoria, dividir, gasto_por) {
-    this.database.list("/gastosFixos/").push({
+    this.database.list(this.authService.currentUserId+"/gastosFixos/").push({
       descricao: descricao,
       valor: valor,
       categoria: categoria,
       dividir: dividir,
       gasto_por: gasto_por,
+      cadastrado_por: this.authService.currentUserId
     });
     let toast = this.toastCtrl.create({
       message: 'Adicionado gasto fixo com sucesso!',

@@ -7,7 +7,7 @@ import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface
 import { AlertController } from 'ionic-angular';
 import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
 import * as $ from 'jquery';
-
+import { AuthService } from '../../services/auth.service';
 
 @IonicPage()
 @Component({
@@ -22,9 +22,10 @@ export class AddShoppingPage {
     public NavParams: NavParams,
     private fdb: AngularFireDatabase,
     private toastCtrl: ToastController,
-    private database: AngularFireDatabase) {
+    private database: AngularFireDatabase,
+    private authService: AuthService) {
     this.listaCategorias();
-
+console.log(localStorage.getItem("uid"));
   }
 
   listaCategorias() {
@@ -59,13 +60,14 @@ export class AddShoppingPage {
       return;
     }
 
-    this.fdb.list("/gastos/diversos/" + data.substr(0, 4) + '/' + data.substr(5, 2) + '/').push({
+    this.fdb.list(this.authService.currentUserId+"/gastos/diversos/" + data.substr(0, 4) + '/' + data.substr(5, 2) + '/').push({
       descricao: descricao,
       valor: valor,
       data: data,
       gasto_por: gasto_por,
       categoria: categoria,
-      dividir: dividir
+      dividir: dividir,
+      cadastrado_por: this.authService.currentUserId,
 
     });
 

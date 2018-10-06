@@ -9,7 +9,7 @@ import { ContactPage } from '../pages/contact/contact';
 
 import { TabsPage } from '../pages/tabs/tabs';
  
-import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
+import { DetalheGastosPage } from '../pages/detalhe-gastos/detalhe-gastos';
 import { AddShoppingPage } from '../pages/add-shopping/add-shopping';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -36,7 +36,7 @@ import { EditGastoFixoPage } from '../pages/edit-gasto-fixo/edit-gasto-fixo';
     MyApp,
     AboutPage,
     ContactPage,
-   ShoppingListPage,
+    DetalheGastosPage,
    AddShoppingPage,
     TabsPage,
     HomePage,
@@ -62,20 +62,19 @@ import { EditGastoFixoPage } from '../pages/edit-gasto-fixo/edit-gasto-fixo';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
+    MyApp, 
     AboutPage,
     ContactPage,
-    ShoppingListPage,
     AddShoppingPage,
     TabsPage,
     HomePage,
-    ShoppingListPage,
+    DetalheGastosPage,
     CadastroGastoFixoPage,
     GestaoCreditoPage,
     EditShoppingItemPage,
     GestaoCategoriasPage,
     GestaoReceitaPage,
-    ResumoGastosPage,
+    ResumoGastosPage, 
     LoginPage,
     LogoutPage, 
     EditCreditoPage,

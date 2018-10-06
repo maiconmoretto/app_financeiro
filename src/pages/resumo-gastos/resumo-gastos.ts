@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { GestaoCreditoPage } from '../gestao-credito/gestao-credito';
 import { CadastroGastoFixoPage } from '../cadastro-gasto-fixo/cadastro-gasto-fixo';
-import { ShoppingListPage } from '../shopping-list/shopping-list';
+import { DetalheGastosPage } from '../detalhe-gastos/detalhe-gastos';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { LoginPage } from '../login/login';
@@ -35,7 +35,8 @@ export class ResumoGastosPage {
   totalDiversos = 0;
   totalFixos = 0;
   listaMaioresGastos = [];
-
+  uid = [];
+  authState: any = null;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
@@ -59,9 +60,23 @@ export class ResumoGastosPage {
     this.somaTotalReceita();
     this.somaTotalGastos();
     this.buscaGastos();
+    this.afAuth.authState.subscribe((auth) => {
+      this.authState = auth
+    });
   }
 
- 
+  get authenticated(): boolean {
+    return this.authState !== null;
+  }
+
+  get currentUser(): any {
+    return this.authenticated ? this.authState : null;
+  }
+
+  get currentUserId(): string {
+    return this.authenticated ? this.authState.uid : '';
+  }
+
   ionViewDidLoad() {
     this.afAuth.authState.subscribe(data => {
       if (data && data.email && data.uid) {
@@ -88,7 +103,7 @@ export class ResumoGastosPage {
 
 
   somaTotalReceita() {
-    this.database.list('receita/', { preserveSnapshot: true })
+    this.database.list(this.authService.currentUserId+'/receita/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
@@ -101,30 +116,37 @@ export class ResumoGastosPage {
   }
 
   buscaGastos() {
-    this.shoppingListRef$ = this.database.list('gastos/diversos/' + this.ano + '/' + this.mes);
-    this.gastosFixosRef$ = this.database.list('gastos/fixos/' + this.ano + '/' + this.mes);
+    this.shoppingListRef$ = this.database.list(this.authService.currentUserId+'/gastos/diversos/' + this.ano + '/' + this.mes);
+    this.gastosFixosRef$ = this.database.list(this.authService.currentUserId+'/gastos/fixos/' + this.ano + '/' + this.mes);
   }
 
-  
+
   somaTotalGastos() {
     this.totalDiversos = 0;
     this.totalFixos = 0;
     this.totalCredito = 0;
     var total = 0;
-    this.database.list('gastos/diversos/' + this.ano + '/' + this.mes, {
+    this.database.list(this.authService.currentUserId+'/gastos/diversos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
       }
     })
       .subscribe(snapshots => {
-        snapshots.forEach(snapshot => {
+        snapshots.forEach(snapshot => {          
+          this.adicionaGastos(snapshot.val());
           this.totalDiversos += Math.round(Number(snapshot.val().valor));
+          this.gastoMes = Math.round(
+            Number(this.totalFixos) +
+            Number(this.totalDiversos) +
+            Number(this.totalCredito)
+          );
+          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
         });
       })
 
 
-    this.database.list('gastos/fixos/' + this.ano + '/' + this.mes, {
+    this.database.list(this.authService.currentUserId+'/gastos/fixos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
@@ -132,12 +154,20 @@ export class ResumoGastosPage {
     })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
+          this.adicionaGastos(snapshot.val());
           this.totalFixos += Math.round(Number(snapshot.val().valor));
+          this.gastoMes = Math.round(
+            Number(this.totalFixos) +
+            Number(this.totalDiversos) +
+            Number(this.totalCredito)
+          );
+          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
+          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
         });
       })
 
- 
-    this.database.list('prestacoes_credito', {
+
+    this.database.list(this.authService.currentUserId+'/prestacoes_credito', {
       preserveSnapshot: true,
       query: {
         orderByChild: 'mes_e_ano',
@@ -150,7 +180,7 @@ export class ResumoGastosPage {
           var valor_prestacao = Number(snapshot.val().valor);
           var roundedString = valor_prestacao.toFixed(2);
           var rounded = Number(roundedString);
-          this.database.list('gastosCredito', {
+          this.database.list(this.authService.currentUserId+'/gastosCredito', {
             preserveSnapshot: true,
             query: {
               orderByKey: id_item,
@@ -162,6 +192,7 @@ export class ResumoGastosPage {
                 var gasto_por = snapshot.val().gasto_por;
                 var dividir = snapshot.val().dividir;
                 this.totalCredito += (Number(rounded));
+                this.adicionaGastos(snapshot.val());
                 this.gastoMes = Math.round(
                   Number(this.totalFixos) +
                   Number(this.totalDiversos) +
@@ -170,7 +201,7 @@ export class ResumoGastosPage {
                 this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
               })
             })
-        
+
 
         });
       })
@@ -205,7 +236,7 @@ export class ResumoGastosPage {
 
   verDetalhes() {
     //navigagte  the user to AddShoppingPage
-    this.navCtrl.push(ShoppingListPage);
+    this.navCtrl.push(DetalheGastosPage);
   }
   navigateToaddShoppingPage(page) {
 
@@ -247,15 +278,18 @@ export class ResumoGastosPage {
       }
     }
 
-    this.navCtrl.push(ShoppingListPage, { obj: data });
+    this.navCtrl.push(DetalheGastosPage, { obj: data });
 
   }
 
   buscaMes() {
-    var date = new Date(this.mes),
+    console.log(this.mes);
+    var date = new Date( this.mes.toString()),
       locale = "pt-br",
       month = date.toLocaleString(locale, { month: "short" });
     this.stringMes = month;
   }
+
+
 
 }
