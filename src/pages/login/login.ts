@@ -23,8 +23,21 @@ export class LoginPage {
 		private menuController: MenuController,
 		private toastCtrl: ToastController
 	) {
-
 		this.validateIsAuthenticaded();
+
+	}
+
+	ionViewWillEnter() {
+		let self = this;
+		this.menuController.swipeEnable(false)
+		this.afAuth.auth.onAuthStateChanged(function (user) {
+			if (user) {
+				self.navCtrl.push(ResumoGastosPage);
+				console.log('logado');
+			} else {
+				console.log('nao logado');
+			}
+		});
 
 	}
 
@@ -32,10 +45,7 @@ export class LoginPage {
 
 	}
 
-	ionViewWillEnter() {
 
-		this.menuController.swipeEnable(false)
-	}
 
 	ionViewDidLeave() {
 

@@ -283,7 +283,6 @@ export class ResumoGastosPage {
   }
 
   buscaMes() {
-    console.log(this.mes);
     var date = new Date( this.mes.toString()),
       locale = "pt-br",
       month = date.toLocaleString(locale, { month: "short" });
