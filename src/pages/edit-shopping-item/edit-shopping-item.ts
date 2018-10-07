@@ -4,7 +4,7 @@ import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/data
 import { FirebaseObjectFactoryOpts } from 'angularfire2/interfaces';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
-
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'page-edit-shopping-item',
@@ -19,7 +19,8 @@ export class EditShoppingItemPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController,
+    private authService: AuthService) {
  
     //capture the shopping item id as  a nagParameter
     const shoppingItemId = this.navParams.get('shoppingItemId');
@@ -27,18 +28,18 @@ export class EditShoppingItemPage {
     const mes = this.navParams.get('mes');
   
     //set  the scope of our  firebase object to our selected item
-    this.shoppingItemRef$ = this.database.object(`gastos/diversos/`+ano+`/`+mes+`/${shoppingItemId}`);
+    this.shoppingItemRef$ = this.database.object(
+      this.authService.currentUserId+`/gastos/diversos/`+ano+`/`+mes+`/${shoppingItemId}`);
  
     
     //sucbscibe the  object, and assing the result  to this.ShoppingItem
     this.shoppingItemRef$.subscribe(
       shoppingItem => this.shoppingItem = shoppingItem);
       this.listaCategorias();
-
     }
    
     listaCategorias() {
-      this.database.list('/categorias/', { preserveSnapshot: true })
+      this.database.list(this.authService.currentUserId+'/categorias/', { preserveSnapshot: true })
         .subscribe(snapshots => {
           snapshots.forEach(snapshot => {
             this.categorias.push(snapshot.val().descricao);
@@ -57,7 +58,6 @@ export class EditShoppingItemPage {
     });
 
     toast.onDidDismiss(() => {
-      // console.log('Dismissed toast');
     }); 
     toast.present();
   }
