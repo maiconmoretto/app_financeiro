@@ -30,6 +30,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { LogoutPage } from '../pages/logout/logout';
 import { EditCreditoPage } from '../pages/edit-credito/edit-credito';
 import { EditGastoFixoPage } from '../pages/edit-gasto-fixo/edit-gasto-fixo';
+import { GestaoCompartilharPage } from '../pages/gestao-compartilhar/gestao-compartilhar';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { EditGastoFixoPage } from '../pages/edit-gasto-fixo/edit-gasto-fixo';
     LoginPage,
     LogoutPage,
     EditCreditoPage,
-    EditGastoFixoPage
+    EditGastoFixoPage,
+    GestaoCompartilharPage
   ],
   imports: [
     BrowserModule,
@@ -78,7 +80,8 @@ import { EditGastoFixoPage } from '../pages/edit-gasto-fixo/edit-gasto-fixo';
     LoginPage,
     LogoutPage, 
     EditCreditoPage,
-    EditGastoFixoPage
+    EditGastoFixoPage,
+    GestaoCompartilharPage
   ],
   providers: [
     StatusBar,

@@ -46,6 +46,7 @@ export class ResumoGastosPage {
     private toast: ToastController,
     private authService: AuthService
   ) {
+ 
     this.data = this.navParams.data.obj;
     if (this.data == undefined) {
       var d = new Date();
@@ -63,19 +64,45 @@ export class ResumoGastosPage {
     this.afAuth.authState.subscribe((auth) => {
       this.authState = auth
     });
+    this.verificaSeExisteConvite();
   }
 
-  get authenticated(): boolean {
-    return this.authState !== null;
+  verificaSeExisteConvite() {
+    this.database.list('/compartilhamento/', {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: 'email',
+        equalTo: this.authService.getCurrentUserEmail
+      }
+    })
+      .subscribe(snapshots => {
+        var total = 0;
+        snapshots.forEach(snapshot => {
+          this.actionSheetCtrl.create({
+            title:  'Olá '+ this.authService.getCurrentUserEmail + ', ' + snapshot.val().email_remetente +" quer compartilhar os gastos com você.",
+            buttons: [
+              {
+                text: 'Aceitar',
+                handler: () => {
+                  console.log('sim');
+                }
+              },
+              {
+                text: 'Recusar',
+                role: 'destructive',
+                handler: () => {
+                  console.log('nao');
+                }
+              },
+            ]
+
+          }).present();
+        });
+        this.saldoMes = total;
+      })
   }
 
-  get currentUser(): any {
-    return this.authenticated ? this.authState : null;
-  }
 
-  get currentUserId(): string {
-    return this.authenticated ? this.authState.uid : '';
-  }
 
   ionViewDidLoad() {
     this.afAuth.authState.subscribe(data => {
@@ -103,7 +130,7 @@ export class ResumoGastosPage {
 
 
   somaTotalReceita() {
-    this.database.list(this.authService.currentUserId+'/receita/', { preserveSnapshot: true })
+    this.database.list(this.authService.currentUserId + '/receita/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
@@ -116,8 +143,8 @@ export class ResumoGastosPage {
   }
 
   buscaGastos() {
-    this.shoppingListRef$ = this.database.list(this.authService.currentUserId+'/gastos/diversos/' + this.ano + '/' + this.mes);
-    this.gastosFixosRef$ = this.database.list(this.authService.currentUserId+'/gastos/fixos/' + this.ano + '/' + this.mes);
+    this.shoppingListRef$ = this.database.list(this.authService.currentUserId + '/gastos/diversos/' + this.ano + '/' + this.mes);
+    this.gastosFixosRef$ = this.database.list(this.authService.currentUserId + '/gastos/fixos/' + this.ano + '/' + this.mes);
   }
 
 
@@ -126,14 +153,14 @@ export class ResumoGastosPage {
     this.totalFixos = 0;
     this.totalCredito = 0;
     var total = 0;
-    this.database.list(this.authService.currentUserId+'/gastos/diversos/' + this.ano + '/' + this.mes, {
+    this.database.list(this.authService.currentUserId + '/gastos/diversos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
       }
     })
       .subscribe(snapshots => {
-        snapshots.forEach(snapshot => {          
+        snapshots.forEach(snapshot => {
           this.adicionaGastos(snapshot.val());
           this.totalDiversos += Math.round(Number(snapshot.val().valor));
           this.gastoMes = Math.round(
@@ -146,7 +173,7 @@ export class ResumoGastosPage {
       })
 
 
-    this.database.list(this.authService.currentUserId+'/gastos/fixos/' + this.ano + '/' + this.mes, {
+    this.database.list(this.authService.currentUserId + '/gastos/fixos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
@@ -167,7 +194,7 @@ export class ResumoGastosPage {
       })
 
 
-    this.database.list(this.authService.currentUserId+'/prestacoes_credito', {
+    this.database.list(this.authService.currentUserId + '/prestacoes_credito', {
       preserveSnapshot: true,
       query: {
         orderByChild: 'mes_e_ano',
@@ -180,7 +207,7 @@ export class ResumoGastosPage {
           var valor_prestacao = Number(snapshot.val().valor);
           var roundedString = valor_prestacao.toFixed(2);
           var rounded = Number(roundedString);
-          this.database.list(this.authService.currentUserId+'/gastosCredito', {
+          this.database.list(this.authService.currentUserId + '/gastosCredito', {
             preserveSnapshot: true,
             query: {
               orderByKey: id_item,
@@ -283,7 +310,7 @@ export class ResumoGastosPage {
   }
 
   buscaMes() {
-    var date = new Date( this.mes.toString()),
+    var date = new Date(this.mes.toString()),
       locale = "pt-br",
       month = date.toLocaleString(locale, { month: "short" });
     this.stringMes = month;

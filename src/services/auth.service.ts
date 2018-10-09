@@ -34,12 +34,13 @@ export class AuthService {
   get currentUserId(): string {
     return this.authenticated ? this.authState.uid : '';
   }
-
-  getCurrentUserEmail() {
-    this.afAuth.authState.subscribe(data => {
-      return data.email;
-    });
+  get getCurrentUserEmail(): string {
+    return this.authenticated ? this.authState.email : '';
   }
+
+  // getCurrentUserEmail() {
+  //   return this.authenticated ? this.authState.email : '';
+  // }
 
 }
 /*

@@ -13,6 +13,7 @@ import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
 import { ResumoGastosPage } from '../pages/resumo-gastos/resumo-gastos';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
+import { GestaoCompartilharPage } from '../pages/gestao-compartilhar/gestao-compartilhar';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class MyApp {
       { title: 'Receita', component: GestaoReceitaPage },
       { title: 'Categorias', component: GestaoCategoriasPage },
       { title: 'Buscar', component:  HomePage },
+      { title: 'Compartilhar Gastos', component:  GestaoCompartilharPage },
       { title: 'Logout', component:  LogoutPage } 
 
     ];
