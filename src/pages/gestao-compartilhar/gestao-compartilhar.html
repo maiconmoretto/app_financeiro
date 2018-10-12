@@ -41,14 +41,16 @@
   <ion-item-divider>
     Convite(s) recebido(s)
     <ion-list>
-      <ion-item *ngFor="let item of convitesRecebidos" (click)="aceitarConvite(item.id)">
+      <ion-item *ngFor="let item of convitesRecebidos">
         <h2>
           <ion-icon name="mail"></ion-icon> {{item.email_remetente}}
         </h2>
-        <h2>
-          <ion-icon name="help"></ion-icon>  aceito? {{item.aceito}}
+        <h2> 
+          <ion-icon name="help"></ion-icon> aceito? {{item.aceito}}  
         </h2>
-        <!-- <ion-checkbox color="dark" checked="true"></ion-checkbox> -->
+          <button ion-button block (click)="aceitarConvite(item.id)">Aceitar</button>
+          <button ion-button block  color="danger" (click)="recusarConvite(item.id)">Recusar</button>
+      
       </ion-item>
     </ion-list>
   </ion-item-divider>

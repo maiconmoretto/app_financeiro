@@ -86,7 +86,7 @@ export class GestaoCompartilharPage {
   }
 
   aceitarConvite(itemId) {
-    alert('Convite aceito ' +itemId);
+    alert('Convite aceito ' + itemId);
     // let msg = this.toastCtrl.create({
     //   message: 'Convite aceito ' +itemId,
     //   duration: 3000,
@@ -99,7 +99,19 @@ export class GestaoCompartilharPage {
     // return;
   }
 
+  recusarConvite(itemId) {
+    alert('Convite recusado ' + itemId);
+    // let msg = this.toastCtrl.create({
+    //   message: 'Convite aceito ' +itemId,
+    //   duration: 3000,
+    //   position: 'top'
+    // });
 
+    // msg.onDidDismiss(() => {
+    //   // console.log('Dismissed toast');
+    // });
+    // return;
+  }
 
   enviarConvite(email) {
     if (email == undefined) {
