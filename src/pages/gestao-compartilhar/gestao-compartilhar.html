@@ -22,19 +22,37 @@
   <button ion-button block (click)="enviarConvite(email)">Convidar</button>
 
   <br>
-  <ion-list>
-    <ion-item *ngFor="let item of convites$ | async" (click)="selectItem(item)">
+  <hr>
 
-      <h2>
-        <ion-icon name="mail"></ion-icon> destinatário: {{item.email_destinatario}}
-      </h2>
-      <!-- {{ idUsuario == item.id_usuario ? ' fui eu ' : 'nao fui '}} -->
-      <h2>
-        <ion-icon name="mail"></ion-icon> remetente: {{item.email_remetente}}
-      </h2>
-      <h2>
-        <ion-icon name="help"></ion-icon> aceito? {{item.aceito ? 'nao' : 'sim'}}
-      </h2>
-    </ion-item>
-  </ion-list>
+  <ion-item-divider>
+    Convite(s) enviado(s)
+    <ion-list>
+      <ion-item *ngFor="let item of convitesEnviados" (click)="selectItem(item.id)">
+        <h2>
+          <ion-icon name="mail"></ion-icon> {{item.email_destinatario}}
+        </h2>
+        <h2>
+          <ion-icon name="help"></ion-icon> aceito? {{item.aceito}}
+        </h2>
+      </ion-item>
+    </ion-list>
+  </ion-item-divider>
+
+  <ion-item-divider>
+    Convite(s) recebido(s)
+    <ion-list>
+      <ion-item *ngFor="let item of convitesRecebidos" (click)="aceitarConvite(item.id)">
+        <h2>
+          <ion-icon name="mail"></ion-icon> {{item.email_remetente}}
+        </h2>
+        <h2>
+          <ion-icon name="help"></ion-icon>  aceito? {{item.aceito}}
+        </h2>
+        <!-- <ion-checkbox color="dark" checked="true"></ion-checkbox> -->
+      </ion-item>
+    </ion-list>
+  </ion-item-divider>
+
+
+
 </ion-content>
