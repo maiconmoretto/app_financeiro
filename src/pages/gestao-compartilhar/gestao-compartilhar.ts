@@ -56,7 +56,7 @@ export class GestaoCompartilharPage {
         snapshots.forEach(snapshot => {
           self.convitesEnviados.push(
             {
-              aceto: snapshot.val().aceito,
+              aceito: snapshot.val().aceito,
               email_destinatario: snapshot.val().email_destinatario,
               id: snapshot.key
             }
@@ -64,7 +64,7 @@ export class GestaoCompartilharPage {
         });
       })
   }
-
+       
   listConvitesRecebidos() {
     let self = this;
     this.convitesRecebidos = [];
@@ -79,7 +79,7 @@ export class GestaoCompartilharPage {
         snapshots.forEach(snapshot => {
           self.convitesRecebidos.push(
             {
-              aceto: snapshot.val().aceito,
+              aceito: snapshot.val().aceito,
               email_remetente: snapshot.val().email_remetente,
               id: snapshot.key
             }

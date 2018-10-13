@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar hideBackButton="true">
     <ion-title>Gestão de compartilhamento</ion-title>
   </ion-navbar>
 
@@ -32,7 +32,7 @@
           <ion-icon name="mail"></ion-icon> {{item.email_destinatario}}
         </h2>
         <h2>
-          <ion-icon name="help"></ion-icon> aceito? {{item.aceito}}
+          <ion-icon name="checkbox"></ion-icon> aceito? {{item.aceito}}
         </h2>
       </ion-item>
     </ion-list>
@@ -46,7 +46,7 @@
           <ion-icon name="mail"></ion-icon> {{item.email_remetente}}
         </h2>
         <h2>
-          <ion-icon name="help"></ion-icon> aceito? {{item.aceito}}
+          <ion-icon name="checkbox"></ion-icon> aceito? {{item.aceito}} 
         </h2>
       </ion-item>
     </ion-list>

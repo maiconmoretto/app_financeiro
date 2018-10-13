@@ -6,8 +6,8 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Responder ao convite</ion-title>
+  <ion-navbar hideBackButton="true">
+    <ion-title> <ion-icon name="arrow-round-back" (click)="voltar()"></ion-icon> Responder ao convite</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -28,4 +28,5 @@
   </ion-item>
   <br>
   <button ion-button block (click)="responderConvite(item)">Salvar</button>
+
 </ion-content>

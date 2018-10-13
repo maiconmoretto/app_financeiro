@@ -5,13 +5,14 @@ import { FirebaseObjectFactoryOpts } from 'angularfire2/interfaces';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
+import { GestaoCompartilharPage } from '../gestao-compartilhar/gestao-compartilhar';
 /**
  * Generated class for the EditConvitePage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+ 
 @IonicPage()
 @Component({
   selector: 'page-edit-convite',
@@ -33,8 +34,10 @@ export class EditConvitePage {
       item => this.item = item);
   }
 
+  voltar(){ 
+    this.navCtrl.push(GestaoCompartilharPage);
+  }
  
-
   alterarConvite(item: ShoppingItem) {
     this.itemRef$.update(item);
     let toast = this.toastCtrl.create({

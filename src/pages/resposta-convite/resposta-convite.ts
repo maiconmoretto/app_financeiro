@@ -5,6 +5,7 @@ import { FirebaseObjectFactoryOpts } from 'angularfire2/interfaces';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
+import { GestaoCompartilharPage } from '../gestao-compartilhar/gestao-compartilhar';
 
 /**
  * Generated class for the RespostaConvitePage page.
@@ -37,6 +38,9 @@ export class RespostaConvitePage {
       item => this.item = item);
   }
   
+  voltar(){
+    this.navCtrl.push(GestaoCompartilharPage);
+  }
 
   responderConvite(item: ShoppingItem) {
     this.itemRef$.update(item);
