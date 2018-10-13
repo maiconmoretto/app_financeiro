@@ -27,6 +27,7 @@ export class GestaoCompartilharPage {
   emailUsuario;
   idUsuario;
 
+  shoppingListRef$: FirebaseListObservable<ShoppingItem[]>;
   constructor(
     public navCtrl: NavController,
     public NavParams: NavParams,
@@ -64,7 +65,7 @@ export class GestaoCompartilharPage {
         });
       })
   }
-       
+
   listConvitesRecebidos() {
     let self = this;
     this.convitesRecebidos = [];
@@ -88,7 +89,7 @@ export class GestaoCompartilharPage {
       })
   }
 
- 
+
 
   respostaConvite(itemId) {
     this.navCtrl.push(RespostaConvitePage,
@@ -135,7 +136,6 @@ export class GestaoCompartilharPage {
   }
 
   selectItem(itemId) {
-    console.log(' idd -> ' + itemId)
     //display a actionsheet
     //1 - edit 
     //2 - remove item
@@ -153,14 +153,15 @@ export class GestaoCompartilharPage {
               });
           }
         },
-        // {
-        //   text: 'Delete',
-        //   role: 'destructive',
-        //   handler: () => {
-        //     //delete the current item
-        //     this.convitesEnviados$.remove(itemId);
-        //   }
-        // },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            //delete the current item
+            this.shoppingListRef$ = this.database.list('compartilhamento/' + itemId, {})
+            this.shoppingListRef$.remove(itemId.$key);
+          }
+        },
         {
           text: 'Cancelar',
           role: 'cancel',
@@ -169,7 +170,6 @@ export class GestaoCompartilharPage {
         },
       ]
     }).present();
-
   }
 
 }
