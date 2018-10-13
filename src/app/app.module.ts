@@ -32,6 +32,7 @@ import { EditCreditoPage } from '../pages/edit-credito/edit-credito';
 import { EditGastoFixoPage } from '../pages/edit-gasto-fixo/edit-gasto-fixo';
 import { GestaoCompartilharPage } from '../pages/gestao-compartilhar/gestao-compartilhar';
 import { EditConvitePage } from '../pages/edit-convite/edit-convite';
+import { RespostaConvitePage } from '../pages/resposta-convite/resposta-convite';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { EditConvitePage } from '../pages/edit-convite/edit-convite';
     EditCreditoPage,
     EditGastoFixoPage,
     GestaoCompartilharPage,
-    EditConvitePage
+    EditConvitePage,
+    RespostaConvitePage
   ],
   imports: [
     BrowserModule,
@@ -84,8 +86,10 @@ import { EditConvitePage } from '../pages/edit-convite/edit-convite';
     EditCreditoPage,
     EditGastoFixoPage,
     GestaoCompartilharPage,
-    EditConvitePage
+    EditConvitePage,
+    RespostaConvitePage
   ],
+   
   providers: [
     StatusBar,
     SplashScreen,

@@ -7,6 +7,7 @@ import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface
 import { AlertController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
 import { EditConvitePage } from '../edit-convite/edit-convite';
+import { RespostaConvitePage } from '../resposta-convite/resposta-convite';
 /**
  * Generated class for the GestaoCompartilharPage page.
  *
@@ -43,6 +44,7 @@ export class GestaoCompartilharPage {
 
   listConvitesEnviados() {
     let self = this;
+    this.convitesEnviados = [];
     this.database.list('/compartilhamento/', {
       preserveSnapshot: true,
       query: {
@@ -65,6 +67,7 @@ export class GestaoCompartilharPage {
 
   listConvitesRecebidos() {
     let self = this;
+    this.convitesRecebidos = [];
     this.database.list('/compartilhamento/', {
       preserveSnapshot: true,
       query: {
@@ -85,32 +88,13 @@ export class GestaoCompartilharPage {
       })
   }
 
-  aceitarConvite(itemId) {
-    alert('Convite aceito ' + itemId);
-    // let msg = this.toastCtrl.create({
-    //   message: 'Convite aceito ' +itemId,
-    //   duration: 3000,
-    //   position: 'top'
-    // });
+ 
 
-    // msg.onDidDismiss(() => {
-    //   // console.log('Dismissed toast');
-    // });
-    // return;
-  }
-
-  recusarConvite(itemId) {
-    alert('Convite recusado ' + itemId);
-    // let msg = this.toastCtrl.create({
-    //   message: 'Convite aceito ' +itemId,
-    //   duration: 3000,
-    //   position: 'top'
-    // });
-
-    // msg.onDidDismiss(() => {
-    //   // console.log('Dismissed toast');
-    // });
-    // return;
+  respostaConvite(itemId) {
+    this.navCtrl.push(RespostaConvitePage,
+      {
+        itemId: itemId
+      });
   }
 
   enviarConvite(email) {
