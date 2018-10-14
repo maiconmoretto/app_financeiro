@@ -118,7 +118,7 @@ export class GestaoCompartilharPage {
       email_destinatario: email,
       id_usuario: this.authService.currentUserId,
       email_remetente: this.authService.getCurrentUserEmail,
-      aceito: 'nao',
+      aceito: '',
     });
 
     let toast = this.toastCtrl.create({

@@ -33,9 +33,7 @@ export class LoginPage {
 		this.afAuth.auth.onAuthStateChanged(function (user) {
 			if (user) {
 				self.navCtrl.push(ResumoGastosPage);
-				console.log('logado');
 			} else {
-				console.log('nao logado');
 			}
 		});
 

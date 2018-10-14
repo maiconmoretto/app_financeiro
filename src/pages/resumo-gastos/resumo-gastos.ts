@@ -10,6 +10,8 @@ import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface
 import { AngularFireAuth } from 'angularfire2/auth';
 import { LoginPage } from '../login/login';
 import { AuthService } from '../../services/auth.service';
+import { GestaoCompartilharPage } from '../gestao-compartilhar/gestao-compartilhar';
+import { GestaoCategoriasPage } from '../gestao-categorias/gestao-categorias';
 
 @Component({
   selector: 'page-resumo-gastos',
@@ -46,7 +48,7 @@ export class ResumoGastosPage {
     private toast: ToastController,
     private authService: AuthService
   ) {
- 
+    this.verificaSeExisteCategorias();
     this.data = this.navParams.data.obj;
     if (this.data == undefined) {
       var d = new Date();
@@ -65,40 +67,62 @@ export class ResumoGastosPage {
       this.authState = auth
     });
     this.verificaSeExisteConvite();
+    this.verificaSeExisteCompartilhamento();
+  }
+
+  verificaSeExisteCategorias() {
+    this.database.list(this.authService.currentUserId + '/categorias/')
+      .subscribe(data => {
+        if (data.length == 0) {
+          alert('Não existem categorias cadastras, é necessário cadastrar!')
+          this.navCtrl.push(GestaoCategoriasPage);
+        }
+      })
+  }
+
+  verificaSeExisteCompartilhamento() {
+    let self = this;
+    this.database.list('/compartilhamento/', {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: 'email_destinatario',
+        equalTo: this.authService.getCurrentUserEmail
+      }
+    })
+      .subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          if (snapshot.val().aceito == 'sim') {
+            console.log('aqui ' + snapshot.val().id_usuario);
+            self.somaTotalReceita(snapshot.val().id_usuario);
+          }
+        });
+      })
   }
 
   verificaSeExisteConvite() {
     this.database.list('/compartilhamento/', {
       preserveSnapshot: true,
       query: {
-        orderByChild: 'email',
+        orderByChild: 'email_destinatario',
         equalTo: this.authService.getCurrentUserEmail
       }
     })
       .subscribe(snapshots => {
-        var total = 0;
         snapshots.forEach(snapshot => {
-          this.actionSheetCtrl.create({
-            title:  'Olá '+ this.authService.getCurrentUserEmail + ', ' + snapshot.val().email_remetente +" quer compartilhar os gastos com você.",
-            buttons: [
-              {
-                text: 'Aceitar',
-                handler: () => {
-                  console.log('sim');
+          if (snapshot.val().aceito == '') {
+            this.actionSheetCtrl.create({
+              title: 'Olá ' + this.authService.getCurrentUserEmail + ', ' + snapshot.val().email_remetente + " quer compartilhar os gastos com você.",
+              buttons: [
+                {
+                  text: 'Ver convite',
+                  handler: () => {
+                    this.navCtrl.push(GestaoCompartilharPage)
+                  }
                 }
-              },
-              {
-                text: 'Recusar',
-                role: 'destructive',
-                handler: () => {
-                  console.log('nao');
-                }
-              },
-            ]
-
-          }).present();
+              ]
+            }).present();
+          }
         });
-        this.saldoMes = total;
       })
   }
 
@@ -129,8 +153,9 @@ export class ResumoGastosPage {
   }
 
 
-  somaTotalReceita() {
-    this.database.list(this.authService.currentUserId + '/receita/', { preserveSnapshot: true })
+  somaTotalReceita(idUsuario = null) {
+    let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
+    this.database.list(id + '/receita/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
@@ -142,18 +167,20 @@ export class ResumoGastosPage {
       })
   }
 
-  buscaGastos() {
-    this.shoppingListRef$ = this.database.list(this.authService.currentUserId + '/gastos/diversos/' + this.ano + '/' + this.mes);
-    this.gastosFixosRef$ = this.database.list(this.authService.currentUserId + '/gastos/fixos/' + this.ano + '/' + this.mes);
+  buscaGastos(idUsuario = null) {
+    let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
+    this.shoppingListRef$ = this.database.list(id + '/gastos/diversos/' + this.ano + '/' + this.mes);
+    this.gastosFixosRef$ = this.database.list(id + '/gastos/fixos/' + this.ano + '/' + this.mes);
   }
 
 
-  somaTotalGastos() {
+  somaTotalGastos(idUsuario = null) {
+    let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
     this.totalDiversos = 0;
     this.totalFixos = 0;
     this.totalCredito = 0;
     var total = 0;
-    this.database.list(this.authService.currentUserId + '/gastos/diversos/' + this.ano + '/' + this.mes, {
+    this.database.list(id + '/gastos/diversos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
@@ -173,7 +200,7 @@ export class ResumoGastosPage {
       })
 
 
-    this.database.list(this.authService.currentUserId + '/gastos/fixos/' + this.ano + '/' + this.mes, {
+    this.database.list(id + '/gastos/fixos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
@@ -194,7 +221,7 @@ export class ResumoGastosPage {
       })
 
 
-    this.database.list(this.authService.currentUserId + '/prestacoes_credito', {
+    this.database.list(id + '/prestacoes_credito', {
       preserveSnapshot: true,
       query: {
         orderByChild: 'mes_e_ano',
@@ -207,7 +234,7 @@ export class ResumoGastosPage {
           var valor_prestacao = Number(snapshot.val().valor);
           var roundedString = valor_prestacao.toFixed(2);
           var rounded = Number(roundedString);
-          this.database.list(this.authService.currentUserId + '/gastosCredito', {
+          this.database.list(id + '/gastosCredito', {
             preserveSnapshot: true,
             query: {
               orderByKey: id_item,
@@ -304,9 +331,7 @@ export class ResumoGastosPage {
         data = ano + '-' + mes;
       }
     }
-
     this.navCtrl.push(DetalheGastosPage, { obj: data });
-
   }
 
   buscaMes() {
