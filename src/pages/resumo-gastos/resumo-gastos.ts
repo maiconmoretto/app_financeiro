@@ -49,6 +49,9 @@ export class ResumoGastosPage {
     private authService: AuthService
   ) {
     this.verificaSeExisteCategorias();
+    this.afAuth.authState.subscribe((auth) => {
+      this.authState = auth
+    });
     this.data = this.navParams.data.obj;
     if (this.data == undefined) {
       var d = new Date();
@@ -63,9 +66,6 @@ export class ResumoGastosPage {
     this.somaTotalReceita();
     this.somaTotalGastos();
     this.buscaGastos();
-    this.afAuth.authState.subscribe((auth) => {
-      this.authState = auth
-    });
     this.verificaSeExisteConvite();
     this.verificaSeExisteCompartilhamento();
   }
@@ -94,6 +94,8 @@ export class ResumoGastosPage {
           if (snapshot.val().aceito == 'sim') {
             console.log('aqui ' + snapshot.val().id_usuario);
             self.somaTotalReceita(snapshot.val().id_usuario);
+            self.somaTotalGastos(snapshot.val().id_usuario);
+            self.buscaGastos(snapshot.val().id_usuario);
           }
         });
       })
