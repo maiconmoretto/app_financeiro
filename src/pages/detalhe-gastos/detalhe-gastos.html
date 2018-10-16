@@ -33,7 +33,8 @@
 
   <div id="content">
     <h4>
-      <ion-icon name="logo-usd"></ion-icon> fixos R$ {{totalFixos}}</h4>
+      <ion-icon name="logo-usd"></ion-icon> fixos R$ {{totalFixos}}
+    </h4>
   </div>
   <div id="search">
     <button (click)="hideShowFixos()" ion-button>
@@ -44,25 +45,29 @@
   <hr>
   <br>
   <ion-list [class.hide]="!statusFixos">
-    <ion-item *ngFor="let item of gastosFixosRef$ | async">
+    <ion-item *ngFor="let item of arrayGastosFixos">
       <h2>
-        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}}
+      </h2>
       <h2>
-        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}}
+      </h2>
       <h2>
-        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
+        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}}
+      </h2>
       <h2>
-        <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
+        <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}}
+      </h2>
       <h2>dividir ? {{item.dividir}} </h2>
     </ion-item>
-    <button ion-button (click)="importarGastosFixos()">Importar gastos fixos</button>
   </ion-list>
   <br>
   <hr>
   <br>
   <div id="content">
     <h4>
-      <ion-icon name="card"></ion-icon> crédito R$ {{totalCredito}}</h4>
+      <ion-icon name="card"></ion-icon> crédito R$ {{totalCredito}}
+    </h4>
 
   </div>
   <div id="search">
@@ -76,17 +81,22 @@
   <ion-list [class.hide]="!statusCredito">
     <ion-item *ngFor="let item of arrayGastoCredito">
       <h2>
-        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}}
+      </h2>
       <h2>
-        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}}
+      </h2>
 
       <h2>
-        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.parcela}} </h2>
+        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.parcela}}
+      </h2>
 
       <h2>
-        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
+        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}}
+      </h2>
       <h2>
-        <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
+        <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}}
+      </h2>
       <h2>dividir ? {{item.dividir }} </h2>
 
     </ion-item>
@@ -96,7 +106,8 @@
   <br>
   <div id="content">
     <h4>
-      <ion-icon name="cash"></ion-icon> variáveis R$ {{totalDiversos}}</h4>
+      <ion-icon name="cash"></ion-icon> variáveis R$ {{totalDiversos}}
+    </h4>
   </div>
   <div id="search">
     <button (click)="hideShowDiversos()" ion-button>
@@ -107,17 +118,22 @@
   <hr>
   <br>
   <ion-list [class.hide]="!statusDiversos">
-    <ion-item *ngFor="let item of shoppingListRef$ | async" (click)="selectShoppingItem(item)">
+    <ion-item *ngFor="let item of arrayGastosDiversos " >
       <h2>
-        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}}
+      </h2>
       <h2>
-        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}}
+      </h2>
       <h2>
-        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.data}} </h2>
+        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{item.data}}
+      </h2>
       <h2>
-        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}} </h2>
+        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}}
+      </h2>
       <h2>
-        <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}} </h2>
+        <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}}
+      </h2>
       <h2>dividir ? {{item.dividir }} </h2>
     </ion-item>
   </ion-list>

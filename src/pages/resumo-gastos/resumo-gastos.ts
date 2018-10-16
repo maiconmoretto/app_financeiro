@@ -19,9 +19,9 @@ import { GestaoCategoriasPage } from '../gestao-categorias/gestao-categorias';
 })
 export class ResumoGastosPage {
 
-  shoppingListRef$: FirebaseListObservable<ShoppingItem[]>;
-  gastosFixosRef$: FirebaseListObservable<ShoppingItem[]>;
-  gastosCreditoRef$: FirebaseListObservable<ShoppingItem[]>;
+  arrayGastosDiversos = [];
+  arrayGastosFixos = [];
+  arrayGastoCredito = [];
   saldoMes = 0;
   data;
   gastoMes = 0;
@@ -29,7 +29,6 @@ export class ResumoGastosPage {
   gastosCredito = 0;
   gastosDiversos = 0;
   restante = 0;
-  arrayGastoCredito = [];
   mes;
   ano;
   stringMes;
@@ -92,7 +91,6 @@ export class ResumoGastosPage {
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           if (snapshot.val().aceito == 'sim') {
-            console.log('aqui ' + snapshot.val().id_usuario);
             self.somaTotalReceita(snapshot.val().id_usuario);
             self.somaTotalGastos(snapshot.val().id_usuario);
             self.buscaGastos(snapshot.val().id_usuario);
@@ -127,7 +125,6 @@ export class ResumoGastosPage {
         });
       })
   }
-
 
 
   ionViewDidLoad() {
@@ -171,16 +168,26 @@ export class ResumoGastosPage {
 
   buscaGastos(idUsuario = null) {
     let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
-    this.shoppingListRef$ = this.database.list(id + '/gastos/diversos/' + this.ano + '/' + this.mes);
-    this.gastosFixosRef$ = this.database.list(id + '/gastos/fixos/' + this.ano + '/' + this.mes);
-  }
+    this.database.list(id + '/gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
+      .subscribe(snapshots => {
+        var total = 0;
+        snapshots.forEach(snapshot => {
+          this.arrayGastosDiversos.push(snapshot.val())
+        })
+      })
 
+    this.database.list(id + '/gastosFixos/', { preserveSnapshot: true })
+      .subscribe(snapshots => {
+        var total = 0;
+        snapshots.forEach(snapshot => {
+          this.adicionaGastos(snapshot.val());
+          this.arrayGastosFixos.push(snapshot.val())
+        })
+      })
+  }
 
   somaTotalGastos(idUsuario = null) {
     let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
-    this.totalDiversos = 0;
-    this.totalFixos = 0;
-    this.totalCredito = 0;
     var total = 0;
     this.database.list(id + '/gastos/diversos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
@@ -192,17 +199,11 @@ export class ResumoGastosPage {
         snapshots.forEach(snapshot => {
           this.adicionaGastos(snapshot.val());
           this.totalDiversos += Math.round(Number(snapshot.val().valor));
-          this.gastoMes = Math.round(
-            Number(this.totalFixos) +
-            Number(this.totalDiversos) +
-            Number(this.totalCredito)
-          );
-          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
         });
       })
 
 
-    this.database.list(id + '/gastos/fixos/' + this.ano + '/' + this.mes, {
+    this.database.list(id + '/gastosFixos/', {
       preserveSnapshot: true,
       query: {
         orderByChild: 'data_cadastro'
@@ -212,13 +213,6 @@ export class ResumoGastosPage {
         snapshots.forEach(snapshot => {
           this.adicionaGastos(snapshot.val());
           this.totalFixos += Math.round(Number(snapshot.val().valor));
-          this.gastoMes = Math.round(
-            Number(this.totalFixos) +
-            Number(this.totalDiversos) +
-            Number(this.totalCredito)
-          );
-          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
-          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
         });
       })
 
@@ -236,6 +230,7 @@ export class ResumoGastosPage {
           var valor_prestacao = Number(snapshot.val().valor);
           var roundedString = valor_prestacao.toFixed(2);
           var rounded = Number(roundedString);
+          var parcela = snapshot.val().parcela;
           this.database.list(id + '/gastosCredito', {
             preserveSnapshot: true,
             query: {
@@ -247,21 +242,26 @@ export class ResumoGastosPage {
               snapshots.forEach(snapshot => {
                 var gasto_por = snapshot.val().gasto_por;
                 var dividir = snapshot.val().dividir;
-                this.totalCredito += (Number(rounded));
-                this.adicionaGastos(snapshot.val());
+                this.totalCredito += Math.round(Number(rounded));
                 this.gastoMes = Math.round(
                   Number(this.totalFixos) +
                   Number(this.totalDiversos) +
                   Number(this.totalCredito)
                 );
+                this.arrayGastoCredito.push({
+                  descricao: snapshot.val().descricao,
+                  categoria: snapshot.val().categoria,
+                  gasto_por: snapshot.val().gasto_por,
+                  valor: rounded,
+                  parcela: parcela,
+                  dividir: snapshot.val().dividir
+                });
+                this.adicionaGastos(snapshot.val());
                 this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
               })
             })
-
-
         });
       })
-
   }
 
 
