@@ -14,7 +14,7 @@ import { ResumoGastosPage } from '../pages/resumo-gastos/resumo-gastos';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
 import { GestaoCompartilharPage } from '../pages/gestao-compartilhar/gestao-compartilhar';
-
+import { GastoPorCategoriaPage } from '../pages/gasto-por-categoria/gasto-por-categoria';
 
 @Component({
   templateUrl: 'app.html'
@@ -33,6 +33,7 @@ export class MyApp {
     this.pages = [
       { title: 'Página Inicial', component: ResumoGastosPage  },
       { title: 'Detalhe gastos', component: ShoppingListPage  },
+      { title: 'Relatório de gasto por categoria', component: GastoPorCategoriaPage  },
       { title: 'Adicionar gasto', component: AddShoppingPage },
       { title: 'Gasto Fixo', component: CadastroGastoFixoPage },
       { title: 'Crédito', component: GestaoCreditoPage },
