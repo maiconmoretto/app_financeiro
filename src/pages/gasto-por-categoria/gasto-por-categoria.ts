@@ -80,7 +80,6 @@ export class GastoPorCategoriaPage {
   }
 
   buscaGastosPorCategoria(idUsuario = null) {
-
     let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
     this.database.list(id + '/categorias/', {
       preserveSnapshot: true

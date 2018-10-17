@@ -25,16 +25,35 @@ export class AddShoppingPage {
     private database: AngularFireDatabase,
     private authService: AuthService) {
     this.listaCategorias();
-console.log(localStorage.getItem("uid"));
+    this.verificaSeExisteCompartilhamento();
   }
 
-  listaCategorias() {
-    this.fdb.list(this.authService.currentUserId+'/categorias/', { preserveSnapshot: true })
+  listaCategorias(idUsuario = null) {
+    let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
+    this.fdb.list(id + '/categorias/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           this.categorias.push(snapshot.val().descricao);
           this.categorias.sort();
         })
+      })
+  }
+
+  verificaSeExisteCompartilhamento() {
+    let self = this;
+    this.database.list('/compartilhamento/', {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: 'email_destinatario',
+        equalTo: this.authService.getCurrentUserEmail
+      }
+    })
+      .subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          if (snapshot.val().aceito == 'sim') {
+            self.listaCategorias(snapshot.val().id_usuario);
+          }
+        });
       })
   }
 
@@ -60,7 +79,7 @@ console.log(localStorage.getItem("uid"));
       return;
     }
 
-    this.fdb.list(this.authService.currentUserId+"/gastos/diversos/" + data.substr(0, 4) + '/' + data.substr(5, 2) + '/').push({
+    this.fdb.list(this.authService.currentUserId + "/gastos/diversos/" + data.substr(0, 4) + '/' + data.substr(5, 2) + '/').push({
       descricao: descricao,
       valor: valor,
       data: data,
