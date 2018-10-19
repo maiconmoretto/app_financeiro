@@ -17,6 +17,8 @@ import { AuthService } from '../../services/auth.service';
 export class AddShoppingPage {
   nome;
   categorias = [];
+  pessoasCompartilhando = [];
+  emailUsuario;
 
   constructor(public navCtrl: NavController,
     public NavParams: NavParams,
@@ -26,6 +28,8 @@ export class AddShoppingPage {
     private authService: AuthService) {
     this.listaCategorias();
     this.verificaSeExisteCompartilhamento();
+    this.emailUsuario = this.authService.getCurrentUserEmail;
+    console.log(this.emailUsuario);
   }
 
   listaCategorias(idUsuario = null) {
@@ -51,6 +55,7 @@ export class AddShoppingPage {
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           if (snapshot.val().aceito == 'sim') {
+            self.pessoasCompartilhando.push(snapshot.val().email_remetente)
             self.listaCategorias(snapshot.val().id_usuario);
           }
         });

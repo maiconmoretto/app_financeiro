@@ -9,7 +9,7 @@
     <ion-title>Adiconar gasto</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content >
+<ion-content>
 
   <ion-item>
     <ion-label floating>Descrição</ion-label>
@@ -37,15 +37,15 @@
   <ion-item>
     <ion-label>Dividir valor?</ion-label>
     <ion-select [(ngModel)]="dividir">
-      <ion-option value="sim">sim</ion-option>
-      <ion-option value="nao">não</ion-option>
+      <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
+      <ion-option value="nao">não dividir</ion-option>
     </ion-select>
   </ion-item>
   <ion-item>
     <ion-label>Gasto por</ion-label>
     <ion-select [(ngModel)]="gasto_por">
-      <ion-option value="Bruna">Bruna</ion-option>
-      <ion-option value="Maicon">Maicon</ion-option>
+      <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
+      <ion-option value="{{emailUsuario}}">{{emailUsuario}}</ion-option>
     </ion-select>
   </ion-item>
   <br>
