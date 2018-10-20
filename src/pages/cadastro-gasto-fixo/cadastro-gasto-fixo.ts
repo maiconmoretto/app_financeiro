@@ -7,6 +7,7 @@ import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface
 import { ToastController } from 'ionic-angular';
 import { EditGastoFixoPage } from '../edit-gasto-fixo/edit-gasto-fixo';
 import { AuthService } from '../../services/auth.service';
+import { GestaoCategoriasPage } from '../gestao-categorias/gestao-categorias';
 
 @IonicPage()
 @Component({
@@ -18,19 +19,28 @@ export class CadastroGastoFixoPage {
 
   categorias = [];
   gastosFixos$: FirebaseListObservable<ShoppingItem[]>
-
+  pessoasCompartilhando = [];
+  emailUsuario ;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
     private actionSheetCtrl: ActionSheetController,
     private toastCtrl: ToastController,
     private authService: AuthService) {
-    this.gastosFixos$ = this.database.list(this.authService.currentUserId+'/gastosFixos/');
+    this.listaGastosFixos();
     this.listaCategorias();
+    this.verificaSeExisteCategorias();
+    this.verificaSeExisteCompartilhamento();
+    this.emailUsuario = this.authService.getCurrentUserEmail;
+  }
+ 
+  listaGastosFixos() {
+    this.gastosFixos$ = this.database.list(this.authService.currentUserId + '/gastosFixos/');
   }
 
-  listaCategorias() {
-    this.database.list('/categorias/', { preserveSnapshot: true })
+  listaCategorias(idUsuario = null) {
+    idUsuario = idUsuario == null ? this.authService.currentUserId : idUsuario;
+    this.database.list(idUsuario + '/categorias/', { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           this.categorias.push(snapshot.val().descricao);
@@ -39,8 +49,37 @@ export class CadastroGastoFixoPage {
       })
   }
 
+  verificaSeExisteCategorias() {
+    this.database.list(this.authService.currentUserId + '/categorias/')
+      .subscribe(data => {
+        if (data.length == 0) {
+          alert('Não existem categorias cadastras, é necessário cadastrar!')
+          this.navCtrl.push(GestaoCategoriasPage);
+        }
+      })
+  }
+
+  verificaSeExisteCompartilhamento() {
+    let self = this;
+    this.database.list('/compartilhamento/', {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: 'email_destinatario',
+        equalTo: this.authService.getCurrentUserEmail
+      }
+    })
+      .subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          if (snapshot.val().aceito == 'sim') {
+            self.listaCategorias(snapshot.val().id_usuario);
+            self.pessoasCompartilhando.push(snapshot.val().email_remetente)
+          }
+        });
+      })
+  }
+
   adicionarGasto(descricao, valor, categoria, dividir, gasto_por) {
-    this.database.list(this.authService.currentUserId+"/gastosFixos/").push({
+    this.database.list(this.authService.currentUserId + "/gastosFixos/").push({
       descricao: descricao,
       valor: valor,
       categoria: categoria,
@@ -92,13 +131,9 @@ export class CadastroGastoFixoPage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-
-
           }
         },
       ]
-
-
     }).present();
 
   }

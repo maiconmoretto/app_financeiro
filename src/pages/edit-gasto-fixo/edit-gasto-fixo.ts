@@ -5,6 +5,7 @@ import { FirebaseObjectFactoryOpts } from 'angularfire2/interfaces';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
 import 'rxjs/add/operator/take';
+import { AuthService } from '../../services/auth.service';
 /**
  * Generated class for the EditGastoFixoPage page.
  *
@@ -26,12 +27,12 @@ export class EditGastoFixoPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController,
+    private authService: AuthService) {
     //capture the shopping item id as  a nagParameter
     const shoppingItemId = this.navParams.get('shoppingItemId');
-    console.log('chegou !' +shoppingItemId);
     //set  the scope of our  firebase object to our selected item
-    this.shoppingItemRef$ = this.database.object(`gastosFixos/${shoppingItemId}`);
+    this.shoppingItemRef$ = this.database.object(this.authService.currentUserId +`/gastosFixos/${shoppingItemId}`);
 
     //sucbscibe the  object, and assing the result  to this.ShoppingItem
     this.shoppingItemRef$.subscribe(

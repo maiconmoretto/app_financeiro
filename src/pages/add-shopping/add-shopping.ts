@@ -44,10 +44,13 @@ export class AddShoppingPage {
     this.listaCategorias();
     this.verificaSeExisteCompartilhamento();
     this.emailUsuario = this.authService.getCurrentUserEmail;
+    this.listaGasosVariaveis();
 
+  }
+
+  listaGasosVariaveis() {
     this.gastosVariaveis$ =
-      this.database.list(this.authService.currentUserId + '/gastos/diversos/' +this.ano + '/' + this.mes + '/');
-
+      this.database.list(this.authService.currentUserId + '/gastos/diversos/' + this.ano + '/' + this.mes + '/');
   }
 
   listaCategorias(idUsuario = null) {
@@ -81,7 +84,6 @@ export class AddShoppingPage {
   }
 
   addShoppingItem(descricao, valor, data, gasto_por, categoria, dividir) {
-
     if (descricao == undefined
       || valor == undefined
       || data == undefined
