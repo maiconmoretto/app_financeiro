@@ -50,4 +50,24 @@
   </ion-item>
   <br>
   <button ion-button block (click)="addShoppingItem(descricao,valor,data,gasto_por,categoria,dividir)">Adicionar</button>
+
+  <ion-list>
+    <ion-item *ngFor="let item of gastosVariaveis$ | async" (click)="selectShoppingItem(item)">
+
+      <h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}}
+      </h2>
+      <h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}}
+      </h2>
+      <h2>
+        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}}
+      </h2>
+      <h2>dividir ? {{item.dividir}} </h2>
+      <h2>
+        <ion-icon ios="ios-contact" md="md-contact"></ion-icon> {{item.gasto_por}}
+      </h2>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

@@ -21,7 +21,7 @@ export class EditShoppingItemPage {
     private database: AngularFireDatabase,
     private toastCtrl: ToastController,
     private authService: AuthService) {
- 
+ console.log('aqui '+ this.navParams.get('shoppingItemId'));
     //capture the shopping item id as  a nagParameter
     const shoppingItemId = this.navParams.get('shoppingItemId');
     const ano = this.navParams.get('ano');

@@ -25,7 +25,7 @@ export class CadastroGastoFixoPage {
     private actionSheetCtrl: ActionSheetController,
     private toastCtrl: ToastController,
     private authService: AuthService) {
-    this.gastosFixos$ = this.database.list('gastosFixos/');
+    this.gastosFixos$ = this.database.list(this.authService.currentUserId+'/gastosFixos/');
     this.listaCategorias();
   }
 
@@ -63,7 +63,6 @@ export class CadastroGastoFixoPage {
 
 
   selectShoppingItem(gastosFixo: ShoppingItem) {
-    console.log('id ' +gastosFixo.$key);
     //display a actionsheet
     //1 - edit 
     //2 - remove item
