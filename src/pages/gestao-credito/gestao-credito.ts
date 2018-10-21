@@ -103,7 +103,6 @@ export class GestaoCreditoPage {
       cadastrado_por: this.authService.currentUserId
     }).key;
 
-
     for (var i = 0; i < prestacoes; i++) {
       if (mes == 13) {
         mes = "01";
@@ -127,32 +126,31 @@ export class GestaoCreditoPage {
       });
       mes++;
     }
-
     let toast = this.toastCtrl.create({
       message: 'Adicionado gasto com crédito com sucesso!',
       duration: 3000,
       position: 'top'
     });
-
     toast.onDidDismiss(() => {
-      // console.log('Dismissed toast');
     });
-
     toast.present();
-    // this.navCtrl.pop();
-
   }
 
 
   selectShoppingItem(gastosCredito: ShoppingItem) {
-    //display a actionsheet
-    //1 - edit 
-    //2 - remove item
-    //3 - cancel selection
     this.actionSheetCtrl.create({
       title: '',
       buttons: [
-
+        {
+          text: 'Edit',
+          handler: () => {
+            //send the item to edit item and pass key as parameter
+            this.navCtrl.push(EditCreditoPage,
+              {
+                shoppingItemId: gastosCredito.$key
+              });
+          }
+        },
         {
           text: 'Delete',
           role: 'destructive',
@@ -179,16 +177,6 @@ export class GestaoCreditoPage {
           }
         },
         {
-          text: 'Edit',
-          handler: () => {
-            //send the item to edit item and pass key as parameter
-            this.navCtrl.push(EditCreditoPage,
-              {
-                shoppingItemId: gastosCredito.$key
-              });
-          }
-        },
-        {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
@@ -196,9 +184,7 @@ export class GestaoCreditoPage {
           }
         },
       ]
-
     }).present();
   }
-
 
 }
