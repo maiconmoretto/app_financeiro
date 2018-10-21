@@ -33,8 +33,8 @@ export class MyApp {
     this.pages = [
       { title: 'Página Inicial', component: ResumoGastosPage  },
       { title: 'Detalhe gastos', component: ShoppingListPage  },
-      { title: 'Relatório de gasto por categoria', component: GastoPorCategoriaPage  },
-      { title: 'Adicionar gasto', component: AddShoppingPage },
+      { title: 'Relatório de Gasto por Categoria', component: GastoPorCategoriaPage  },
+      { title: 'Adicionar Gasto Variável', component: AddShoppingPage },
       { title: 'Gasto Fixo', component: CadastroGastoFixoPage },
       { title: 'Crédito', component: GestaoCreditoPage },
       { title: 'Receita', component: GestaoReceitaPage },

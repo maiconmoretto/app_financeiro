@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Editar item</ion-title>
+    <ion-title>Editar Gasto Variável</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -30,25 +30,25 @@
     <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="shoppingItem.data"></ion-datetime>
   </ion-item>
 
- 
+
   <ion-item>
-      <ion-label>Categoria</ion-label>
-      <ion-select [(ngModel)]="categoria">
-        <ion-option value="{{categoria}}" *ngFor="let categoria of categorias"> {{categoria}}</ion-option>
-      </ion-select>
-    </ion-item>
-  <ion-item>
-    <ion-label>Dividir valor?</ion-label>
-    <ion-select [(ngModel)]="dividir">
-      <ion-option value="sim">sim</ion-option>
-      <ion-option value="nao">não</ion-option>
+    <ion-label>Categoria</ion-label>
+    <ion-select [(ngModel)]="shoppingItem.categoria">
+      <ion-option value="{{categoria}}" *ngFor="let categoria of categorias"> {{categoria}}</ion-option>
     </ion-select>
   </ion-item>
   <ion-item>
-    <ion-label>Gasto por</ion-label>
-    <ion-select [(ngModel)]="gasto_por">
-      <ion-option value="Bruna" [selected]="shoppingItem.gasto_por == 'Bruna' ">Bruna</ion-option>
-      <ion-option value="Maicon" [selected]="shoppingItem.gasto_por == 'Maicon'">Maicon</ion-option>
+    <ion-label>Dividir valor?</ion-label>
+    <ion-select [(ngModel)]="shoppingItem.dividir">
+      <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
+      <ion-option value="nao">não dividir</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Gasto por </ion-label>
+    <ion-select [(ngModel)]="shoppingItem.gasto_por">
+      <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
+      <ion-option value="{{emailUsuario}}">{{emailUsuario}}</ion-option>
     </ion-select>
   </ion-item>
   <br>

@@ -130,10 +130,6 @@ export class AddShoppingPage {
   }
 
   selectShoppingItem(gastosVariaveis: ShoppingItem) {
-    //display a actionsheet
-    //1 - edit 
-    //2 - remove item
-    //3 - cancel selection
     this.actionSheetCtrl.create({
       title: '',
       buttons: [
