@@ -34,6 +34,7 @@ import { GestaoCompartilharPage } from '../pages/gestao-compartilhar/gestao-comp
 import { EditConvitePage } from '../pages/edit-convite/edit-convite';
 import { RespostaConvitePage } from '../pages/resposta-convite/resposta-convite';
 import { GastoPorCategoriaPage } from '../pages/gasto-por-categoria/gasto-por-categoria';
+import { RelatorioGastoPorPessoaPage } from '../pages/relatorio-gasto-por-pessoa/relatorio-gasto-por-pessoa';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { GastoPorCategoriaPage } from '../pages/gasto-por-categoria/gasto-por-ca
     GestaoCompartilharPage,
     EditConvitePage,
     RespostaConvitePage,
-    GastoPorCategoriaPage
+    GastoPorCategoriaPage,
+    RelatorioGastoPorPessoaPage
   ],
   imports: [
     BrowserModule,
@@ -90,7 +92,8 @@ import { GastoPorCategoriaPage } from '../pages/gasto-por-categoria/gasto-por-ca
     GestaoCompartilharPage,
     EditConvitePage,
     RespostaConvitePage,
-    GastoPorCategoriaPage
+    GastoPorCategoriaPage,
+    RelatorioGastoPorPessoaPage
   ],
    
   providers: [

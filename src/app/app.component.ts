@@ -15,7 +15,8 @@ import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
 import { GestaoCompartilharPage } from '../pages/gestao-compartilhar/gestao-compartilhar';
 import { GastoPorCategoriaPage } from '../pages/gasto-por-categoria/gasto-por-categoria';
-
+import { RelatorioGastoPorPessoaPage } from '../pages/relatorio-gasto-por-pessoa/relatorio-gasto-por-pessoa';
+  
 @Component({
   templateUrl: 'app.html'
 })
@@ -34,6 +35,7 @@ export class MyApp {
       { title: 'Página Inicial', component: ResumoGastosPage  },
       { title: 'Detalhe gastos', component: ShoppingListPage  },
       { title: 'Relatório de Gasto por Categoria', component: GastoPorCategoriaPage  },
+      { title: 'Relatório de Gasto por Pessoa', component: RelatorioGastoPorPessoaPage  },
       { title: 'Adicionar Gasto Variável', component: AddShoppingPage },
       { title: 'Gasto Fixo', component: CadastroGastoFixoPage },
       { title: 'Crédito', component: GestaoCreditoPage },
