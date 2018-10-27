@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
+import { EditCategoriaPage } from '../../pages/edit-categoria/edit-categoria';
+
 
 @IonicPage()
 @Component({
@@ -77,8 +77,17 @@ export class GestaoCategoriasPage {
           text: 'Delete',
           role: 'destructive',
           handler: () => {
-            //delete the current item
             this.categorias$.remove(shoppingItem.$key);
+          }
+        },
+        {
+          text: 'Edit',
+          role: 'destructive',
+          handler: () => {
+           this.navCtrl.push(EditCategoriaPage,
+            {
+              shoppingItemId: shoppingItem.$key
+            });
           }
         },
         {

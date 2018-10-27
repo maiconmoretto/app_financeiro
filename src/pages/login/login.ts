@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NavController, AlertController, MenuController } from 'ionic-angular';
 import { ResumoGastosPage } from '../resumo-gastos/resumo-gastos';
 import { AuthService } from '../../services/auth.service';
@@ -23,7 +22,6 @@ export class LoginPage {
 		private menuController: MenuController,
 		private toastCtrl: ToastController
 	) {
-		this.validateIsAuthenticaded();
 
 	}
 
@@ -33,20 +31,12 @@ export class LoginPage {
 		this.afAuth.auth.onAuthStateChanged(function (user) {
 			if (user) {
 				self.navCtrl.push(ResumoGastosPage);
-			} else {
 			}
 		});
 
 	}
 
-	validateIsAuthenticaded() {
-
-	}
-
-
-
 	ionViewDidLeave() {
-
 		this.menuController.swipeEnable(true)
 	}
 
@@ -55,7 +45,6 @@ export class LoginPage {
 	}
 
 	async  login(user: User) {
-
 		if (user.email == undefined || user.password == undefined) {
 			let toast = this.toastCtrl.create({
 				message: 'Digite os campos email e senha!',

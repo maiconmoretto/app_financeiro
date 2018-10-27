@@ -6,6 +6,7 @@ import { AddShoppingPage } from '../add-shopping/add-shopping';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
+import { EditReceitaPage } from '../../pages/edit-receita/edit-receita';
 
 @IonicPage()
 @Component({
@@ -24,9 +25,9 @@ export class GestaoReceitaPage {
     private authService: AuthService) {
     this.buscaReceita();
   }
- 
+
   buscaReceita() {
-    this.receita$ = this.database.list(this.authService.currentUserId+'/receita/');
+    this.receita$ = this.database.list(this.authService.currentUserId + '/receita/');
   }
 
   adicionarReceita(descricao, valor, data) {
@@ -35,11 +36,12 @@ export class GestaoReceitaPage {
     var ano = data.substr(0, 4);
 
 
-    this.database.list(this.authService.currentUserId+"/receita/").push({
+    this.database.list(this.authService.currentUserId + "/receita/").push({
       descricao: descricao,
       valor: valor,
       mes: mes,
       ano: ano,
+      data: mes + "/" + ano,
       cadastrado_por: this.authService.currentUserId
     });
 
@@ -73,6 +75,17 @@ export class GestaoReceitaPage {
           handler: () => {
             //delete the current item
             this.receita$.remove(shoppingItem.$key);
+          }
+        },
+        {
+          text: 'Edit',
+          role: 'destructive',
+          handler: () => {
+            //send the item to edit item and pass key as parameter
+            this.navCtrl.push(EditReceitaPage,
+              {
+                shoppingItemId: shoppingItem.$key
+              });
           }
         },
         {

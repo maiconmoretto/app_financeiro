@@ -35,6 +35,8 @@ import { EditConvitePage } from '../pages/edit-convite/edit-convite';
 import { RespostaConvitePage } from '../pages/resposta-convite/resposta-convite';
 import { GastoPorCategoriaPage } from '../pages/gasto-por-categoria/gasto-por-categoria';
 import { RelatorioGastoPorPessoaPage } from '../pages/relatorio-gasto-por-pessoa/relatorio-gasto-por-pessoa';
+import { EditCategoriaPage } from '../pages/edit-categoria/edit-categoria';
+import { EditReceitaPage } from '../pages/edit-receita/edit-receita';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { RelatorioGastoPorPessoaPage } from '../pages/relatorio-gasto-por-pessoa
     EditConvitePage,
     RespostaConvitePage,
     GastoPorCategoriaPage,
-    RelatorioGastoPorPessoaPage
+    RelatorioGastoPorPessoaPage,
+    EditCategoriaPage,
+    EditReceitaPage
   ],
   imports: [
     BrowserModule,
@@ -93,7 +97,9 @@ import { RelatorioGastoPorPessoaPage } from '../pages/relatorio-gasto-por-pessoa
     EditConvitePage,
     RespostaConvitePage,
     GastoPorCategoriaPage,
-    RelatorioGastoPorPessoaPage
+    RelatorioGastoPorPessoaPage,
+    EditCategoriaPage,
+    EditReceitaPage
   ],
    
   providers: [

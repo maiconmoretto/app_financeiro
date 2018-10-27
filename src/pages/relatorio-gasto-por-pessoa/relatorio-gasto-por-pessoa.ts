@@ -127,11 +127,12 @@ export class RelatorioGastoPorPessoaPage {
         snapshots.forEach(snapshot => {
           if (snapshot.val().dividir == "nao") {
             totalIndividual += Math.round(Number(snapshot.val().valor));
+            total += Math.round(Number(snapshot.val().valor));
           }
           if (snapshot.val() != "nao") {
             totalDivisivel += Math.round(Number(snapshot.val().valor));
+            total += Math.round(Number(snapshot.val().valor));
           }
-          total += Math.round(Number(snapshot.val().valor));
         });
       })
 
@@ -146,11 +147,12 @@ export class RelatorioGastoPorPessoaPage {
         snapshots.forEach(snapshot => {
           if (snapshot.val().dividir == "nao") {
             totalIndividual += Math.round(Number(snapshot.val().valor));
+            total += Math.round(Number(snapshot.val().valor));
           }
           if (snapshot.val() != "nao") {
             totalDivisivel += Math.round(Number(snapshot.val().valor));
+            total += Math.round(Number(snapshot.val().valor));
           }
-          total += Math.round(Number(snapshot.val().valor));
         });
       })
 
@@ -179,12 +181,13 @@ export class RelatorioGastoPorPessoaPage {
             .subscribe(snapshots => {
               snapshots.forEach(snapshot => {
                 if (snapshot.val().dividir == "nao") {
+                  total += Math.round(Number(snapshot.val().valor));
                   totalIndividual += Math.round(Number(snapshot.val().valor));
                 }
                 if (snapshot.val() != "nao") {
                   totalDivisivel += Math.round(Number(snapshot.val().valor));
+                  total += Math.round(Number(snapshot.val().valor));
                 }
-                total += Math.round(Number(snapshot.val().valor));
                 this.calculaGastoPorPessoa(total, totalDivisivel, totalIndividual, email, id);
               })
             })

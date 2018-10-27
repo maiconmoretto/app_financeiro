@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
-import { FirebaseObjectFactoryOpts } from 'angularfire2/interfaces';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
-import 'rxjs/add/operator/take';
 import { AuthService } from '../../services/auth.service';
 import { GestaoCategoriasPage } from '../gestao-categorias/gestao-categorias';
 /**
