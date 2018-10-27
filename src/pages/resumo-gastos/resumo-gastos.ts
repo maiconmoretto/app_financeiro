@@ -170,7 +170,6 @@ export class ResumoGastosPage {
     let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
     this.database.list(id + '/gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
       .subscribe(snapshots => {
-        var total = 0;
         snapshots.forEach(snapshot => {
           this.arrayGastosDiversos.push(snapshot.val())
         })
@@ -178,9 +177,7 @@ export class ResumoGastosPage {
 
     this.database.list(id + '/gastosFixos/', { preserveSnapshot: true })
       .subscribe(snapshots => {
-        var total = 0;
         snapshots.forEach(snapshot => {
-          this.adicionaGastos(snapshot.val());
           this.arrayGastosFixos.push(snapshot.val())
         })
       })
@@ -188,7 +185,7 @@ export class ResumoGastosPage {
 
   somaTotalGastos(idUsuario = null) {
     let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
-    var total = 0;
+    let total = 0;
     this.database.list(id + '/gastos/diversos/' + this.ano + '/' + this.mes, {
       preserveSnapshot: true,
       query: {
@@ -197,8 +194,14 @@ export class ResumoGastosPage {
     })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          this.adicionaGastos(snapshot.val());
+          this.adicionaGastos(snapshot.val().valor, snapshot.val().descricao);
           this.totalDiversos += Math.round(Number(snapshot.val().valor));
+          this.gastoMes = Math.round(
+            Number(this.totalFixos) +
+            Number(this.totalDiversos) +
+            Number(this.totalCredito)
+          );
+          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
         });
       })
 
@@ -211,8 +214,14 @@ export class ResumoGastosPage {
     })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          this.adicionaGastos(snapshot.val());
+          this.adicionaGastos(snapshot.val().valor, snapshot.val().descricao);
           this.totalFixos += Math.round(Number(snapshot.val().valor));
+          this.gastoMes = Math.round(
+            Number(this.totalFixos) +
+            Number(this.totalDiversos) +
+            Number(this.totalCredito)
+          );
+          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
         });
       })
 
@@ -256,7 +265,7 @@ export class ResumoGastosPage {
                   parcela: parcela,
                   dividir: snapshot.val().dividir
                 });
-                this.adicionaGastos(snapshot.val());
+                this.adicionaGastos(rounded, snapshot.val().descricao);
                 this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
               })
             })
@@ -265,14 +274,15 @@ export class ResumoGastosPage {
   }
 
 
-  adicionaGastos($gasto) {
+  adicionaGastos(descricao, valor) {
     this.listaMaioresGastos.push(
       {
-        "valor": $gasto.valor,
-        "descricao": $gasto.descricao,
+        "valor": valor,
+        "descricao": descricao,
       }
     );
     this.listaMaioresGastos.sort(sortFunction);
+
     function sortFunction(a, b) {
       if (Math.round(a["valor"]) === Math.round(b["valor"])) {
         return 0;

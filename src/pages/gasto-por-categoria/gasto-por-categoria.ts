@@ -112,7 +112,7 @@ export class GastoPorCategoriaPage {
             })
 
           //soma gastos fixos por categoria
-          this.database.list(id + '/gastos/fixos/' + this.ano + '/' + this.mes, {
+          this.database.list(id + '/gastosFixos/', {
             preserveSnapshot: true,
             query: {
               orderByChild: 'categoria',
