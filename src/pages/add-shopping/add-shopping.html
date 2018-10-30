@@ -6,11 +6,15 @@
 -->
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Adiconar gasto variável</ion-title>
+    <ion-title>Adicionar gasto variável</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content>
-
+  <ion-item>
+    <ion-label color="primary">
+      <ion-icon ios="ios-help-circle" md="md-help-circle"></ion-icon> Dica: Gastos que não foram previstos.<br> Ex: lanche, consulta médica,<br> happy hour.
+    </ion-label>
+  </ion-item>
   <ion-item>
     <ion-label floating>Descrição</ion-label>
     <ion-input type="text" [(ngModel)]="descricao"></ion-input>

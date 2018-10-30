@@ -8,7 +8,12 @@
 
 
 <ion-content padding>
-
+  <ion-item>
+    <ion-label color="primary">
+      <ion-icon ios="ios-help-circle" md="md-help-circle"></ion-icon> Dica: Gastos que se repetirão com<br> data para término. Como por exemplo:<br> prestação de roupas, academia,
+        <br>eletrônicos.
+    </ion-label>
+  </ion-item>
 
 
   <ion-item>
@@ -28,25 +33,25 @@
     <ion-datetime displayFormat="MM/YYYY" [(ngModel)]="data"></ion-datetime>
   </ion-item>
   <ion-item>
-      <ion-label>Categoria</ion-label>
-      <ion-select [(ngModel)]="categoria">
-        <ion-option value="{{categoria}}" *ngFor="let categoria of categorias"> {{categoria}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label>Dividir valor?</ion-label>
-      <ion-select [(ngModel)]="dividir">
-        <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
-        <ion-option value="nao">não dividir</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label>Gasto por</ion-label>
-      <ion-select [(ngModel)]="gasto_por">
-        <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
-        <ion-option value="{{emailUsuario}}">{{emailUsuario}}</ion-option>
-      </ion-select>
-    </ion-item>
+    <ion-label>Categoria</ion-label>
+    <ion-select [(ngModel)]="categoria">
+      <ion-option value="{{categoria}}" *ngFor="let categoria of categorias"> {{categoria}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Dividir valor?</ion-label>
+    <ion-select [(ngModel)]="dividir">
+      <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
+      <ion-option value="nao">não dividir</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Gasto por</ion-label>
+    <ion-select [(ngModel)]="gasto_por">
+      <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
+      <ion-option value="{{emailUsuario}}">{{emailUsuario}}</ion-option>
+    </ion-select>
+  </ion-item>
   <br>
   <button ion-button block (click)="adicionarGasto(descricao,valor,prestacoes,data,gasto_por,categoria,dividir)">Adicionar</button>
 
@@ -54,22 +59,27 @@
     <ion-item *ngFor="let item of gastosCredito$ | async" (click)="selectShoppingItem(item)">
 
       <h2>
-        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}}
+      </h2>
       <h2>
-        <ion-icon ios="ios-cash" md="md-cash"></ion-icon>R$ {{item.valor}} </h2>
+        <ion-icon ios="ios-cash" md="md-cash"></ion-icon>R$ {{item.valor}}
+      </h2>
       <h2>
         X Parcelas {{item.prestacoes}} </h2>
       <h2>
-        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}}</h2>
+        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.categoria}}
+      </h2>
       <h2>
-        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.gasto_por}}</h2>
+        <ion-icon ios="ios-help" md="md-help"></ion-icon> {{item.gasto_por}}
+      </h2>
 
 
       <h2>
-        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{ item.dataInicio ? item.dataInicio.substr(5, 2) + '/' + item.dataInicio.substr(0, 4) : ''}} </h2>
+        <ion-icon ios="ios-calendar" md="md-calendar"></ion-icon> {{ item.dataInicio ? item.dataInicio.substr(5, 2) + '/'
+        + item.dataInicio.substr(0, 4) : ''}}
+      </h2>
 
-        <h2>dividir ?
-          {{item.dividir}} </h2>
+      <h2>dividir ? {{item.dividir}} </h2>
     </ion-item>
 
   </ion-list>

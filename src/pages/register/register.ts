@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { User } from '../../models/user';
 import { ResumoGastosPage } from '../resumo-gastos/resumo-gastos';
+import { ToastController } from 'ionic-angular';
 /**
  * Generated class for the RegisterPage page.
  *
@@ -21,10 +22,24 @@ export class RegisterPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private afAuth: AngularFireAuth) {
+    private afAuth: AngularFireAuth,
+		private toastCtrl: ToastController) {
   }
 
   async register(user: User) {
+    if (user.email == undefined || user.password == undefined) {
+			let toast = this.toastCtrl.create({
+				message: 'Digite os campos email e senha!',
+				duration: 3000,
+				position: 'top'
+			});
+
+			toast.onDidDismiss(() => {
+			});
+
+			toast.present();
+
+		} 
     try {
       var self = this;
       const result = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password).then(function () {
@@ -35,6 +50,7 @@ export class RegisterPage {
         }).catch(function (error) {
           var errorMessage = error.message;
           alert(errorMessage);
+          alert(error);
           console.log('erro');
         });
       }).catch(function (error) {
