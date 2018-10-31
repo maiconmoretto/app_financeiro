@@ -164,6 +164,12 @@ export class DetalheGastosPage {
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           this.totalDiversos += Math.round(Number(snapshot.val().valor));
+          this.gastoMes = Math.round(
+            Number(this.totalFixos) +
+            Number(this.totalDiversos) +
+            Number(this.totalCredito)
+          );
+          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
         });
       })
 
@@ -177,6 +183,12 @@ export class DetalheGastosPage {
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           this.totalFixos += Math.round(Number(snapshot.val().valor));
+          this.gastoMes = Math.round(
+            Number(this.totalFixos) +
+            Number(this.totalDiversos) +
+            Number(this.totalCredito)
+          );
+          this.restante = Math.round(Number(this.saldoMes) - Number(this.gastoMes));
         });
       })
 

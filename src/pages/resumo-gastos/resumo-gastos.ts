@@ -321,14 +321,13 @@ export class ResumoGastosPage {
     var mes;
     var ano;
     var data;
-
     if (vaiPara == 'proximo') {
       if (d.getMonth() == 12) {
         mes = '01';
-        ano = (d.getFullYear() + 2);
+        ano = (d.getFullYear() + 1);
         data = ano + '-' + mes;
       } else {
-        mes = (d.getMonth() + 2) < 10 ? '0' + (d.getMonth() + 2) : (d.getMonth() + 2);
+        mes =  (d.getMonth() + 2);
         ano = d.getFullYear();
         data = ano + '-' + mes;
       }
@@ -338,7 +337,7 @@ export class ResumoGastosPage {
         ano = (d.getFullYear() - 1);
         data = ano + '-' + mes;
       } else {
-        mes = (d.getMonth() - 1) < 10 ? '0' + (d.getMonth() - 1) : (d.getMonth() - 1);
+        mes = (d.getMonth() );
         ano = d.getFullYear();
         data = ano + '-' + mes;
       }

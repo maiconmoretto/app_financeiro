@@ -9,7 +9,7 @@ import { CadastroGastoFixoPage } from '../pages/cadastro-gasto-fixo/cadastro-gas
 import { GestaoCategoriasPage } from '../pages/gestao-categorias/gestao-categorias';
 import { GestaoCreditoPage } from '../pages/gestao-credito/gestao-credito';
 import { GestaoReceitaPage } from '../pages/gestao-receita/gestao-receita';
-import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
+import { DetalheGastosPage } from '../pages/detalhe-gastos/detalhe-gastos';
 import { ResumoGastosPage } from '../pages/resumo-gastos/resumo-gastos';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
@@ -33,12 +33,12 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Página Inicial', component: ResumoGastosPage  },
-      { title: 'Detalhe gastos', component: ShoppingListPage  },
-      { title: 'Relatório de Gasto por Categoria', component: GastoPorCategoriaPage  },
-      { title: 'Relatório de Gasto por Pessoa', component: RelatorioGastoPorPessoaPage  },
-      { title: 'Adicionar Gasto Variável', component: AddShoppingPage },
+      { title: 'Detalhe gastos', component: DetalheGastosPage  },
+      { title: 'Gasto por Categoria', component: GastoPorCategoriaPage  },
+      { title: 'Gasto por Pessoa', component: RelatorioGastoPorPessoaPage  },
+      { title: 'Gasto Variável', component: AddShoppingPage },
       { title: 'Gasto Fixo', component: CadastroGastoFixoPage },
-      { title: 'Crédito', component: GestaoCreditoPage },
+      { title: 'Gasto Crédito', component: GestaoCreditoPage },
       { title: 'Receita', component: GestaoReceitaPage },
       { title: 'Categorias', component: GestaoCategoriasPage },
       { title: 'Buscar', component:  HomePage },

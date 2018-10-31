@@ -26,6 +26,7 @@ export class LoginPage {
 	}
 
 	ionViewWillEnter() {
+		console.log('ionViewWillEnter')
 		let self = this;
 		this.menuController.swipeEnable(false)
 		this.afAuth.auth.onAuthStateChanged(function (user) {

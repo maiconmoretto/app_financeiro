@@ -129,10 +129,11 @@ export class RelatorioGastoPorPessoaPage {
             totalIndividual += Math.round(Number(snapshot.val().valor));
             total += Math.round(Number(snapshot.val().valor));
           }
-          if (snapshot.val() != "nao") {
+          if (snapshot.val().dividir != "nao") {
             totalDivisivel += Math.round(Number(snapshot.val().valor));
             total += Math.round(Number(snapshot.val().valor));
           }
+          this.calculaGastoPorPessoa(total, totalDivisivel, totalIndividual, email, id);
         });
       })
 
@@ -149,10 +150,11 @@ export class RelatorioGastoPorPessoaPage {
             totalIndividual += Math.round(Number(snapshot.val().valor));
             total += Math.round(Number(snapshot.val().valor));
           }
-          if (snapshot.val() != "nao") {
+          if (snapshot.val().dividir != "nao") {
             totalDivisivel += Math.round(Number(snapshot.val().valor));
             total += Math.round(Number(snapshot.val().valor));
           }
+          this.calculaGastoPorPessoa(total, totalDivisivel, totalIndividual, email, id);
         });
       })
 
@@ -184,7 +186,7 @@ export class RelatorioGastoPorPessoaPage {
                   total += Math.round(Number(snapshot.val().valor));
                   totalIndividual += Math.round(Number(snapshot.val().valor));
                 }
-                if (snapshot.val() != "nao") {
+                if (snapshot.val().dividir  != "nao") {
                   totalDivisivel += Math.round(Number(snapshot.val().valor));
                   total += Math.round(Number(snapshot.val().valor));
                 }

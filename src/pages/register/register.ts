@@ -43,7 +43,7 @@ export class RegisterPage {
     try {
       var self = this;
       const result = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password).then(function () {
-        alert('usuário cadastrado');
+        alert('Usuário cadastrado!');
         self.afAuth.auth.signInWithEmailAndPassword(user.email, user.password).then(function () {
           self.navCtrl.push(ResumoGastosPage);
           console.log('sucesso');
