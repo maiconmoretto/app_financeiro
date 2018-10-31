@@ -14,6 +14,8 @@ export class LoginPage {
 
 	user = {} as User;
 
+	splash = true;
+
 	constructor(
 		private navCtrl: NavController,
 		private afAuth: AngularFireAuth,
@@ -43,6 +45,10 @@ export class LoginPage {
 
 	isAuthenticated() {
 		return this.authService.authenticated();
+	}
+
+	ionViewDidLoad() {
+		setTimeout(() => this.splash = false, 4000);
 	}
 
 	async  login(user: User) {
