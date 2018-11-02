@@ -15,7 +15,8 @@ import { DetalheGastosPage } from '../detalhe-gastos/detalhe-gastos';
   templateUrl: 'home.html',
 })
 export class HomePage {
-   
+
+  splash = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -26,8 +27,8 @@ export class HomePage {
     if (data == undefined) {
       var d = new Date();
       data = "";
-  
-      var mes = (d.getMonth() + 1) < 10 ? "0" +  (d.getMonth() + 1):  (d.getMonth() + 1);
+
+      var mes = (d.getMonth() + 1) < 10 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
       data = d.getFullYear() + '-' + mes;
 
     }
@@ -35,7 +36,7 @@ export class HomePage {
     this.navCtrl.push(DetalheGastosPage, { obj: data });
   }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
+    setTimeout(() => this.splash = false, 4000);
   }
 
 }

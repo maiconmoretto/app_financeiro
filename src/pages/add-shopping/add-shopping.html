@@ -59,7 +59,7 @@
     <ion-item *ngFor="let item of gastosVariaveis$ | async " (click)="selectShoppingItem(item)">
 
       <h2>
-        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.cadastrado_por}}
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}}
       </h2>
       <h2>
         <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}}

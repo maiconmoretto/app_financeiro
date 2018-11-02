@@ -122,7 +122,7 @@ export class GestaoCompartilharPage {
     });
 
     let toast = this.toastCtrl.create({
-      message: 'Adicionado gasto com sucesso!',
+      message: 'Adicionado compatilhamento com sucesso!',
       duration: 3000,
       position: 'top'
     });
