@@ -14,7 +14,8 @@ then install cordova,
   
 
 then you need to have firebase and angularfire2
-run command ``npm install angularfire2 firebase --save``
+run command
+``npm install angularfire2 firebase --save``
 
 to test it out run
  ``ionic serve``
