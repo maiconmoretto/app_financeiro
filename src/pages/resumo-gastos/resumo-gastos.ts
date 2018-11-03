@@ -100,6 +100,7 @@ export class ResumoGastosPage {
   }
 
   verificaSeExisteConvite() {
+    let achou = false;
     this.database.list('/compartilhamento/', {
       preserveSnapshot: true,
       query: {
@@ -110,6 +111,7 @@ export class ResumoGastosPage {
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           if (snapshot.val().aceito == '') {
+            achou == true;
             this.actionSheetCtrl.create({
               title: 'Olá ' + this.authService.getCurrentUserEmail + ', ' + snapshot.val().email_remetente + " quer compartilhar os gastos com você.",
               buttons: [
@@ -121,6 +123,9 @@ export class ResumoGastosPage {
                 }
               ]
             }).present();
+          }
+          if (achou == true){
+            return false;
           }
         });
       })
@@ -327,7 +332,7 @@ export class ResumoGastosPage {
         ano = (d.getFullYear() + 1);
         data = ano + '-' + mes;
       } else {
-        mes =  (d.getMonth() + 2);
+        mes = (d.getMonth() + 2);
         ano = d.getFullYear();
         data = ano + '-' + mes;
       }
@@ -337,7 +342,7 @@ export class ResumoGastosPage {
         ano = (d.getFullYear() - 1);
         data = ano + '-' + mes;
       } else {
-        mes = (d.getMonth() );
+        mes = (d.getMonth());
         ano = d.getFullYear();
         data = ano + '-' + mes;
       }

@@ -125,6 +125,12 @@ export class RelatorioGastoPorPessoaPage {
     })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
+          console.log('gasto_por ' + snapshot.val().gasto_por);
+          console.log('descricao ' + snapshot.val().descricao);
+          console.log('valor ' + snapshot.val().valor);
+          total = 0;
+          totalIndividual = 0;
+          totalDivisivel = 0;
           if (snapshot.val().dividir == "nao") {
             totalIndividual += Math.round(Number(snapshot.val().valor));
             total += Math.round(Number(snapshot.val().valor));
@@ -146,6 +152,13 @@ export class RelatorioGastoPorPessoaPage {
     })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
+
+          console.log('gasto_por ' + snapshot.val().gasto_por);
+          console.log('descricao ' + snapshot.val().descricao);
+          console.log('valor ' + snapshot.val().valor);
+          total = 0;
+          totalIndividual = 0;
+          totalDivisivel = 0;
           if (snapshot.val().dividir == "nao") {
             totalIndividual += Math.round(Number(snapshot.val().valor));
             total += Math.round(Number(snapshot.val().valor));
@@ -182,13 +195,20 @@ export class RelatorioGastoPorPessoaPage {
           })
             .subscribe(snapshots => {
               snapshots.forEach(snapshot => {
+
+                console.log('gasto_por ' + snapshot.val().gasto_por);
+                console.log('descricao ' + snapshot.val().descricao);
+                console.log('parcela ' + rounded);
+                total = 0;
+                totalIndividual = 0;
+                totalDivisivel = 0;
                 if (snapshot.val().dividir == "nao") {
-                  total += Math.round(Number(snapshot.val().valor));
-                  totalIndividual += Math.round(Number(snapshot.val().valor));
+                  total += Math.round(Number(rounded));
+                  totalIndividual += Math.round(Number(rounded));
                 }
-                if (snapshot.val().dividir  != "nao") {
-                  totalDivisivel += Math.round(Number(snapshot.val().valor));
-                  total += Math.round(Number(snapshot.val().valor));
+                if (snapshot.val().dividir != "nao") {
+                  totalDivisivel += Math.round(Number(rounded));
+                  total += Math.round(Number(rounded));
                 }
                 this.calculaGastoPorPessoa(total, totalDivisivel, totalIndividual, email, id);
               })
@@ -199,6 +219,38 @@ export class RelatorioGastoPorPessoaPage {
   }
 
   calculaGastoPorPessoa(total, totalDivisivel, totalIndividual, email, id) {
+
+    if (this.gastosPorPessoa.length == 0) {
+      this.gastosPorPessoa.push({
+        id: id,
+        email: email,
+        total: total,
+        totalDivisivel: totalDivisivel,
+        totalIndividual: totalIndividual,
+      });
+      return;
+    } else {
+      var found = false;
+      for (var i = 0; i < this.gastosPorPessoa.length; i++) {
+        if (this.gastosPorPessoa[i].email == email) {
+          let novoTotal = Number(this.gastosPorPessoa[i].total) + Number(total);
+          let novoTotalIndividual = Number(this.gastosPorPessoa[i].totalIndividual) + Number(totalIndividual);
+          let novoTotalDivisivel = Number(this.gastosPorPessoa[i].totalDivisivel) + Number(totalDivisivel);
+          var index = this.gastosPorPessoa.indexOf(this.gastosPorPessoa[i]);
+          if (index > -1) {
+            this.gastosPorPessoa.splice(index, 1);
+          }
+          this.gastosPorPessoa.push({
+            id: id,
+            email: email,
+            total: novoTotal,
+            totalDivisivel: novoTotalDivisivel,
+            totalIndividual: novoTotalIndividual,
+          });
+          return;
+        }
+      }
+    }
     this.gastosPorPessoa.push({
       id: id,
       email: email,
@@ -207,6 +259,4 @@ export class RelatorioGastoPorPessoaPage {
       totalIndividual: totalIndividual,
     });
   }
-
-
 }
