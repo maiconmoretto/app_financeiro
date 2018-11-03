@@ -6,10 +6,13 @@ The main objective of the Family Finance application is to provide control over 
 
 ## How to use this project
 
-you need to have 'node' installed on you local
-then install cordova
-  npm install -g ionic cordova
+you need to have 'node' installed on you local,
+
+then install cordova,
+
+  ``npm install -g ionic cordova``
+  
 then 
-run comand 'ionic serve'
+run comand ``ionic serve``
 then to have firebase and angularfire2
-run command 'npm install angularfire2 firebase --save'
+run command ``npm install angularfire2 firebase --save``
