@@ -167,7 +167,7 @@ export class ResumoGastosPage {
             total += Number(snapshot.val().valor);
           }
         });
-        this.saldoMes = total;
+        this.saldoMes += total;
       })
   }
 
