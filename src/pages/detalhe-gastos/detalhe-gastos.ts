@@ -117,7 +117,7 @@ export class DetalheGastosPage {
         });
       })
   }
-
+ 
   somaTotalReceita(idUsuario = null) {
     let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
     this.database.list(id + '/receita/', { preserveSnapshot: true })
@@ -128,7 +128,7 @@ export class DetalheGastosPage {
             total += Number(snapshot.val().valor);
           }
         });
-        this.saldoMes = total;
+        this.saldoMes += total;
       })
   }
 
