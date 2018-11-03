@@ -33,6 +33,7 @@
   <ion-item-divider>
     Convite(s) enviado(s)
     <ion-list>
+      {{!convitesEnviados.length ? 'sem convites enviados' :  convitesEnviados.length + ' convite(s) enviado(s)'}}
       <ion-item *ngFor="let item of convitesEnviados" (click)="selectItem(item.id)">
         <h2>
           <ion-icon name="mail"></ion-icon> {{item.email_destinatario}}
@@ -47,6 +48,7 @@
   <ion-item-divider>
     Convite(s) recebido(s)
     <ion-list>
+        {{!convitesRecebidos.length ? 'sem convites recebidos' :  convitesRecebidos.length + ' convite(s) recebido(s)'}}
       <ion-item *ngFor="let item of convitesRecebidos" (click)="respostaConvite(item.id)">
         <h2>
           <ion-icon name="mail"></ion-icon> {{item.email_remetente}}

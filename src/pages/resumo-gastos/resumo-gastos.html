@@ -39,10 +39,9 @@
     </ion-item>
   </ion-list>
   <hr>
+ 
 
-
-
-  <ion-item>5 maiores gastos do mês:</ion-item>
+  <ion-item >{{ listaMaioresGastos.length > 0 ? listaMaioresGastos.length  ? 'gasto do mes' : listaMaioresGastos.length +  'maiores gastos do mês' : 'nenhum gasto cadastrado' }}:</ion-item>
   <ion-item *ngFor="let item of listaMaioresGastos;">
     <h2>
       <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
