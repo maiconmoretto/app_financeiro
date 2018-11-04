@@ -12,7 +12,12 @@ then install cordova,
 
   ``npm install -g ionic cordova``
   
-then 
-run comand ``ionic serve``
-then to have firebase and angularfire2
-run command ``npm install angularfire2 firebase --save``
+
+then you need to have firebase and angularfire2
+run command
+
+``npm install angularfire2 firebase --save``
+
+to test it out run
+
+ ``ionic serve``
