@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
-import { FirebaseObjectFactoryOpts } from 'angularfire2/interfaces';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { ToastController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
@@ -32,7 +31,7 @@ export class EditShoppingItemPage {
     //set  the scope of our  firebase object to our selected item
     this.shoppingItemRef$ = this.database.object(
       this.authService.currentUserId + `/gastos/diversos/` + ano + `/` + mes + `/${shoppingItemId}`);
-
+ 
     //sucbscibe the  object, and assing the result  to this.ShoppingItem
     this.shoppingItemRef$.subscribe(
       shoppingItem => this.shoppingItem = shoppingItem);

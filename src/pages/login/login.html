@@ -1,16 +1,15 @@
-
 <div id="custom-overlay" [style.display]="splash ? 'flex': 'none'">
-    <div class="flb">
-      <div class="Aligner-item Aligner-item--top"></div>
-      <img src="assets/logo.svg">
-      <div class="Aligner-item Aligner-item--bottom"></div>
-    </div>
+  <div class="flb">
+    <div class="Aligner-item Aligner-item--top"></div>
+    <img src="assets/logo.svg">
+    <div class="Aligner-item Aligner-item--bottom"></div>
   </div>
- <ion-header>
-       <ion-navbar hideBackButton color="primary" >
-         <ion-title>Login</ion-title>
-       </ion-navbar>
-     </ion-header>
+</div>
+<ion-header>
+  <ion-navbar hideBackButton color="primary">
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
 
 
 <ion-content padding>
@@ -18,14 +17,19 @@
   <ion-item>
     <ion-label floaing>Email </ion-label>
     <ion-input type="text" [(ngModel)]="user.email"></ion-input>
-
   </ion-item>
+  <br>
   <ion-item>
     <ion-label floaing>Senha</ion-label>
     <ion-input type="password" [(ngModel)]="user.password"></ion-input>
   </ion-item>
+  <br>
+  <button ion-button (click)="login(user)" style="width: 100%;">Login</button>
 
-  <button ion-button (click)="login(user)">Login</button>
-  <button ion-button color="light" (click)="register()">Registrar</button>
+  <br>
+  <br>
+  <br>
+  <br> <p>Caso não possua cadastro:</p>
+  <button ion-button color="light" (click)="register()" style="width: 100%;">Cadastrar-se</button>
 
 </ion-content>

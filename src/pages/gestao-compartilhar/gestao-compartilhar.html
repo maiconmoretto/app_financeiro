@@ -14,12 +14,22 @@
 
 
 <ion-content padding>
-    <ion-item>
-        <ion-label color="primary">
-          <ion-icon ios="ios-help-circle" md="md-help-circle"></ion-icon> Dica: Após enviar o convite para uma<br>
-           pessoa é necessário que a mesma<br> aceite.
-        </ion-label>
-      </ion-item>
+  <button (click)=" hideShowTips()" ion-button>
+    <ion-icon ios="ios-help-circle" md="md-help-circle"></ion-icon> &nbsp;Dica
+  </button>
+  <ion-item [class.hide]="!statusTips">
+    <br>Para compartilar seus gastos com
+    <br> alguém, é necessário que a pessoa
+    <br> tenha o apliativo Family Finance
+    <br> instalado. Ao enviar o convite e
+    <br> a pessoa aceitar,ela verá todos
+    <br> os seus gastos,categorias e
+    <br>receitas. Caso deseje ver os
+    <br> gastos, categorias e receitas
+    <br> dessa mesma pessoa, você deverá
+    <br>receber e aceitar um convite dela.
+    <hr>
+  </ion-item>
   <ion-item>
     <ion-label floating>Email </ion-label>
     <ion-input type="text" [(ngModel)]="email"></ion-input>
@@ -27,13 +37,13 @@
   <br>
   <button ion-button block (click)="enviarConvite(email)">Convidar</button>
 
-  <br>
-  <hr>
+
+
 
   <ion-item-divider>
     Convite(s) enviado(s)
     <ion-list>
-      {{!convitesEnviados.length ? 'sem convites enviados' :  convitesEnviados.length + ' convite(s) enviado(s)'}}
+      {{!convitesEnviados.length ? 'sem convites enviados' : convitesEnviados.length + ' convite(s) enviado(s)'}}
       <ion-item *ngFor="let item of convitesEnviados" (click)="selectItem(item.id)">
         <h2>
           <ion-icon name="mail"></ion-icon> {{item.email_destinatario}}
@@ -48,13 +58,13 @@
   <ion-item-divider>
     Convite(s) recebido(s)
     <ion-list>
-        {{!convitesRecebidos.length ? 'sem convites recebidos' :  convitesRecebidos.length + ' convite(s) recebido(s)'}}
+      {{!convitesRecebidos.length ? 'sem convites recebidos' : convitesRecebidos.length + ' convite(s) recebido(s)'}}
       <ion-item *ngFor="let item of convitesRecebidos" (click)="respostaConvite(item.id)">
         <h2>
           <ion-icon name="mail"></ion-icon> {{item.email_remetente}}
         </h2>
         <h2>
-          <ion-icon name="checkbox"></ion-icon> aceito? {{item.aceito}} 
+          <ion-icon name="checkbox"></ion-icon> aceito? {{item.aceito}}
         </h2>
       </ion-item>
     </ion-list>

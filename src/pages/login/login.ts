@@ -27,8 +27,8 @@ export class LoginPage {
 
 	}
 
+
 	ionViewWillEnter() {
-		console.log('ionViewWillEnter')
 		let self = this;
 		this.menuController.swipeEnable(false)
 		this.afAuth.auth.onAuthStateChanged(function (user) {
@@ -40,7 +40,7 @@ export class LoginPage {
 	}
 
 	ionViewDidLeave() {
-		this.menuController.swipeEnable(true)
+		//this.menuController.swipeEnable(true)
 	}
 
 	isAuthenticated() {
@@ -71,8 +71,25 @@ export class LoginPage {
 				console.log('sucesso');
 			}).catch(function (error) {
 				var errorMessage = error.message;
-				alert(errorMessage);
-				console.log('erro');
+				let message = '';
+
+				if (errorMessage == 'The email address is badly formatted.') {
+					message = 'O email está formatado de maneira incorreta.'
+				} else if (errorMessage == 'Password should be at least 6 characters') {
+					message = 'A senha deve ter pelo menos 6 caracteres.'
+				} else if (errorMessage == 'The password must be 6 characters long or more.') {
+					message = 'A senha deve ter pelo menos 6 caracteres ou mais.'
+				} else if (errorMessage == 'The email address is already in use by another account.') {
+					message = 'O endereço de email já está sendo usado por outra conta.'
+				} else {
+					message = errorMessage
+				}
+				let toast = self.toastCtrl.create({
+					message: message,
+					duration: 3000,
+					position: 'top'
+				});
+				toast.present();
 			});
 		}
 	}

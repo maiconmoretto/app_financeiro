@@ -16,14 +16,10 @@ import { DetalheGastosPage } from '../detalhe-gastos/detalhe-gastos';
 })
 export class HomePage {
 
-  splash = true;
-
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   navigateToaList(data) {
-
-
     if (data == undefined) {
       var d = new Date();
       data = "";
@@ -32,11 +28,7 @@ export class HomePage {
       data = d.getFullYear() + '-' + mes;
 
     }
-
     this.navCtrl.push(DetalheGastosPage, { obj: data });
-  }
-  ionViewDidLoad() {
-    setTimeout(() => this.splash = false, 4000);
   }
 
 }

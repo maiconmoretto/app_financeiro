@@ -26,6 +26,7 @@ export class GestaoCompartilharPage {
   convitesRecebidos = []
   emailUsuario;
   idUsuario;
+  statusTips;
 
   shoppingListRef$: FirebaseListObservable<ShoppingItem[]>;
   constructor(
@@ -170,6 +171,10 @@ export class GestaoCompartilharPage {
         },
       ]
     }).present();
+  }
+
+  hideShowTips() {
+    this.statusTips = this.statusTips == true ? false : true;
   }
 
 }

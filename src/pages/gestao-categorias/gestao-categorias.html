@@ -6,29 +6,26 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar hideBackButton="true">
     <ion-title>Gestão Categorias</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
-
-
 
   <ion-item>
     <ion-label floating>Descrição</ion-label>
     <ion-input type="text" [(ngModel)]="descricao"></ion-input>
   </ion-item>
-  
   <br>
   <button ion-button block (click)="addCategoria(descricao)">Adicionar</button>
   <br>
   <ion-list>
     <ion-item *ngFor="let item of categorias$ | async " (click)="selectCategoriaItem(item)">
       <h2>
-        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+        <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}}
+      </h2>
     </ion-item>
 
   </ion-list>

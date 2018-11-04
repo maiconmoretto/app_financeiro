@@ -41,7 +41,7 @@ export class MyApp {
       { title: 'Gasto Crédito', component: GestaoCreditoPage },
       { title: 'Receita', component: GestaoReceitaPage },
       { title: 'Categorias', component: GestaoCategoriasPage },
-      { title: 'Buscar', component:  HomePage },
+      { title: 'Buscar outro mês', component:  HomePage },
       { title: 'Compartilhar Gastos', component:  GestaoCompartilharPage },
       { title: 'Logout', component:  LogoutPage } 
 

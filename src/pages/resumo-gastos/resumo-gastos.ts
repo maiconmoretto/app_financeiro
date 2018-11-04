@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, ToastController, AlertController , MenuController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
@@ -45,12 +45,13 @@ export class ResumoGastosPage {
     private alertCtrl: AlertController,
     private afAuth: AngularFireAuth,
     private toast: ToastController,
-    private authService: AuthService
+    private authService: AuthService,
+		private menuController: MenuController
   ) {
-    this.verificaSeExisteCategorias();
     this.afAuth.authState.subscribe((auth) => {
       this.authState = auth
     });
+    
     this.data = this.navParams.data.obj;
     if (this.data == undefined) {
       var d = new Date();
@@ -67,14 +68,18 @@ export class ResumoGastosPage {
     this.buscaGastos();
     this.verificaSeExisteConvite();
     this.verificaSeExisteCompartilhamento();
+    this.verificaSeExisteCategorias();
+    
+		this.menuController.swipeEnable(true)
   }
 
   verificaSeExisteCategorias() {
     this.database.list(this.authService.currentUserId + '/categorias/')
       .subscribe(data => {
         if (data.length == 0) {
-          alert('Não existem categorias cadastras, é necessário cadastrar!')
+          alert('Bem vindo! Para começar a usar o Family Finance é necessário cadastrar categorias. Favor cadastrar ao menos uma. Ex: Supermercado.')
           this.navCtrl.push(GestaoCategoriasPage);
+          return;
         }
       })
   }
@@ -279,7 +284,7 @@ export class ResumoGastosPage {
   }
 
 
-  adicionaGastos(descricao, valor) {
+  adicionaGastos(valor, descricao) {
     this.listaMaioresGastos.push(
       {
         "valor": valor,
