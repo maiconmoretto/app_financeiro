@@ -97,7 +97,7 @@ export class EditCreditoPage {
     } finally {
 
       for (var $i = 0; $i <= this.idsDelete.length; $i++) {
-        this.database.list('prestacoes_credito/' + this.idsDelete[$i]).remove();
+        this.database.list(this.authService.currentUserId +'/prestacoes_credito/' + this.idsDelete[$i]).remove();
       }
       this.cadastraNovosItens();
     }
@@ -105,7 +105,7 @@ export class EditCreditoPage {
 
   removeItensAntigos() {
     //lista todas presatacoes d credito e remove 
-    var objectSubscription = this.database.list('prestacoes_credito', {
+    var objectSubscription = this.database.list(this.authService.currentUserId+'/prestacoes_credito', {
       preserveSnapshot: true,
       query: {
         orderByChild: 'id_item',
@@ -147,7 +147,7 @@ export class EditCreditoPage {
     var valorPrestacao = 0;
     var mes;
     var ano;
-    this.database.list('gastosCredito', {
+    this.database.list(this.authService.currentUserId+'/gastosCredito', {
       preserveSnapshot: true,
       query: {
         orderByKey: this.navParams.get('shoppingItemId'),
@@ -174,7 +174,7 @@ export class EditCreditoPage {
               }
             }
             //insere na pasta prestacoes credito o item listado acima
-            this.database.list("/prestacoes_credito/").push({
+            this.database.list(this.authService.currentUserId+"/prestacoes_credito/").push({
               id_item: this.navParams.get('shoppingItemId'),
               valor: valorPrestacao / prestacoes,
               parcela: (i + 1) + "/" + prestacoes,
@@ -201,7 +201,7 @@ export class EditCreditoPage {
     var id_item;
     var mes;
     var ano;
-    this.database.list('gastosCredito', {
+    this.database.list(this.authService.currentUserId+'/gastosCredito', {
       preserveSnapshot: true,
 
     })
@@ -227,7 +227,7 @@ export class EditCreditoPage {
               }
             }
             //insere na pasta prestacoes credito o item listado acima
-            this.database.list("/prestacoes_credito/").push({
+            this.database.list(this.authService.currentUserId+"/prestacoes_credito/").push({
               id_item: id_item,
               valor: valorPrestacao,
               parcela: (i ) + "/" + prestacoes,
