@@ -125,9 +125,6 @@ export class RelatorioGastoPorPessoaPage {
     })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          console.log('gasto_por ' + snapshot.val().gasto_por);
-          console.log('descricao ' + snapshot.val().descricao);
-          console.log('valor ' + snapshot.val().valor);
           total = 0;
           totalIndividual = 0;
           totalDivisivel = 0;
@@ -152,10 +149,6 @@ export class RelatorioGastoPorPessoaPage {
     })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-
-          console.log('gasto_por ' + snapshot.val().gasto_por);
-          console.log('descricao ' + snapshot.val().descricao);
-          console.log('valor ' + snapshot.val().valor);
           total = 0;
           totalIndividual = 0;
           totalDivisivel = 0;
@@ -195,10 +188,6 @@ export class RelatorioGastoPorPessoaPage {
           })
             .subscribe(snapshots => {
               snapshots.forEach(snapshot => {
-
-                console.log('gasto_por ' + snapshot.val().gasto_por);
-                console.log('descricao ' + snapshot.val().descricao);
-                console.log('parcela ' + rounded);
                 total = 0;
                 totalIndividual = 0;
                 totalDivisivel = 0;

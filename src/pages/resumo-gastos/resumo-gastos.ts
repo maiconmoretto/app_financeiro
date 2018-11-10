@@ -1,21 +1,21 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController, ToastController, AlertController, MenuController } from 'ionic-angular';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-import { AddShoppingPage } from '../add-shopping/add-shopping';
-import { GestaoCreditoPage } from '../gestao-credito/gestao-credito';
-import { CadastroGastoFixoPage } from '../cadastro-gasto-fixo/cadastro-gasto-fixo';
-import { DetalheGastosPage } from '../detalhe-gastos/detalhe-gastos';
-import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { LoginPage } from '../login/login';
-import { AuthService } from '../../services/auth.service';
-import { GestaoCompartilharPage } from '../gestao-compartilhar/gestao-compartilhar';
-import { GestaoCategoriasPage } from '../gestao-categorias/gestao-categorias';
+import { Component } from "@angular/core";
+import { IonicPage, NavController, NavParams, ActionSheetController, ToastController, AlertController, MenuController } from "ionic-angular";
+import { AngularFireDatabase, FirebaseListObservable } from "angularfire2/database";
+import { Observable } from "rxjs/Observable";
+import { AddShoppingPage } from "../add-shopping/add-shopping";
+import { GestaoCreditoPage } from "../gestao-credito/gestao-credito";
+import { CadastroGastoFixoPage } from "../cadastro-gasto-fixo/cadastro-gasto-fixo";
+import { DetalheGastosPage } from "../detalhe-gastos/detalhe-gastos";
+import { ShoppingItem } from "../../models/shopping-item/shopping-item.interface";
+import { AngularFireAuth } from "angularfire2/auth";
+import { LoginPage } from "../login/login";
+import { AuthService } from "../../services/auth.service";
+import { GestaoCompartilharPage } from "../gestao-compartilhar/gestao-compartilhar";
+import { GestaoCategoriasPage } from "../gestao-categorias/gestao-categorias";
 
 @Component({
-  selector: 'page-resumo-gastos',
-  templateUrl: 'resumo-gastos.html',
+  selector: "page-resumo-gastos",
+  templateUrl: "resumo-gastos.html",
 })
 export class ResumoGastosPage {
 
@@ -37,6 +37,7 @@ export class ResumoGastosPage {
   totalFixos = 0;
   listaMaioresGastos = [];
   uid = [];
+  firstLogin = [];
   authState: any = null;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -51,7 +52,7 @@ export class ResumoGastosPage {
     this.afAuth.authState.subscribe((auth) => {
       this.authState = auth
     });
-
+    this.verificaSeEPrimeiroLoginFirebase();
     this.data = this.navParams.data.obj;
     if (this.data == undefined) {
       var d = new Date();
@@ -69,37 +70,29 @@ export class ResumoGastosPage {
     this.buscaGastos();
     this.verificaSeExisteConvite();
     this.verificaSeExisteCompartilhamento();
-    // this.verificaSeExisteCategorias();
-
     this.menuController.swipeEnable(true);
+  }
+
+
+  verificaSeEPrimeiroLoginFirebase() {
     let dataAtual = new Date();
-    let momento_login = dataAtual.getDay() + "/" + dataAtual.getMonth() + "/" + 
+    let momento_login = dataAtual.getDay() + "/" + dataAtual.getMonth() + "/" +
       dataAtual.getFullYear() + ", as " + dataAtual.getHours() + ":" + dataAtual.getMinutes();
-    this.database.list(this.authService.currentUserId + '/first_login/')
+    this.database.list(this.authService.currentUserId + "/first_login/")
       .subscribe(data => {
+        this.firstLogin.push(data);
         if (data.length == 0) {
+          let msg = "Bem vindo " + this.authService.getCurrentUserEmail + "! "
+          msg += "Para começar a usar o Family Finance você precisa: " +
+            "\n1 - Cadastrar uma categoria;" +
+            "\n2 - Cadastrar uma receita;" +
+            "\n3 - Cadastrar uma gasto";
+          alert(msg);
           this.database.list(this.authService.currentUserId + "/first_login/").push({
             data_primeiro_login: momento_login,
             first_login: false,
             user_id: this.authService.currentUserId,
           });
-          alert('Bem vindo' + this.authService.getCurrentUserEmail + '! Para começar a usar o Family Finance é necessário cadastrar categorias. Favor cadastrar ao menos uma. Ex: Supermercado.')
-          this.navCtrl.push(GestaoCategoriasPage, {
-            firstLogin: true
-          });
-          return;
-        }
-      })
-
-
-
-  }
-
-  verificaSeExisteCategorias() {
-    this.database.list(this.authService.currentUserId + '/categorias/')
-      .subscribe(data => {
-        if (data.length == 0) {
-          alert('Bem vindo' + this.authService.getCurrentUserEmail + '! Para começar a usar o Family Finance é necessário cadastrar categorias. Favor cadastrar ao menos uma. Ex: Supermercado.')
           this.navCtrl.push(GestaoCategoriasPage, {
             firstLogin: true
           });
@@ -107,19 +100,20 @@ export class ResumoGastosPage {
         }
       })
   }
+
 
   verificaSeExisteCompartilhamento() {
     let self = this;
-    this.database.list('/compartilhamento/', {
+    this.database.list("/compartilhamento/", {
       preserveSnapshot: true,
       query: {
-        orderByChild: 'email_destinatario',
+        orderByChild: "email_destinatario",
         equalTo: this.authService.getCurrentUserEmail
       }
     })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          if (snapshot.val().aceito == 'sim') {
+          if (snapshot.val().aceito == "sim") {
             self.somaTotalReceita(snapshot.val().id_usuario);
             self.somaTotalGastos(snapshot.val().id_usuario);
             self.buscaGastos(snapshot.val().id_usuario);
@@ -130,22 +124,22 @@ export class ResumoGastosPage {
 
   verificaSeExisteConvite() {
     let achou = false;
-    this.database.list('/compartilhamento/', {
+    this.database.list("/compartilhamento/", {
       preserveSnapshot: true,
       query: {
-        orderByChild: 'email_destinatario',
+        orderByChild: "email_destinatario",
         equalTo: this.authService.getCurrentUserEmail
       }
     })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-          if (snapshot.val().aceito == '') {
+          if (snapshot.val().aceito == "") {
             achou == true;
             this.actionSheetCtrl.create({
-              title: 'Olá ' + this.authService.getCurrentUserEmail + ', ' + snapshot.val().email_remetente + " quer compartilhar os gastos com você.",
+              title: "Olá " + this.authService.getCurrentUserEmail + ", " + snapshot.val().email_remetente + " quer compartilhar os gastos com você.",
               buttons: [
                 {
-                  text: 'Ver convite',
+                  text: "Ver convite",
                   handler: () => {
                     this.navCtrl.push(GestaoCompartilharPage)
                   }
@@ -165,15 +159,15 @@ export class ResumoGastosPage {
     this.afAuth.authState.subscribe(data => {
       if (data && data.email && data.uid) {
         this.toast.create({
-          message: 'Bem vindo ' + data.email,
+          message: "Bem vindo " + data.email,
           duration: 3000,
-          position: 'top'
+          position: "top"
         }).present();
       } else {
         this.toast.create({
-          message: 'Não foi possivel encontrar detalhes da autenticação!',
+          message: "Não foi possivel encontrar detalhes da autenticação!",
           duration: 3000,
-          position: 'top'
+          position: "top"
         }).present();
         return false;
       }
@@ -188,7 +182,7 @@ export class ResumoGastosPage {
 
   somaTotalReceita(idUsuario = null) {
     let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
-    this.database.list(id + '/receita/', { preserveSnapshot: true })
+    this.database.list(id + "/receita/", { preserveSnapshot: true })
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
@@ -202,14 +196,14 @@ export class ResumoGastosPage {
 
   buscaGastos(idUsuario = null) {
     let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
-    this.database.list(id + '/gastos/diversos/' + this.ano + '/' + this.mes, { preserveSnapshot: true })
+    this.database.list(id + "/gastos/diversos/" + this.ano + "/" + this.mes, { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           this.arrayGastosDiversos.push(snapshot.val())
         })
       })
 
-    this.database.list(id + '/gastosFixos/', { preserveSnapshot: true })
+    this.database.list(id + "/gastosFixos/", { preserveSnapshot: true })
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           this.arrayGastosFixos.push(snapshot.val())
@@ -220,10 +214,10 @@ export class ResumoGastosPage {
   somaTotalGastos(idUsuario = null) {
     let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
     let total = 0;
-    this.database.list(id + '/gastos/diversos/' + this.ano + '/' + this.mes, {
+    this.database.list(id + "/gastos/diversos/" + this.ano + "/" + this.mes, {
       preserveSnapshot: true,
       query: {
-        orderByChild: 'data_cadastro'
+        orderByChild: "data_cadastro"
       }
     })
       .subscribe(snapshots => {
@@ -240,10 +234,10 @@ export class ResumoGastosPage {
       })
 
 
-    this.database.list(id + '/gastosFixos/', {
+    this.database.list(id + "/gastosFixos/", {
       preserveSnapshot: true,
       query: {
-        orderByChild: 'data_cadastro'
+        orderByChild: "data_cadastro"
       }
     })
       .subscribe(snapshots => {
@@ -260,11 +254,11 @@ export class ResumoGastosPage {
       })
 
 
-    this.database.list(id + '/prestacoes_credito', {
+    this.database.list(id + "/prestacoes_credito", {
       preserveSnapshot: true,
       query: {
-        orderByChild: 'mes_e_ano',
-        equalTo: this.mes + '/' + this.ano
+        orderByChild: "mes_e_ano",
+        equalTo: this.mes + "/" + this.ano
       }
     })
       .subscribe(snapshots => {
@@ -274,7 +268,7 @@ export class ResumoGastosPage {
           var roundedString = valor_prestacao.toFixed(2);
           var rounded = Number(roundedString);
           var parcela = snapshot.val().parcela;
-          this.database.list(id + '/gastosCredito', {
+          this.database.list(id + "/gastosCredito", {
             preserveSnapshot: true,
             query: {
               orderByKey: id_item,
@@ -341,9 +335,9 @@ export class ResumoGastosPage {
   navigateToaddShoppingPage(page) {
 
     //navigagte  the user to AddShoppingPage
-    if (page == 'credito') {
+    if (page == "credito") {
       this.navCtrl.push(GestaoCreditoPage);
-    } else if (page == 'fixos') {
+    } else if (page == "fixos") {
       this.navCtrl.push(CadastroGastoFixoPage);
     } else {
       this.navCtrl.push(AddShoppingPage);
@@ -355,25 +349,25 @@ export class ResumoGastosPage {
     var mes;
     var ano;
     var data;
-    if (vaiPara == 'proximo') {
+    if (vaiPara == "proximo") {
       if (d.getMonth() == 12) {
-        mes = '01';
+        mes = "01";
         ano = (d.getFullYear() + 1);
-        data = ano + '-' + mes;
+        data = ano + "-" + mes;
       } else {
         mes = (d.getMonth() + 2);
         ano = d.getFullYear();
-        data = ano + '-' + mes;
+        data = ano + "-" + mes;
       }
     } else {
       if (d.getMonth() == 2) {
-        mes = '12';
+        mes = "12";
         ano = (d.getFullYear() - 1);
-        data = ano + '-' + mes;
+        data = ano + "-" + mes;
       } else {
         mes = (d.getMonth());
         ano = d.getFullYear();
-        data = ano + '-' + mes;
+        data = ano + "-" + mes;
       }
     }
     this.navCtrl.push(DetalheGastosPage, { obj: data });

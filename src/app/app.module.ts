@@ -34,6 +34,7 @@ import { RelatorioGastoPorPessoaPage } from '../pages/relatorio-gasto-por-pessoa
 import { EditCategoriaPage } from '../pages/edit-categoria/edit-categoria';
 import { EditReceitaPage } from '../pages/edit-receita/edit-receita';
  
+
 @NgModule({
   declarations: [
     MyApp,

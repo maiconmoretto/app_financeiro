@@ -86,4 +86,5 @@
     <allow-navigation href="http://192.168.15.3:8100" />
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="~4.5.5" />
+    <plugin name="cordova-plugin-network-information" spec="~2.0.1" />
 </widget>

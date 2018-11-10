@@ -3,10 +3,10 @@
   <ion-toolbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
-    </button>  Menu
+    </button> Menu
   </ion-toolbar>
 
-  <ion-navbar color="primary"  hideBackButton="true">
+  <ion-navbar color="primary" hideBackButton="true">
     <ion-title>
 
       <button ion-button color="light" title="anterior" (click)="vaiParaMes('anterior')">
@@ -29,8 +29,8 @@
     <ion-item>
       <div id="left">
         <h2>R$ {{gastoMes}} </h2>
-        gasto 
- 
+        gasto
+
       </div>
       <div id="right">
         <h2>R$ {{restante}} </h2>
@@ -39,14 +39,19 @@
     </ion-item>
   </ion-list>
   <hr>
- 
 
-  <ion-item >maiores gastos do mês:</ion-item>
+
+  <ion-item>maiores gastos do mês:</ion-item>
+  <p><b>
+      {{listaMaioresGastos.length == 0 ? " sem registros." : ''}}
+    </b> </p>
   <ion-item *ngFor="let item of listaMaioresGastos;">
     <h2>
-      <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}} </h2>
+      <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}}
+    </h2>
     <h2>
-      <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}} </h2>
+      <ion-icon ios="ios-cash" md="md-cash"></ion-icon> R$ {{item.valor}}
+    </h2>
   </ion-item>
 
 

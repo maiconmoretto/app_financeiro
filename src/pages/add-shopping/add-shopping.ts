@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { ToastController } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
-import { AlertController } from 'ionic-angular';
 import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
-import * as $ from 'jquery';
 import { AuthService } from '../../services/auth.service';
+import { GestaoCompartilharPage } from '../gestao-compartilhar/gestao-compartilhar';
 
 
 @IonicPage()
@@ -31,7 +29,8 @@ export class AddShoppingPage {
     private toastCtrl: ToastController,
     private database: AngularFireDatabase,
     private authService: AuthService,
-    private actionSheetCtrl: ActionSheetController) {
+    private actionSheetCtrl: ActionSheetController,
+    private alertCtrl: AlertController) {
 
     this.firstLogin = this.NavParams.data.firstLogin;
     if (this.data == undefined) {
@@ -47,6 +46,29 @@ export class AddShoppingPage {
     this.verificaSeExisteCompartilhamento();
     this.emailUsuario = this.authService.getCurrentUserEmail;
     this.listaGasosVariaveis();
+
+    let msg = "";
+    let title = "";
+    title += "Bem vindo a tela de gastos!";
+    msg += "Agora vamos cadastrar um gasto variável. Você também pode cadastrar um gasto fixo ou de crédito depois do tutorial.";
+    this.NavParams.data.firstLogin == true ? this.mensagemPrimeiroLogin(title, msg) : null;
+
+  }
+
+
+  mensagemCancelamentoTutorial() {
+    let alert = this.alertCtrl.create({
+      title: "Tutorial cancelado",
+      message: "Você pode acessar o tutorial a qualquer hora no menu principal",
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   listaGasosVariaveis() {
@@ -126,11 +148,30 @@ export class AddShoppingPage {
     });
 
     toast.present();
-    // this.navCtrl.pop();
-    if ( this.firstLogin == true) {
-      alert('Muito bem' + this.authService.getCurrentUserEmail + '!'
-      +' Você adicionou sua primeira categoria, receita e gasto!Agora sinta-se livre para navegar no sistema! ;)')
-    }
+
+    this.NavParams.data.firstLogin == true ? this.mensagemTutorialFianlizado() : null;
+  }
+
+  mensagemPrimeiroLogin(title, msg) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      message: msg,
+      buttons: [
+        {
+          text: 'Cancelar tutorial',
+          role: 'cancel',
+          handler: () => {
+            this.mensagemCancelamentoTutorial();
+          }
+        },
+        {
+          text: 'Vamos lá!',
+          handler: () => {
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   selectShoppingItem(gastosVariaveis: ShoppingItem) {
@@ -165,6 +206,30 @@ export class AddShoppingPage {
         },
       ]
     }).present();
+  }
+
+  mensagemTutorialFianlizado() {
+    let alert = this.alertCtrl.create({
+      title: "Tutorial Finalizado",
+      message: "Parabéns! Você terminou o tutorial. Agora você pode convidar uma pessoa para compartilhar o Family Finance com você. Deseja compartilhar com alguém?",
+      buttons: [
+        {
+          text: 'Nao, talvez mais tarde',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.navCtrl.push(GestaoCompartilharPage,
+              {
+                firstLogin: this.firstLogin
+              });
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
 }

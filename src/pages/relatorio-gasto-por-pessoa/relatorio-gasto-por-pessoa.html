@@ -8,7 +8,7 @@
   <ion-toolbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
-    </button>  Menu
+    </button> Menu
   </ion-toolbar>
   <ion-navbar color="primary">
     <ion-title>Relatório de Gasto Por Pessoa</ion-title>
@@ -17,9 +17,11 @@
 </ion-header>
 
 <ion-content padding>
-
+  <p><b>
+      {{gastosPorPessoa.length == 0 ? "sem registros." : ''}}
+    </b> </p>
   <ion-list>
-    <ion-item *ngFor="let item of gastosPorPessoa;">
+    <ion-item *ngFor="let item of gastosPorPessoa">
       <h2>
         <ion-icon ios="ios-mail" md="md-mail"></ion-icon> Email: {{item.email}}
       </h2>
