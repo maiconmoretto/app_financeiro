@@ -1,14 +1,11 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams, ActionSheetController, ToastController, AlertController, MenuController } from "ionic-angular";
-import { AngularFireDatabase, FirebaseListObservable } from "angularfire2/database";
-import { Observable } from "rxjs/Observable";
+import { NavController, NavParams, ActionSheetController, ToastController, AlertController, MenuController } from "ionic-angular";
+import { AngularFireDatabase } from "angularfire2/database";
 import { AddShoppingPage } from "../add-shopping/add-shopping";
 import { GestaoCreditoPage } from "../gestao-credito/gestao-credito";
 import { CadastroGastoFixoPage } from "../cadastro-gasto-fixo/cadastro-gasto-fixo";
 import { DetalheGastosPage } from "../detalhe-gastos/detalhe-gastos";
-import { ShoppingItem } from "../../models/shopping-item/shopping-item.interface";
 import { AngularFireAuth } from "angularfire2/auth";
-import { LoginPage } from "../login/login";
 import { AuthService } from "../../services/auth.service";
 import { GestaoCompartilharPage } from "../gestao-compartilhar/gestao-compartilhar";
 import { GestaoCategoriasPage } from "../gestao-categorias/gestao-categorias";
@@ -37,7 +34,6 @@ export class ResumoGastosPage {
   totalFixos = 0;
   listaMaioresGastos = [];
   uid = [];
-  firstLogin = [];
   authState: any = null;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -80,14 +76,14 @@ export class ResumoGastosPage {
       dataAtual.getFullYear() + ", as " + dataAtual.getHours() + ":" + dataAtual.getMinutes();
     this.database.list(this.authService.currentUserId + "/first_login/")
       .subscribe(data => {
-        this.firstLogin.push(data);
+        console.log('aqui '+data.length);
         if (data.length == 0) {
           let msg = "Bem vindo " + this.authService.getCurrentUserEmail + "! "
           msg += "Para começar a usar o Family Finance você precisa: " +
             "\n1 - Cadastrar uma categoria;" +
             "\n2 - Cadastrar uma receita;" +
             "\n3 - Cadastrar uma gasto";
-          alert(msg);
+          alert(msg); 
           this.database.list(this.authService.currentUserId + "/first_login/").push({
             data_primeiro_login: momento_login,
             first_login: false,

@@ -33,7 +33,7 @@ import { GastoPorCategoriaPage } from '../pages/gasto-por-categoria/gasto-por-ca
 import { RelatorioGastoPorPessoaPage } from '../pages/relatorio-gasto-por-pessoa/relatorio-gasto-por-pessoa';
 import { EditCategoriaPage } from '../pages/edit-categoria/edit-categoria';
 import { EditReceitaPage } from '../pages/edit-receita/edit-receita';
- 
+import { TutorialPage } from '../pages/tutorial/tutorial';
 
 @NgModule({
   declarations: [
@@ -57,7 +57,8 @@ import { EditReceitaPage } from '../pages/edit-receita/edit-receita';
     GastoPorCategoriaPage,
     RelatorioGastoPorPessoaPage,
     EditCategoriaPage,
-    EditReceitaPage
+    EditReceitaPage,
+    TutorialPage
   ],
   imports: [
     BrowserModule,
@@ -90,7 +91,8 @@ import { EditReceitaPage } from '../pages/edit-receita/edit-receita';
     GastoPorCategoriaPage,
     RelatorioGastoPorPessoaPage,
     EditCategoriaPage,
-    EditReceitaPage
+    EditReceitaPage,
+    TutorialPage
   ],
    
   providers: [

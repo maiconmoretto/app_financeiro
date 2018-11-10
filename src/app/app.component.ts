@@ -15,6 +15,7 @@ import { LogoutPage } from '../pages/logout/logout';
 import { GestaoCompartilharPage } from '../pages/gestao-compartilhar/gestao-compartilhar';
 import { GastoPorCategoriaPage } from '../pages/gasto-por-categoria/gasto-por-categoria';
 import { RelatorioGastoPorPessoaPage } from '../pages/relatorio-gasto-por-pessoa/relatorio-gasto-por-pessoa';
+import { TutorialPage } from '../pages/tutorial/tutorial';
   
 @Component({
   templateUrl: 'app.html'
@@ -42,7 +43,8 @@ export class MyApp {
       { title: 'Categorias', component: GestaoCategoriasPage },
       { title: 'Buscar outro mês', component:  HomePage },
       { title: 'Compartilhar Gastos', component:  GestaoCompartilharPage },
-      { title: 'Logout', component:  LogoutPage } 
+      { title: 'Tutorial', component:  TutorialPage },
+      { title: 'Logout', component:  LogoutPage }
 
     ];
  
