@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController, ToastController, AlertController , MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, ToastController, AlertController, MenuController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AddShoppingPage } from '../add-shopping/add-shopping';
@@ -46,17 +46,18 @@ export class ResumoGastosPage {
     private afAuth: AngularFireAuth,
     private toast: ToastController,
     private authService: AuthService,
-		private menuController: MenuController
+    private menuController: MenuController
   ) {
     this.afAuth.authState.subscribe((auth) => {
       this.authState = auth
     });
-    
+
     this.data = this.navParams.data.obj;
     if (this.data == undefined) {
       var d = new Date();
       var data = "";
       this.mes = (d.getMonth() + 1) < 10 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
+      this.ano = d.getFullYear();
       this.ano = d.getFullYear();
     } else {
       this.mes = this.data.substr(5, 2);
@@ -68,17 +69,40 @@ export class ResumoGastosPage {
     this.buscaGastos();
     this.verificaSeExisteConvite();
     this.verificaSeExisteCompartilhamento();
-    this.verificaSeExisteCategorias();
-    
-		this.menuController.swipeEnable(true)
+    // this.verificaSeExisteCategorias();
+
+    this.menuController.swipeEnable(true);
+    let dataAtual = new Date();
+    let momento_login = dataAtual.getDay() + "/" + dataAtual.getMonth() + "/" + 
+      dataAtual.getFullYear() + ", as " + dataAtual.getHours() + ":" + dataAtual.getMinutes();
+    this.database.list(this.authService.currentUserId + '/first_login/')
+      .subscribe(data => {
+        if (data.length == 0) {
+          this.database.list(this.authService.currentUserId + "/first_login/").push({
+            data_primeiro_login: momento_login,
+            first_login: false,
+            user_id: this.authService.currentUserId,
+          });
+          alert('Bem vindo' + this.authService.getCurrentUserEmail + '! Para começar a usar o Family Finance é necessário cadastrar categorias. Favor cadastrar ao menos uma. Ex: Supermercado.')
+          this.navCtrl.push(GestaoCategoriasPage, {
+            firstLogin: true
+          });
+          return;
+        }
+      })
+
+
+
   }
 
   verificaSeExisteCategorias() {
     this.database.list(this.authService.currentUserId + '/categorias/')
       .subscribe(data => {
         if (data.length == 0) {
-          alert('Bem vindo! Para começar a usar o Family Finance é necessário cadastrar categorias. Favor cadastrar ao menos uma. Ex: Supermercado.')
-          this.navCtrl.push(GestaoCategoriasPage);
+          alert('Bem vindo' + this.authService.getCurrentUserEmail + '! Para começar a usar o Family Finance é necessário cadastrar categorias. Favor cadastrar ao menos uma. Ex: Supermercado.')
+          this.navCtrl.push(GestaoCategoriasPage, {
+            firstLogin: true
+          });
           return;
         }
       })
@@ -129,7 +153,7 @@ export class ResumoGastosPage {
               ]
             }).present();
           }
-          if (achou == true){
+          if (achou == true) {
             return false;
           }
         });

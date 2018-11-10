@@ -24,7 +24,7 @@ export class AddShoppingPage {
   data;
   mes;
   ano;
-
+  firstLogin;
   constructor(public navCtrl: NavController,
     public NavParams: NavParams,
     private fdb: AngularFireDatabase,
@@ -32,6 +32,8 @@ export class AddShoppingPage {
     private database: AngularFireDatabase,
     private authService: AuthService,
     private actionSheetCtrl: ActionSheetController) {
+
+    this.firstLogin = this.NavParams.data.firstLogin;
     if (this.data == undefined) {
       var d = new Date();
       var data = "";
@@ -45,7 +47,6 @@ export class AddShoppingPage {
     this.verificaSeExisteCompartilhamento();
     this.emailUsuario = this.authService.getCurrentUserEmail;
     this.listaGasosVariaveis();
-
   }
 
   listaGasosVariaveis() {
@@ -112,7 +113,6 @@ export class AddShoppingPage {
       categoria: categoria,
       dividir: dividir,
       cadastrado_por: this.authService.currentUserId,
-
     });
 
     let toast = this.toastCtrl.create({
@@ -127,6 +127,10 @@ export class AddShoppingPage {
 
     toast.present();
     // this.navCtrl.pop();
+    if ( this.firstLogin == true) {
+      alert('Muito bem' + this.authService.getCurrentUserEmail + '!'
+      +' Você adicionou sua primeira categoria, receita e gasto!Agora sinta-se livre para navegar no sistema! ;)')
+    }
   }
 
   selectShoppingItem(gastosVariaveis: ShoppingItem) {

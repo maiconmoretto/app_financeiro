@@ -5,6 +5,7 @@ import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface
 import { ToastController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
 import { EditCategoriaPage } from '../../pages/edit-categoria/edit-categoria';
+import { GestaoReceitaPage } from '../gestao-receita/gestao-receita';
 
 
 @IonicPage()
@@ -15,7 +16,7 @@ import { EditCategoriaPage } from '../../pages/edit-categoria/edit-categoria';
 export class GestaoCategoriasPage {
 
   categorias$: FirebaseListObservable<ShoppingItem[]>
-
+  firstLogin;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private database: AngularFireDatabase,
@@ -23,6 +24,8 @@ export class GestaoCategoriasPage {
     private actionSheetCtrl: ActionSheetController,
     private authService: AuthService) {
     this.categorias$ = this.database.list(this.authService.currentUserId + '/categorias/');
+    this.firstLogin = this.navParams.data.firstLogin;
+    console.log(this.navParams.data.firstLogin);
   }
 
   addCategoria(descricao) {
@@ -60,7 +63,15 @@ export class GestaoCategoriasPage {
 
     toast.present();
     // this.navCtrl.pop();
+    if (this.firstLogin == true) {
+      alert('Muito bem' + this.authService.getCurrentUserEmail + '! Vamos adicionar uma receita?. Ex: Salário do mês.')
+      this.navCtrl.push(GestaoReceitaPage,
+      {
+        firstLogin: this.firstLogin
+      });
+    }
   }
+
 
 
   selectCategoriaItem(shoppingItem: ShoppingItem) {
@@ -84,10 +95,10 @@ export class GestaoCategoriasPage {
           text: 'Edit',
           role: 'destructive',
           handler: () => {
-           this.navCtrl.push(EditCategoriaPage,
-            {
-              shoppingItemId: shoppingItem.$key
-            });
+            this.navCtrl.push(EditCategoriaPage,
+              {
+                shoppingItemId: shoppingItem.$key
+              });
           }
         },
         {
