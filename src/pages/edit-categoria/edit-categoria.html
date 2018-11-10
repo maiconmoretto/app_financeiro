@@ -5,8 +5,12 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
+  <ion-toolbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button> Menu
+  </ion-toolbar>
+  <ion-navbar color="primary">
     <ion-title>Editar categoria </ion-title>
   </ion-navbar>
 
@@ -18,6 +22,6 @@
     <ion-label floating>Descrição</ion-label>
     <ion-input type="text" [(ngModel)]="shoppingItem.descricao"></ion-input>
   </ion-item>
-   <br>
+  <br>
   <button ion-button block (click)="editShoppingItem(shoppingItem)">Editar</button>
 </ion-content>

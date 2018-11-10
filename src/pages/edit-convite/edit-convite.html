@@ -5,9 +5,15 @@
   Ionic pages and navigation.
 -->
 <ion-header>
- 
-  <ion-navbar  hideBackButton="true">
-    <ion-title> <ion-icon name="arrow-round-back" (click)="voltar()"></ion-icon> Editar convite  </ion-title>
+  <ion-toolbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button> Menu
+  </ion-toolbar>
+  <ion-navbar color="primary">
+    <ion-title>
+      <ion-icon name="arrow-round-back" (click)="voltar()"></ion-icon> Editar convite
+    </ion-title>
   </ion-navbar>
 </ion-header>
 

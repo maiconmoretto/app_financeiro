@@ -1,5 +1,9 @@
 <ion-header>
-
+  <ion-toolbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button> Menu
+  </ion-toolbar>
   <ion-navbar color="primary">
 
     <ion-title>Gastos {{stringMes}} / {{ ano }}</ion-title>
@@ -118,7 +122,7 @@
   <hr>
   <br>
   <ion-list [class.hide]="!statusDiversos">
-    <ion-item *ngFor="let item of arrayGastosDiversos " >
+    <ion-item *ngFor="let item of arrayGastosDiversos ">
       <h2>
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}}
       </h2>

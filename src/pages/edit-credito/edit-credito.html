@@ -1,6 +1,10 @@
 <ion-header>
-
-  <ion-navbar>
+  <ion-toolbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button> Menu
+  </ion-toolbar>
+  <ion-navbar color="primary">
     <ion-title>Editar gasto de Crédito</ion-title>
   </ion-navbar>
 
@@ -28,25 +32,25 @@
     <ion-datetime displayFormat="MM/YYYY" [(ngModel)]="shoppingItem.dataInicio"></ion-datetime>
   </ion-item>
   <ion-item>
-      <ion-label>Categoria</ion-label>
-      <ion-select [(ngModel)]="shoppingItem.categoria">
-        <ion-option value="{{categoria}}" *ngFor="let categoria of categorias" > {{categoria}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label>Dividir valor?</ion-label>
-      <ion-select [(ngModel)]="shoppingItem.dividir">
-        <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
-        <ion-option value="nao">não dividir</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label>Gasto por</ion-label>
-      <ion-select [(ngModel)]="shoppingItem.gasto_por">
-        <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
-        <ion-option value="{{emailUsuario}}">{{emailUsuario}}</ion-option>
-      </ion-select>
-    </ion-item>
+    <ion-label>Categoria</ion-label>
+    <ion-select [(ngModel)]="shoppingItem.categoria">
+      <ion-option value="{{categoria}}" *ngFor="let categoria of categorias"> {{categoria}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Dividir valor?</ion-label>
+    <ion-select [(ngModel)]="shoppingItem.dividir">
+      <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
+      <ion-option value="nao">não dividir</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Gasto por</ion-label>
+    <ion-select [(ngModel)]="shoppingItem.gasto_por">
+      <ion-option value="{{pessoaCompartilhando}}" *ngFor="let pessoaCompartilhando of pessoasCompartilhando"> {{pessoaCompartilhando}}</ion-option>
+      <ion-option value="{{emailUsuario}}">{{emailUsuario}}</ion-option>
+    </ion-select>
+  </ion-item>
   <br>
   <button ion-button block (click)="editShoppingItem(shoppingItem)">Editar</button>
 

@@ -1,13 +1,16 @@
-
 <div id="custom-overlay" [style.display]="splash ? 'flex': 'none'">
-    <div class="flb">
-      <div class="Aligner-item Aligner-item--top"></div>
-      <img src="assets/logo.svg">
-      <div class="Aligner-item Aligner-item--bottom"></div>
-    </div>
+  <div class="flb">
+    <div class="Aligner-item Aligner-item--top"></div>
+    <img src="assets/logo.svg">
+    <div class="Aligner-item Aligner-item--bottom"></div>
   </div>
+</div>
 <ion-header>
-
+  <ion-toolbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>  Menu
+  </ion-toolbar>
   <ion-navbar>
     <ion-title>Buscar mês</ion-title>
   </ion-navbar>
@@ -16,7 +19,7 @@
 
 
 <ion-content padding>
- 
+
 
   <ion-item>
     <ion-label>SELECIONE O MÊS E ANO</ion-label>
@@ -24,5 +27,5 @@
   </ion-item>
   <button ion-button block (click)="navigateToaList(data)">BUSCAR</button>
 
-  
+
 </ion-content>

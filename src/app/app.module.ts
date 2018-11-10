@@ -4,10 +4,6 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
-
-import { TabsPage } from '../pages/tabs/tabs';
  
 import { DetalheGastosPage } from '../pages/detalhe-gastos/detalhe-gastos';
 import { AddShoppingPage } from '../pages/add-shopping/add-shopping';
@@ -41,11 +37,8 @@ import { EditReceitaPage } from '../pages/edit-receita/edit-receita';
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
     DetalheGastosPage,
    AddShoppingPage,
-    TabsPage,
     HomePage,
     CadastroGastoFixoPage,
     GestaoCreditoPage,
@@ -77,10 +70,7 @@ import { EditReceitaPage } from '../pages/edit-receita/edit-receita';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp, 
-    AboutPage,
-    ContactPage,
     AddShoppingPage,
-    TabsPage,
     HomePage,
     DetalheGastosPage,
     CadastroGastoFixoPage,
