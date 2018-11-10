@@ -26,7 +26,7 @@ export class TutorialPage {
     msg += "Para começar a usar o Family Finance você precisa: " +
       "\n1 - Cadastrar uma categoria;" +
       "\n2 - Cadastrar uma receita;" +
-      "\n3 - Cadastrar uma gasto";
+      "\n3 - Cadastrar um gasto";
     alert(msg);
 
     this.navCtrl.push(GestaoCategoriasPage, {

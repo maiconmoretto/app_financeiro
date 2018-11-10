@@ -30,8 +30,8 @@ export class GestaoCategoriasPage {
     let msg = "";
     let title = "";
     title += "Bem vindo ao cadastro de categorias";
-    msg += " Aqui você pode cadastrar quantas categorias quiser, " +
-      " mas para usar o Family Finance é necessário cadastrar ao menos uma." +
+    msg += " Aqui você pode cadastrar quantas categorias quiser. " +
+      " Para usar o Family Finance é necessário cadastrar ao menos uma." +
       " Exemplo: lazer; supermercado, transporte.";
 
     this.navParams.data.firstLogin == true ? this.mensagemPrimeiroLogin(title, msg) : null;
