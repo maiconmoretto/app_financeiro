@@ -29,18 +29,18 @@ export class MyApp {
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
- 
+  
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Página Inicial', component: ResumoGastosPage  },
       { title: 'Detalhe gastos', component: DetalheGastosPage  },
-      { title: 'Gasto por Categoria', component: GastoPorCategoriaPage  },
-      { title: 'Gasto por Pessoa', component: RelatorioGastoPorPessoaPage  },
-      { title: 'Gasto Variável', component: AddShoppingPage },
-      { title: 'Gasto Fixo', component: CadastroGastoFixoPage },
-      { title: 'Gasto Crédito', component: GestaoCreditoPage },
+      { title: 'Relatório de Gasto por Categoria', component: GastoPorCategoriaPage  },
+      { title: 'Relatório de Gasto por Pessoa', component: RelatorioGastoPorPessoaPage  },
+      { title: 'Adicionar Gasto Variável', component: AddShoppingPage },
+      { title: 'Adicionar Gasto Fixo', component: CadastroGastoFixoPage },
+      { title: 'Adicionar Gasto de Crédito', component: GestaoCreditoPage },
       { title: 'Receita', component: GestaoReceitaPage },
-      { title: 'Categorias', component: GestaoCategoriasPage },
+      { title: 'Adicionar Categorias', component: GestaoCategoriasPage },
       { title: 'Buscar outro mês', component:  HomePage },
       { title: 'Compartilhar Gastos', component:  GestaoCompartilharPage },
       { title: 'Tutorial', component:  TutorialPage },
