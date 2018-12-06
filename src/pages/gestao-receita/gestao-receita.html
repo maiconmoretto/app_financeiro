@@ -28,7 +28,7 @@
   </ion-item>
   <ion-item>
     <ion-label>Data</ion-label>
-    <ion-datetime displayFormat="MM/YYYY" [(ngModel)]="data"></ion-datetime>
+    <ion-datetime displayFormat="MM/YYYY" min="2018" max="2030" [(ngModel)]="data"></ion-datetime>
   </ion-item>
   <br>
   <button ion-button block (click)="adicionarReceita(descricao,valor,data)">Adicionar</button>

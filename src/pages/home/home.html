@@ -23,7 +23,7 @@
 
   <ion-item>
     <ion-label>SELECIONE O MÊS E ANO</ion-label>
-    <ion-datetime displayFormat="MM/YYYY" [(ngModel)]="data"></ion-datetime>
+    <ion-datetime displayFormat="MM/YYYY"  [(ngModel)]="data" min="2018" max="2030"></ion-datetime>
   </ion-item>
   <button ion-button block (click)="navigateToaList(data)">BUSCAR</button>
 
