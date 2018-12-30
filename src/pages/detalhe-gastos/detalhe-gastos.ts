@@ -6,6 +6,7 @@ import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface
 import { AlertController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
 import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
+import { EditGastoFixoPage } from '../edit-gasto-fixo/edit-gasto-fixo';
 
 
 
@@ -30,7 +31,6 @@ export class DetalheGastosPage {
   gastosDiversos = 0;
   restante = 0;
   gastosVariaveis$: FirebaseListObservable<ShoppingItem[]>
-
 
   arrayGastoPorCategorias = [];
   categorias = [];
@@ -114,16 +114,54 @@ export class DetalheGastosPage {
             self.somaTotalReceita(snapshot.val().id_usuario);
             self.somaTotalGastos(snapshot.val().id_usuario);
             self.buscaGastos(snapshot.val().id_usuario);
+            self.listaGasosVariaveis(snapshot.val().id_usuario);
           }
         });
       })
   }
+   
 
-  listaGasosVariaveis() {
+
+
+  listaGasosVariaveis(idUsuario = null) {
+    let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
     this.gastosVariaveis$ =
-      this.database.list(this.authService.currentUserId + '/gastos/diversos/' + this.ano + '/' + this.mes + '/');
+      this.database.list(id + '/gastos/diversos/' + this.ano + '/' + this.mes + '/');
   }
 
+  
+  selectGastoFixo(gastosFixo) {
+    this.actionSheetCtrl.create({
+      title: '',
+      buttons: [
+        {
+          text: 'Edit',
+          handler: () => {
+            //send the item to edit item and pass key as parameter
+            this.navCtrl.push(EditGastoFixoPage,
+              {
+                shoppingItemId: gastosFixo.id,
+                cadastrado_por: gastosFixo.cadastrado_por,
+              });
+          }
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.database.list(gastosFixo.cadastrado_por + '/gastosFixos/' + gastosFixo.id).remove();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          }
+        },
+      ]
+    }).present();
+
+  }
 
   selectGastoVariavel(gastosVariaveis: ShoppingItem) {
     this.actionSheetCtrl.create({
@@ -187,7 +225,15 @@ export class DetalheGastosPage {
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
-          this.arrayGastosFixos.push(snapshot.val())
+          this.arrayGastosFixos.push({
+            id: snapshot.key,
+            descricao: snapshot.val().descricao,
+            categoria: snapshot.val().categoria,
+            gasto_por: snapshot.val().gasto_por,
+            valor: snapshot.val().valor,
+            dividir: snapshot.val().dividir,
+            cadastrado_por: snapshot.val().cadastrado_por
+          });
         })
       })
 

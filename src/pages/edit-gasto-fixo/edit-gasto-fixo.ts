@@ -30,10 +30,13 @@ export class EditGastoFixoPage {
     private database: AngularFireDatabase,
     private toastCtrl: ToastController,
     private authService: AuthService) {
+      
+    let idUser = this.navParams.data.cadastrado_por ? this.navParams.data.cadastrado_por : this.authService.currentUserId;
+   
     //capture the shopping item id as  a nagParameter
     const shoppingItemId = this.navParams.get('shoppingItemId');
     //set  the scope of our  firebase object to our selected item
-    this.shoppingItemRef$ = this.database.object(this.authService.currentUserId +`/gastosFixos/${shoppingItemId}`);
+    this.shoppingItemRef$ = this.database.object( idUser +`/gastosFixos/${shoppingItemId}`);
 
     //sucbscibe the  object, and assing the result  to this.ShoppingItem
     this.shoppingItemRef$.subscribe(
