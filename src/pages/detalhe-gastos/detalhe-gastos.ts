@@ -29,6 +29,7 @@ export class DetalheGastosPage {
   gastosCredito = 0;
   gastosDiversos = 0;
   restante = 0;
+  gastosVariaveis$: FirebaseListObservable<ShoppingItem[]>
 
 
   arrayGastoPorCategorias = [];
@@ -91,6 +92,7 @@ export class DetalheGastosPage {
     this.somaTotalGastos();
     this.buscaGastos();
     this.verificaSeExisteCompartilhamento();
+    this.listaGasosVariaveis();
   }
 
   ionViewCanEnter() {
@@ -109,7 +111,6 @@ export class DetalheGastosPage {
       .subscribe(snapshots => {
         snapshots.forEach(snapshot => {
           if (snapshot.val().aceito == 'sim') {
-            console.log('aqui ' + snapshot.val().id_usuario);
             self.somaTotalReceita(snapshot.val().id_usuario);
             self.somaTotalGastos(snapshot.val().id_usuario);
             self.buscaGastos(snapshot.val().id_usuario);
@@ -117,7 +118,47 @@ export class DetalheGastosPage {
         });
       })
   }
- 
+
+  listaGasosVariaveis() {
+    this.gastosVariaveis$ =
+      this.database.list(this.authService.currentUserId + '/gastos/diversos/' + this.ano + '/' + this.mes + '/');
+  }
+
+
+  selectGastoVariavel(gastosVariaveis: ShoppingItem) {
+    this.actionSheetCtrl.create({
+      title: '',
+      buttons: [
+        {
+          text: 'Edit',
+          handler: () => {
+            //send the item to edit item and pass key as parameter
+            this.navCtrl.push(EditShoppingItemPage,
+              {
+                shoppingItemId: gastosVariaveis.$key,
+                ano: this.ano,
+                mes: this.mes
+              });
+          }
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            //delete the current item
+            this.gastosVariaveis$.remove(gastosVariaveis.$key);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          }
+        },
+      ]
+    }).present();
+  }
+
   somaTotalReceita(idUsuario = null) {
     let id = idUsuario == null ? this.authService.currentUserId : idUsuario;
     this.database.list(id + '/receita/', { preserveSnapshot: true })
