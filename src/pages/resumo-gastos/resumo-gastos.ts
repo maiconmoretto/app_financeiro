@@ -344,25 +344,26 @@ export class ResumoGastosPage {
     var mes;
     var ano;
     var data;
+    let month = d.getMonth() + 1;
+
     if (vaiPara == "proximo") {
-      if (d.getMonth() == 12) {
+      if (month == 12) {
         mes = "01";
         ano = (d.getFullYear() + 1);
         data = ano + "-" + mes;
       } else {
-        mes = (d.getMonth() + 2);
+        mes = (month + 1);
         ano = d.getFullYear();
         data = ano + "-" + mes;
       }
     } else {
-      if (d.getMonth() == 2) {
+      if (month == 1) {
         mes = "12";
         ano = (d.getFullYear() - 1);
-        data = ano + "-" + mes;
+        data = ano + "-" + month;
       } else {
-        mes = (d.getMonth());
         ano = d.getFullYear();
-        data = ano + "-" + mes;
+        data = ano + "-" + d.getMonth();
       }
     }
     this.navCtrl.push(DetalheGastosPage, { obj: data });
