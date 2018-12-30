@@ -29,8 +29,9 @@ export class EditShoppingItemPage {
     const mes = this.navParams.get('mes');
 
     //set  the scope of our  firebase object to our selected item
-    this.shoppingItemRef$ = this.database.object(
-      this.authService.currentUserId + `/gastos/diversos/` + ano + `/` + mes + `/${shoppingItemId}`);
+  
+    let idUser = this.navParams.data.cadastrado_por ? this.navParams.data.cadastrado_por : this.authService.currentUserId;
+    this.shoppingItemRef$ = this.database.object(idUser + `/gastos/diversos/` + ano + `/` + mes + `/${shoppingItemId}`);
  
     //sucbscibe the  object, and assing the result  to this.ShoppingItem
     this.shoppingItemRef$.subscribe(

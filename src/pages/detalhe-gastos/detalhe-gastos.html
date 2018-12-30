@@ -122,7 +122,7 @@
   <hr>
   <br>
   <ion-list [class.hide]="!statusDiversos">
-    <ion-item *ngFor="let item of gastosVariaveis$ | async " (click)="selectGastoVariavel(item)">
+    <ion-item *ngFor="let item of arrayGastosDiversos " (click)="selectGastoVariavel(item)">
       <h2>
         <ion-icon ios="ios-create" md="md-create"></ion-icon> {{item.descricao}}
       </h2>

@@ -163,7 +163,7 @@ export class DetalheGastosPage {
 
   }
 
-  selectGastoVariavel(gastosVariaveis: ShoppingItem) {
+  selectGastoVariavel(gastosVariaveis) {
     this.actionSheetCtrl.create({
       title: '',
       buttons: [
@@ -173,7 +173,8 @@ export class DetalheGastosPage {
             //send the item to edit item and pass key as parameter
             this.navCtrl.push(EditShoppingItemPage,
               {
-                shoppingItemId: gastosVariaveis.$key,
+                shoppingItemId: gastosVariaveis.id,
+                cadastrado_por: gastosVariaveis.cadastrado_por,
                 ano: this.ano,
                 mes: this.mes
               });
@@ -183,8 +184,7 @@ export class DetalheGastosPage {
           text: 'Delete',
           role: 'destructive',
           handler: () => {
-            //delete the current item
-            this.gastosVariaveis$.remove(gastosVariaveis.$key);
+            this.database.list(gastosVariaveis.cadastrado_por + '/gastos/diversos/' + this.ano + '/' + this.mes + '/' + gastosVariaveis.id).remove();
           }
         },
         {
@@ -217,7 +217,15 @@ export class DetalheGastosPage {
       .subscribe(snapshots => {
         var total = 0;
         snapshots.forEach(snapshot => {
-          this.arrayGastosDiversos.push(snapshot.val())
+          this.arrayGastosDiversos.push({
+              id: snapshot.key,
+              descricao: snapshot.val().descricao,
+              categoria: snapshot.val().categoria,
+              gasto_por: snapshot.val().gasto_por,
+              valor: snapshot.val().valor,
+              dividir: snapshot.val().dividir,
+              cadastrado_por: snapshot.val().cadastrado_por
+            })
         })
       })
 
