@@ -76,7 +76,6 @@ export class ResumoGastosPage {
       dataAtual.getFullYear() + ", as " + dataAtual.getHours() + ":" + dataAtual.getMinutes();
     this.database.list(this.authService.currentUserId + "/first_login/")
       .subscribe(data => {
-        console.log('aqui '+data.length);
         if (data.length == 0) {
           let msg = "Bem vindo " + this.authService.getCurrentUserEmail + "! "
           msg += "Para começar a usar o Family Finance você precisa: " +

@@ -157,7 +157,7 @@ export class GestaoCreditoPage {
           handler: () => {
 
             //deleta o item da prestação de  crédito
-            this.database.list('prestacoes_credito', {
+            this.database.list(this.authService.currentUserId +'/prestacoes_credito', {
               preserveSnapshot: true,
               query: {
                 orderByChild: 'id_item',
@@ -166,7 +166,7 @@ export class GestaoCreditoPage {
             })
               .subscribe(snapshots => {
                 snapshots.forEach(snapshot => {
-                  this.database.list('prestacoes_credito/' + snapshot.key).remove();
+                  this.database.list(this.authService.currentUserId +'/prestacoes_credito/' + snapshot.key).remove();
                   this.idsDelete.push(snapshot.key);
                 })
               })
